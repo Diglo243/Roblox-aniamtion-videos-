@@ -1,0 +1,222 @@
+{
+ "eli": {
+  "name": "Eli",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f5cfa9",
+   "shirt": "#1e6fe0",
+   "shirtDesign": "star",
+   "sleeves": "short",
+   "pants": "#22335e",
+   "shoes": "#e53935",
+   "hair": {
+    "style": "spiky",
+    "color": "#6b3f1f"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "mamie": {
+  "name": "Grand-mère",
+  "gender": "f",
+  "appearance": {
+   "gender": "f",
+   "skin": "#f5cfa9",
+   "shirt": "#a46ad8",
+   "shirtDesign": "none",
+   "sleeves": "long",
+   "pants": "#7b3fb8",
+   "dress": true,
+   "shoes": "#c62828",
+   "hair": {
+    "style": "bun",
+    "color": "#e8e8e8"
+   },
+   "accessory": "glasses",
+   "needle": true,
+   "scale": 0.95
+  }
+ },
+ "chercheur": {
+  "name": "Homme",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#eab98f",
+   "shirt": "#c62828",
+   "shirtDesign": "plaid",
+   "sleeves": "long",
+   "pants": "#3e2723",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "side",
+    "color": "#5d3a1a"
+   },
+   "beard": true,
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "vache": {
+  "name": "Vache",
+  "gender": "f",
+  "appearance": {
+   "gender": "f",
+   "skin": "#f4f1ea",
+   "shirt": "#f4f1ea",
+   "shirtDesign": "spots",
+   "sleeves": "none",
+   "pants": "#f4f1ea",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "bald",
+    "color": "#000000"
+   },
+   "cow": true,
+   "accessory": "none",
+   "scale": 1.15
+  }
+ },
+ "voisin": {
+  "name": "Voisin",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f5cfa9",
+   "shirt": "#ffffff",
+   "shirtDesign": "suspenders",
+   "trim": "#c62828",
+   "sleeves": "short",
+   "pants": "#6d4c41",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "short",
+    "color": "#a0522d"
+   },
+   "goggles": true,
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "oncle": {
+  "name": "Oncle",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#d6995f",
+   "shirt": "#c9a227",
+   "shirtDesign": "plaid",
+   "sleeves": "long",
+   "pants": "#3e2723",
+   "shoes": "#111111",
+   "hair": {
+    "style": "short",
+    "color": "#2b1b10"
+   },
+   "hat": "fedora",
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "maire": {
+  "name": "Maire",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f5cfa9",
+   "shirt": "#1a237e",
+   "shirtDesign": "sash",
+   "sleeves": "long",
+   "pants": "#111111",
+   "shoes": "#111111",
+   "hair": {
+    "style": "short",
+    "color": "#5d4037"
+   },
+   "topHat": true,
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "pere": {
+  "name": "Papa",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f5cfa9",
+   "shirt": "#43a047",
+   "shirtDesign": "none",
+   "sleeves": "short",
+   "pants": "#455a64",
+   "shoes": "#222222",
+   "hair": {
+    "style": "spiky",
+    "color": "#6b3f1f"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "chauffeur": {
+  "name": "Chauffeur",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#a86b3f",
+   "shirt": "#111111",
+   "shirtDesign": "suit",
+   "sleeves": "long",
+   "pants": "#111111",
+   "shoes": "#111111",
+   "hair": {
+    "style": "cap",
+    "color": "#111111"
+   },
+   "accessory": "sunglasses",
+   "scale": 1
+  }
+ },
+ "chercheur_jeune": {
+  "name": "Homme",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#eab98f",
+   "shirt": "#ef5350",
+   "shirtDesign": "plaid",
+   "sleeves": "long",
+   "pants": "#3e2723",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "side",
+    "color": "#5d3a1a"
+   },
+   "beard": false,
+   "accessory": "none",
+   "scale": 0.72
+  }
+ },
+ "mamie_jeune": {
+  "name": "Grand-mère",
+  "gender": "f",
+  "appearance": {
+   "gender": "f",
+   "skin": "#f5cfa9",
+   "shirt": "#f48fb1",
+   "shirtDesign": "none",
+   "sleeves": "long",
+   "pants": "#f06292",
+   "dress": true,
+   "shoes": "#c62828",
+   "hair": {
+    "style": "bun",
+    "color": "#8d5524"
+   },
+   "accessory": "none",
+   "needle": false,
+   "scale": 0.72
+  }
+ }
+}

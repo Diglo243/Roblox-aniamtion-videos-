@@ -1,10 +1,11 @@
 // Shot renderer: builds one shot from a JSON spec and renders deterministic frames.
 import * as THREE from 'three';
-import { M, box, cyl, sphere, canvasTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack } from './core.js';
+import { M, box, cyl, sphere, canvasTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
 import { Avatar, ACTIONS, ACTION_FACE, TALKING_ACTIONS, defaultAppearance } from './characters.js';
 import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js';
 import { TOWN_ENVIRONMENTS } from './env_town.js';
-const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS };
+import { FARM_ENVIRONMENTS, looseStraw, haystack } from './env_farm.js';
+const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS, ...FARM_ENVIRONMENTS };
 const SHADOW_ONLY = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
 function shadowOnly(obj) { obj.traverse(o => { if (o.isMesh) { o.material = SHADOW_ONLY; o.castShadow = true; o.receiveShadow = false; } if (o.isSprite) o.visible = false; }); }
 function setCast(obj, on) { obj.traverse(o => { if (o.isMesh) o.castShadow = on; }); }
@@ -46,6 +47,18 @@ function makeProp(kind) {
     case 'suitcase': box(g, 1.8, 1.4, 0.7, '#8d5a34', 0, -1.9, 0, { round: 0.15 }); box(g, 0.8, 0.25, 0.2, '#3e2723', 0, -1.15, 0); break;
     case 'clipboard': box(g, 1.1, 1.5, 0.08, '#8d6e63', 0, -0.8, 0.6); box(g, 0.9, 1.1, 0.1, '#ffffff', 0, -0.95, 0.62, { cast: false }); break;
     case 'hammer': box(g, 0.18, 1.6, 0.18, '#8d5a34', 0, -1.0, 0.4, { rx: -1.2 }); box(g, 0.9, 0.35, 0.35, '#555', 0, -0.3, 1.3); break;
+    case 'pitchfork': box(g, 0.16, 4.2, 0.16, '#8d5a34', 0, -2.6, 0.5); box(g, 1.1, 0.14, 0.14, '#9e9e9e', 0, 1.6, 0.5); for (const dx of [-0.45, 0, 0.45]) box(g, 0.1, 1.0, 0.1, '#bdbdbd', dx, 1.7, 0.5); break;
+    case 'blower': box(g, 1.2, 0.9, 1.0, '#ff7043', 0, -0.5, 0.4, { round: 0.2 }); { const t = cyl(g, 0.2, 0.26, 2.4, '#555', 0, -0.4, 1.6, { rx: Math.PI / 2 }); t.position.set(0, -0.4, 1.6); } break;
+    case 'vacuum': box(g, 1.0, 1.3, 0.9, '#26c6da', 0, -1.9, 0.2, { round: 0.25 }); cyl(g, 0.1, 0.1, 2.0, '#555', 0, -1.2, 1.0, { rx: 1.0 }); break;
+    case 'dynamite': for (let i = 0; i < 3; i++) cyl(g, 0.22, 0.22, 1.1, '#d32f2f', -0.25 + i * 0.25, -0.6, 0.5); box(g, 0.05, 0.4, 0.05, '#222', 0, 0.5, 0.5); sphere(g, 0.12, M('#ffeb3b', { emissive: '#ffc107', ei: 2 }), 0, 0.75, 0.5, { cast: false }); break;
+    case 'spoon': box(g, 0.12, 1.3, 0.08, '#cfd8dc', 0, -0.3, 0.55, { metal: 0.7, rough: 0.25 }); sphere(g, 0.28, M('#cfd8dc', { metal: 0.7, rough: 0.25 }), 0, 0.45, 0.55); break;
+    case 'coin': cyl(g, 0.4, 0.4, 0.1, M('#ffd54f', { metal: 0.7, rough: 0.25 }), 0, -0.3, 0.6, { rx: Math.PI / 2 }); break;
+    case 'toothpick': box(g, 0.08, 1.4, 0.08, M('#ffd54f', { metal: 0.8, rough: 0.2, emissive: '#ffb300', ei: 0.4 }), 0, -0.3, 0.55); break;
+    case 'needle': box(g, 0.08, 1.6, 0.08, M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffc107', ei: 1.2 }), 0, 0.2, 0.55); break;
+    case 'straw': for (let i = 0; i < 1; i++) box(g, 0.1, 2.2, 0.1, '#f3c75a', 0, 0.3, 0.55, { rz: 0.2 }); break;
+    case 'armful': for (let i = 0; i < 26; i++) box(g, 0.1, 0.1, 2.4, ['#f3c75a', '#e0a92e', '#ffd977'][i % 3], -1.3 + (i % 9) * 0.32, -0.2 + Math.floor(i / 9) * 0.25, 1.0 + ((i * 7) % 5) * 0.05, { ry: Math.PI / 2 + ((i * 13) % 7 - 3) * 0.08, cast: false }); break;
+    case 'boot': box(g, 0.9, 1.6, 0.9, '#2e7d32', 0, -1.0, 0.6, { round: 0.15 }); box(g, 0.9, 0.6, 1.6, '#2e7d32', 0, -1.8, 0.95, { round: 0.2 }); box(g, 0.95, 0.15, 1.65, '#1b5e20', 0, -2.1, 0.95); break;
+    case 'keys': box(g, 0.5, 0.25, 0.1, '#222', 0, -0.4, 0.5); box(g, 0.12, 0.6, 0.05, '#bdbdbd', 0.2, -0.75, 0.5); break;
     case 'check': {
       const tx = canvasTex('bigcheck', 512, 220, (c) => { c.fillStyle = '#fff'; c.fillRect(0, 0, 512, 220); c.fillStyle = '#3fbf5f'; c.fillRect(0, 0, 512, 40); c.fillStyle = '#222'; c.font = '30px "Fredoka"'; c.fillText('BANQUE DE LA VILLE', 20, 30); c.font = '86px "Luckiest Guy"'; c.fillStyle = '#1b5e20'; c.textAlign = 'center'; c.fillText('1 000 000 €', 256, 150); c.fillStyle = '#9e9e9e'; c.fillRect(30, 180, 452, 4); });
       box(g, 7, 3, 0.15, M('#ffffff', { map: tx }), 0, 0.6, 0.5); break; }
@@ -56,6 +69,14 @@ function makeProp(kind) {
 
 function makePet(kind, color) {
   const g = new THREE.Group();
+  if (kind === 'frog') {
+    const c = color || '#43c84a';
+    box(g, 1.8, 1.1, 1.6, c, 0, 0, 0, { round: 0.45 });
+    for (const sx of [-0.45, 0.45]) { sphere(g, 0.36, '#ffffff', sx, 1.15, 0.45); sphere(g, 0.18, '#111', sx, 1.18, 0.75); }
+    box(g, 1.1, 0.08, 0.1, '#1b5e20', 0, 0.45, 0.82, { cast: false });
+    for (const sx of [-0.8, 0.8]) box(g, 0.6, 0.35, 0.9, shade(c, -0.08), sx, 0, -0.2, { round: 0.15 });
+    g.userData.frog = true; return g;
+  }
   const c = color || (kind === 'cat' ? '#ff9f43' : '#c68642');
   box(g, 1.4, 1.3, 2.6, c, 0, 1.1, 0, { round: 0.2 });
   box(g, 1.3, 1.3, 1.3, c, 0, 2.1, 1.5, { round: 0.25 });
@@ -100,7 +121,7 @@ function makeSprite(kind, size = 1.6) {
 class Particles {
   constructor(kind, scene, focus, camera, r) {
     this.kind = kind; this.items = []; this.r = r; this.focus = focus; this.camera = camera;
-    const n = { rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
+    const n = { straw: 140, coins: 50, rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
     this.group = new THREE.Group(); scene.add(this.group);
     if (kind === 'rain') {
       const geo = new THREE.BufferGeometry(); const pos = new Float32Array(n * 6); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -113,6 +134,8 @@ class Particles {
       if (kind === 'confetti') m = new THREE.Mesh(new THREE.PlaneGeometry(0.35, 0.6), M(r.pick(['#ff3b30', '#ffcc00', '#34c759', '#007aff', '#af52de', '#ff2d55']), { side: THREE.DoubleSide, basic: true }));
       else if (kind === 'money') m = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.5), M('#4caf50', { side: THREE.DoubleSide, map: moneyTex() }));
       else if (kind === 'snow') m = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), M('#ffffff', { basic: true }));
+      else if (kind === 'straw') m = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, 0.9), M(r.pick(['#ffd977', '#f3c75a', '#e0a92e']), { basic: true }));
+      else if (kind === 'coins') m = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.08, 12), M('#ffd54f', { metal: 0.7, rough: 0.25 }));
       else if (kind === 'hearts') m = makeSprite('heart', 0.9);
       else if (kind === 'sparkles' || kind === 'stars') m = makeSprite('star', kind === 'stars' ? 0.7 : 0.45);
       else if (kind === 'smoke') m = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), M('#9e9e9e', { transparent: true, opacity: 0.6 }));
@@ -134,6 +157,7 @@ class Particles {
       if (this.kind === 'stars') { const a = t * 4 + ph * 6.28; m.position.set(f.x + Math.cos(a) * 1.3, f.y + 0.9, f.z + Math.sin(a) * 1.3); continue; }
       if (this.kind === 'sparkles') { const k = (t * sp + ph) % 1; m.position.set(f.x + x * 0.35, f.y - 2 + y0 * 0.3, f.z + z * 0.3); m.scale.setScalar(Math.sin(k * Math.PI) * 0.7 + 0.01); continue; }
       if (this.kind === 'smoke') { const k = (t * 0.6 * sp + ph) % 1; m.position.set(f.x + x * 0.4, k * 10, f.z + z * 0.4); m.scale.setScalar(0.5 + k * 3); m.material.opacity = 0.6 * (1 - k); continue; }
+      if (this.kind === 'straw') { const k = (t * 0.25 * sp + ph) % 1; m.position.set(f.x + x * 1.2 + Math.sin(t + ph * 9) * 2, 1 + y0 * 0.6 + Math.sin(t * 1.3 + ph * 5) * 1.5, f.z + z * 1.2); m.rotation.set(t * 2 * sp + ph * 6, t * 1.5 + ph * 3, t * sp); continue; }
       const speed = this.kind === 'snow' ? 2 : 5;
       const y = 24 - ((y0 + t * speed * sp) % 24);
       m.position.set(f.x + x + Math.sin(t * 2 + ph * 6) * 0.8, y, f.z + z);
@@ -154,6 +178,9 @@ function overlayTex(kind) {
     } else if (kind === 'speed') {
       const r = rng('speed'); g.strokeStyle = 'rgba(255,255,255,0.85)';
       for (let i = 0; i < 90; i++) { const a = r() * Math.PI * 2, r0 = r.range(230, 330), r1 = r.range(560, 800); g.lineWidth = r.range(2, 7); g.beginPath(); g.moveTo(w / 2 + Math.cos(a) * r0 * 0.6, h / 2 + Math.sin(a) * r0); g.lineTo(w / 2 + Math.cos(a) * r1, h / 2 + Math.sin(a) * r1 * 1.4); g.stroke(); }
+    } else if (kind === 'rays') {
+      const r = rng('rays'); const grd = g.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, h * 0.6); grd.addColorStop(0, 'rgba(255,230,120,0.9)'); grd.addColorStop(0.35, 'rgba(255,190,40,0.35)'); grd.addColorStop(1, 'rgba(200,120,0,0)'); g.fillStyle = grd; g.fillRect(0, 0, w, h);
+      for (let i = 0; i < 26; i++) { const a = (i / 26) * Math.PI * 2 + r.range(-0.05, 0.05); g.fillStyle = 'rgba(255,240,170,0.35)'; g.beginPath(); g.moveTo(w / 2, h / 2); g.lineTo(w / 2 + Math.cos(a - 0.04) * 900, h / 2 + Math.sin(a - 0.04) * 900); g.lineTo(w / 2 + Math.cos(a + 0.04) * 900, h / 2 + Math.sin(a + 0.04) * 900); g.fill(); }
     } else if (kind === 'white') { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); }
     else if (kind === 'black') { g.fillStyle = '#000'; g.fillRect(0, 0, w, h); }
   });
@@ -254,11 +281,14 @@ window.setupShot = async function setupShot(spec, cast) {
     }
     scene.add(av.root);
     const sym = a.symbol && !a.shadowOnly ? makeSprite(a.symbol, 1.7) : null;
+    let glint = null;
+    if ((a.glint || app.needle) && !a.shadowOnly && av.head.userData.needle) { glint = makeSprite('star', a.glint ? 1.2 : 0.55); glint.material.depthTest = !a.glint; scene.add(glint); }
     if (sym) scene.add(sym);
-    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, castOn: !(a.noShadow || a.shadow) });
+    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, glint, castOn: !(a.noShadow || a.shadow) });
   });
   // pets & extra props in world
-  for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; scene.add(pg); actors.push({ pet: pg, phase: r() * 6 }); }
+  for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; if (pet.scale) pg.scale.setScalar(pet.scale); if (pet.y) pg.position.y = pet.y; scene.add(pg); actors.push({ pet: pg, petSpec: pet, phase: r() * 6 });
+    if (pet.focus) { /* camera can target the pet */ spec._petFocus = pg; } }
   for (const wp of spec.worldProps || []) {
     const st = info.stage;
     if (wp.kind === 'car') car(world, st.x + (wp.pos?.[0] ?? 6), st.z + (wp.pos?.[1] ?? -4), wp.facing ?? 0, r, wp.color);
@@ -276,6 +306,12 @@ window.setupShot = async function setupShot(spec, cast) {
       const m = new THREE.Mesh(new THREE.ConeGeometry(wp.r || 3.2, wp.h || 5, 6), SHADOW_ONLY); m.position.y = (wp.h || 5) / 2; m.castShadow = true; g.add(m);
       const m2 = new THREE.Mesh(new THREE.ConeGeometry((wp.r || 3.2) * 0.7, (wp.h || 5) * 0.75, 6), SHADOW_ONLY); m2.position.set(0, (wp.h || 5) * 0.37, -2.5); m2.castShadow = true; g.add(m2);
     }
+    else if (wp.kind === 'piano') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 0, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(wp.rx ?? 0.2, wp.facing ?? 0.4, wp.rz ?? 0.15); world.add(g); box(g, 6, 3.6, 2.4, '#111'); box(g, 6, 0.6, 1.2, '#f5f5f5', 0, 2.2, 1.6); for (let i = 0; i < 10; i++) box(g, 0.25, 0.3, 0.7, '#111', -2.6 + i * 0.6, 2.8, 1.6, { cast: false }); for (const x of [-2.6, 2.6]) box(g, 0.3, 2.2, 0.3, '#111', x, -2.2, 1.6); }
+    else if (wp.kind === 'needle_big') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 4, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(0, 0, wp.rz ?? 0.5); world.add(g); const gm = M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffb300', ei: 1.4 }); const n = cyl(g, 0.12, 0.02, 7, gm, 0, -3.5, 0, { seg: 10 }); const eye = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.12, 8, 16), gm); eye.position.y = 3.7; g.add(eye); g.userData.spin = true; S_movers.push(g); }
+    else if (wp.kind === 'straw_single') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 0.1, st.z + (wp.pos?.[1] ?? 0)); world.add(g); box(g, 0.14, 0.14, 3, '#f3c75a', 0, 0, 0, { ry: 0.6 }); }
+    else if (wp.kind === 'haystack') { haystack(world, st.x + (wp.pos?.[0] ?? 0), st.z + (wp.pos?.[1] ?? -20), wp.r || 10, wp.h || 12, r, {}); }
+    else if (wp.kind === 'straws') { looseStraw(world, wp.n || 300, [st.x + wp.area[0], st.z + wp.area[1], st.x + wp.area[2], st.z + wp.area[3]], r, { y: wp.y || 0, maxL: 2.4 }); }
+    else if (wp.kind === 'limo') { const c = car(world, st.x + (wp.pos?.[0] ?? 6), st.z + (wp.pos?.[1] ?? 0), wp.facing ?? 0, r, '#111111'); c.scale.set(1, 1, 1.5); }
     else if (wp.kind === 'check_board') { const pr = makeProp('check'); pr.scale.setScalar(wp.scale || 1.3); pr.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 5, st.z + (wp.pos?.[1] ?? -2)); pr.rotation.y = wp.facing ?? 0; world.add(pr); }
     else { const pr = makeProp(wp.kind); if (pr) { pr.scale.setScalar(wp.scale || 2); pr.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 3, st.z + (wp.pos?.[1] ?? 2)); scene.add(pr); } }
   }
@@ -288,10 +324,11 @@ window.setupShot = async function setupShot(spec, cast) {
 
   // particles / fx
   const parts = [];
-  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + spec.id)));
+  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + spec.id)));
   const ov = {
     vignette: addOverlay(camera, spec.fx?.includes('red') ? 'red' : (spec.fx?.includes('dark') ? 'dark' : 'vignette'), 1),
     speed: addOverlay(camera, 'speed', 2),
+    rays: addOverlay(camera, 'rays', 0),
     flash: addOverlay(camera, 'white', 3),
     black: addOverlay(camera, 'black', 4),
   };
@@ -451,6 +488,7 @@ function updateActors(t) {
   const slow = spec.fx?.includes('slowmo') ? 0.35 : 1;
   const at = t * slow;
   for (const A of actors) {
+    if (A.pet && A.pet.userData.frog) { const hop = A.petSpec.hop ?? 1; const ph = (t * 1.4 + A.phase) % 1; A.pet.position.y = (A.petSpec.y ?? 0) + Math.max(0, Math.sin(ph * Math.PI * 2)) * 1.6 * hop; continue; }
     if (A.pet) { A.pet.position.y = Math.abs(Math.sin(t * 6 + A.phase)) * 0.15; if (A.pet.userData.tail) A.pet.userData.tail.rotation.y = Math.sin(t * 14) * 0.5; continue; }
     const av = A.av; av.resetPose();
     const act = ACTIONS[A.action] ? A.action : 'idle';
@@ -484,6 +522,7 @@ function updateActors(t) {
       const off = A.spec.shadow.offset || [0, 0];
       d.root.position.set(av.root.position.x + off[0], A.spec.shadow.lift || 0, av.root.position.z + off[1]); d.root.rotation.y = A.spec.shadow.facing ?? (S.spec.env === 'shadow_wall' ? -Math.PI / 2 : av.root.rotation.y);
     }
+    if (A.glint) { av.head.userData.needle.getWorldPosition(tmp); A.glint.position.copy(tmp); const k = 0.6 + 0.4 * Math.abs(Math.sin(t * 3 + A.phase)); const sz = (A.spec.glint ? 1.3 : 0.55) * k; A.glint.scale.set(sz, sz, sz); A.glint.material.rotation = t * 1.5; }
     if (A.sym) { av.headWorld(tmp); const pop = easeOutBack(clamp((t - 0.1) / 0.35, 0, 1)); A.sym.position.set(tmp.x + 1.0, tmp.y + 1.5 + Math.sin(t * 4) * 0.12, tmp.z); A.sym.scale.setScalar(1.7 * pop); }
   }
 }
@@ -492,6 +531,7 @@ window.renderAt = function renderAt(t) {
   const { spec, camera, scene, parts, ov } = S;
   updateActors(t);
   const u = clamp(t / Math.max(0.01, S.dur), 0, 1);
+  for (const g of S.movers) if (g.userData.spin) { g.rotation.y = t * 1.2; g.position.y += Math.sin(t * 2) * 0.005; }
   for (const g of S.movers) if (g.userData.move) { const [dx, dz] = g.userData.move; g.position.set(g.userData.base.x + dx * (u - 0.5), 0, g.userData.base.z + dz * (u - 0.5)); }
   if (S.info.update) S.info.update(t, u, spec);
   scene.updateMatrixWorld(true);
@@ -513,6 +553,7 @@ window.renderAt = function renderAt(t) {
   // overlays
   ov.vignette.material.opacity = spec.fx?.includes('red') || spec.fx?.includes('dark') ? 0.9 : 0; // soft vignette is added in post (ffmpeg)
   ov.speed.material.opacity = spec.fx?.includes('speed') ? 0.55 + 0.25 * Math.sin(t * 40) : 0;
+  ov.rays.material.opacity = spec.fx?.includes('rays') ? 0.75 + 0.15 * Math.sin(t * 3) : 0; ov.rays.rotation.z = t * 0.15; ov.rays.material.blending = THREE.AdditiveBlending;
   ov.flash.material.opacity = spec.fx?.includes('flash') ? Math.max(0, 1 - t / 0.25) : 0;
   const fin = spec.fadeIn ? Math.max(0, 1 - t / spec.fadeIn) : 0;
   const fout = spec.fadeOut ? clamp((t - (S.dur - spec.fadeOut)) / spec.fadeOut, 0, 1) : 0;

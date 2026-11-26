@@ -6,3 +6,6 @@ projects/*/output/
 projects/ombre/input/*.mp4
 projects/ombre/input/*.mp3
 output/ombre/
+projects/foin/input/*.mp4
+projects/foin/input/*.mp3
+output/foin/

@@ -1,0 +1,3278 @@
+{
+ "cast": {
+  "eli": {
+   "name": "Eli",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#1e6fe0",
+    "shirtDesign": "star",
+    "sleeves": "short",
+    "pants": "#22335e",
+    "shoes": "#e53935",
+    "hair": {
+     "style": "spiky",
+     "color": "#6b3f1f"
+    },
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "mamie": {
+   "name": "Grand-mère",
+   "gender": "f",
+   "appearance": {
+    "gender": "f",
+    "skin": "#f5cfa9",
+    "shirt": "#a46ad8",
+    "shirtDesign": "none",
+    "sleeves": "long",
+    "pants": "#7b3fb8",
+    "dress": true,
+    "shoes": "#c62828",
+    "hair": {
+     "style": "bun",
+     "color": "#e8e8e8"
+    },
+    "accessory": "glasses",
+    "needle": true,
+    "scale": 0.95
+   }
+  },
+  "chercheur": {
+   "name": "Homme",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#eab98f",
+    "shirt": "#c62828",
+    "shirtDesign": "plaid",
+    "sleeves": "long",
+    "pants": "#3e2723",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "side",
+     "color": "#5d3a1a"
+    },
+    "beard": true,
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "vache": {
+   "name": "Vache",
+   "gender": "f",
+   "appearance": {
+    "gender": "f",
+    "skin": "#f4f1ea",
+    "shirt": "#f4f1ea",
+    "shirtDesign": "spots",
+    "sleeves": "none",
+    "pants": "#f4f1ea",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "bald",
+     "color": "#000000"
+    },
+    "cow": true,
+    "accessory": "none",
+    "scale": 1.15
+   }
+  },
+  "voisin": {
+   "name": "Voisin",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#ffffff",
+    "shirtDesign": "suspenders",
+    "trim": "#c62828",
+    "sleeves": "short",
+    "pants": "#6d4c41",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "short",
+     "color": "#a0522d"
+    },
+    "goggles": true,
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "oncle": {
+   "name": "Oncle",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#d6995f",
+    "shirt": "#c9a227",
+    "shirtDesign": "plaid",
+    "sleeves": "long",
+    "pants": "#3e2723",
+    "shoes": "#111111",
+    "hair": {
+     "style": "short",
+     "color": "#2b1b10"
+    },
+    "hat": "fedora",
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "maire": {
+   "name": "Maire",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#1a237e",
+    "shirtDesign": "sash",
+    "sleeves": "long",
+    "pants": "#111111",
+    "shoes": "#111111",
+    "hair": {
+     "style": "short",
+     "color": "#5d4037"
+    },
+    "topHat": true,
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "pere": {
+   "name": "Papa",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#43a047",
+    "shirtDesign": "none",
+    "sleeves": "short",
+    "pants": "#455a64",
+    "shoes": "#222222",
+    "hair": {
+     "style": "spiky",
+     "color": "#6b3f1f"
+    },
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "chauffeur": {
+   "name": "Chauffeur",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#a86b3f",
+    "shirt": "#111111",
+    "shirtDesign": "suit",
+    "sleeves": "long",
+    "pants": "#111111",
+    "shoes": "#111111",
+    "hair": {
+     "style": "cap",
+     "color": "#111111"
+    },
+    "accessory": "sunglasses",
+    "scale": 1
+   }
+  },
+  "chercheur_jeune": {
+   "name": "Homme",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#eab98f",
+    "shirt": "#ef5350",
+    "shirtDesign": "plaid",
+    "sleeves": "long",
+    "pants": "#3e2723",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "side",
+     "color": "#5d3a1a"
+    },
+    "beard": false,
+    "accessory": "none",
+    "scale": 0.72
+   }
+  },
+  "mamie_jeune": {
+   "name": "Grand-mère",
+   "gender": "f",
+   "appearance": {
+    "gender": "f",
+    "skin": "#f5cfa9",
+    "shirt": "#f48fb1",
+    "shirtDesign": "none",
+    "sleeves": "long",
+    "pants": "#f06292",
+    "dress": true,
+    "shoes": "#c62828",
+    "hair": {
+     "style": "bun",
+     "color": "#8d5524"
+    },
+    "accessory": "none",
+    "needle": false,
+    "scale": 0.72
+   }
+  }
+ },
+ "defaults": {
+  "time": "day"
+ },
+ "sentences": [
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "pos": [
+       5,
+       118
+      ],
+      "facing": 0.15
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2,
+      12,
+      175
+     ],
+     "to": [
+      2,
+      16,
+      168
+     ],
+     "look": [
+      0,
+      50,
+      -70
+     ],
+     "fov": 56
+    },
+    "fx": [
+     "straw"
+    ],
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -30,
+       70,
+       30,
+       110
+      ],
+      "action": [
+       "walk",
+       "idle"
+      ],
+      "facing": 0,
+      "spread": 3
+     }
+    ],
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_inside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4,
+      9
+     ],
+     "to": [
+      0,
+      6,
+      3
+     ],
+     "look": [
+      0,
+      5,
+      -6
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "sparse": true
+    },
+    "fx": [
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_inside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      2,
+      3,
+      8
+     ],
+     "to": [
+      1,
+      4,
+      5
+     ],
+     "look": [
+      0,
+      4,
+      -4
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "sparse": true
+    },
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_inside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      6
+     ],
+     "to": [
+      0,
+      5,
+      4.5
+     ],
+     "look": [
+      0,
+      5,
+      0
+     ],
+     "fov": 45
+    },
+    "envOpts": {
+     "sparse": true
+    },
+    "worldProps": [
+     {
+      "kind": "needle_big",
+      "pos": [
+       0,
+       0
+      ],
+      "y": 5
+     }
+    ],
+    "fx": [
+     "rays"
+    ],
+    "cut": "aiguille",
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      60,
+      30,
+      200
+     ],
+     "to": [
+      40,
+      34,
+      190
+     ],
+     "look": [
+      0,
+      20,
+      90
+     ],
+     "fov": 55
+    },
+    "fx": [
+     "coins"
+    ],
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.3,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": 10
+    },
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -18,
+       -3,
+       18,
+       9
+      ],
+      "action": [
+       "dig",
+       "dig",
+       "carry_armful",
+       "dig"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "props": [
+       "pitchfork",
+       "spoon",
+       "blower",
+       "vacuum",
+       null
+      ]
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur",
+      "action": "idle",
+      "prop": "pitchfork",
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "crash_zoom"
+    },
+    "crowd": [
+     {
+      "n": 6,
+      "area": [
+       -18,
+       -2,
+       -6,
+       8
+      ],
+      "action": [
+       "dig",
+       "dig",
+       "carry_armful",
+       "dig"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "props": [
+       "pitchfork",
+       "spoon",
+       "blower",
+       "vacuum",
+       null
+      ]
+     }
+    ],
+    "fx": [
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur_jeune",
+      "action": "dig",
+      "prop": "spoon",
+      "symbol": "txt:9 ANS"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 15
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur",
+      "action": "idle",
+      "prop": "pitchfork",
+      "emotion": "tired",
+      "symbol": "txt:41 ANS"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -15
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur",
+      "action": "dig",
+      "prop": "pitchfork"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 10
+    }
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur",
+      "action": "hold_up",
+      "prop": "boot",
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -10
+    },
+    "cut": "qu'une",
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "wave",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "crash_zoom"
+    },
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      -40,
+      14,
+      150
+     ],
+     "to": [
+      -30,
+      16,
+      140
+     ],
+     "look": [
+      0,
+      30,
+      -40
+     ],
+     "fov": 55
+    },
+    "cut": "dans",
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -40,
+       28,
+       40,
+       40
+      ],
+      "action": "dig",
+      "facing": 3.14,
+      "spread": 0.5
+     }
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": -10
+    },
+    "cut": "avant",
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -12,
+       -2,
+       12,
+       6
+      ],
+      "action": "dig",
+      "props": [
+       "bag",
+       "spoon",
+       null
+      ],
+      "kids": 1.0,
+      "facing": 0,
+      "spread": 0.8
+     }
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "pere",
+      "action": "dig",
+      "prop": "pitchfork"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 20
+    },
+    "cut": "après",
+    "crowd": [
+     {
+      "n": 5,
+      "area": [
+       -14,
+       -2,
+       14,
+       4
+      ],
+      "action": "dig",
+      "roles": [
+       "rich"
+      ],
+      "facing": 0
+     }
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "dig",
+      "pos": [
+       -6,
+       2
+      ],
+      "prop": "spoon"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -3,
+      6,
+      20
+     ],
+     "to": [
+      -4,
+      6,
+      17
+     ],
+     "look": [
+      -8,
+      4,
+      -6
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "christmas": true
+    },
+    "cut": "même",
+    "fx": [
+     "snow"
+    ],
+    "crowd": [
+     {
+      "n": 4,
+      "area": [
+       -4,
+       -2,
+       6,
+       4
+      ],
+      "action": "dig",
+      "facing": 0
+     }
+    ],
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "point_cam",
+      "symbol": "idea"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 10
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "dig",
+      "prop": "spoon"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 20
+    },
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "carry_armful",
+      "prop": "armful",
+      "dir": 1.57,
+      "speed": 0.6
+     }
+    ],
+    "camera": {
+     "type": "follow",
+     "side": 0.9
+    },
+    "cut": "transportes"
+   },
+   {
+    "env": "hay_shop",
+    "actors": [
+     {
+      "id": "vache",
+      "action": "talk",
+      "pos": [
+       0,
+       -9
+      ]
+     },
+     {
+      "id": "eli",
+      "action": "give",
+      "pos": [
+       1.5,
+       -3.5
+      ],
+      "facing": 3.0,
+      "prop": "armful"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -6,
+      5,
+      8
+     ],
+     "to": [
+      -5,
+      5,
+      7
+     ],
+     "look": [
+      0,
+      4,
+      -6
+     ],
+     "fov": 50
+    },
+    "cut": "et"
+   },
+   {
+    "env": "hay_shop",
+    "actors": [
+     {
+      "id": "vache",
+      "action": "give",
+      "pos": [
+       0,
+       -9
+      ],
+      "prop": "coin"
+     },
+     {
+      "id": "eli",
+      "action": "celebrate",
+      "pos": [
+       1.5,
+       -3.5
+      ],
+      "facing": 3.0
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "focus": 0,
+     "angle": -10
+    },
+    "cut": "paie",
+    "fx": [
+     "coins"
+    ],
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.1,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_shop",
+    "actors": [
+     {
+      "id": "vache",
+      "action": "eat",
+      "pos": [
+       0,
+       -9
+      ],
+      "prop": "straw",
+      "symbol": "txt:2 000 000"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 12
+    }
+   }
+  ],
+  [
+   {
+    "env": "cow_bank",
+    "actors": [
+     {
+      "id": "vache",
+      "action": "wave",
+      "pos": [
+       0,
+       -4
+      ],
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      24
+     ],
+     "to": [
+      0,
+      7,
+      18
+     ],
+     "look": [
+      0,
+      9,
+      -10
+     ],
+     "fov": 55
+    },
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cow_bank",
+    "actors": [
+     {
+      "id": "chauffeur",
+      "action": "idle",
+      "pos": [
+       6,
+       -2
+      ],
+      "facing": -0.4
+     },
+     {
+      "id": "vache",
+      "action": "wave",
+      "pos": [
+       2,
+       0
+      ],
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": -12
+    },
+    "sfx": [
+     {
+      "name": "engine",
+      "at": 0,
+      "gain": -29
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "tool_shop",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "give",
+      "pos": [
+       1.5,
+       -3
+      ],
+      "facing": 3.0,
+      "prop": "coin"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -7,
+      6,
+      14
+     ],
+     "to": [
+      -6,
+      6,
+      12
+     ],
+     "look": [
+      0,
+      5,
+      -6
+     ],
+     "fov": 52
+    },
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.4,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "tool_shop",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hold_up",
+      "prop": "pitchfork",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 10
+    },
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   },
+   {
+    "env": "tool_shop",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "idle",
+      "prop": "blower",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": -15
+    },
+    "cut": "souffleur",
+    "fx": [
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   },
+   {
+    "env": "tool_shop",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "idle",
+      "prop": "vacuum",
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 15
+    },
+    "cut": "aspirateur",
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "hold_up",
+      "prop": "dynamite",
+      "emotion": "evil",
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -15
+    },
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -29
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "crater",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "wave",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      22,
+      26
+     ],
+     "to": [
+      0,
+      18,
+      20
+     ],
+     "look": [
+      0,
+      0,
+      -2
+     ],
+     "fov": 52
+    },
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "barn",
+    "actors": [
+     {
+      "id": "oncle",
+      "action": "sneak",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "dutch",
+     "dir": 1
+    }
+   }
+  ],
+  [
+   {
+    "env": "barn",
+    "actors": [
+     {
+      "id": "oncle",
+      "action": "hold_up",
+      "prop": "toothpick",
+      "emotion": "evil"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 15
+    },
+    "fx": [
+     "sparkles"
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "barn",
+    "actors": [
+     {
+      "id": "oncle",
+      "action": "give",
+      "prop": "toothpick",
+      "emotion": "evil",
+      "symbol": "txt:x2"
+     },
+     {
+      "id": "pere",
+      "action": "give",
+      "prop": "coin"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": 10
+    },
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.2,
+      "gain": -26
+     },
+     {
+      "name": "cash",
+      "at": 0.8,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "point_cam",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 0
+    },
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "wave",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 10
+    },
+    "cut": "regarde",
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": -12
+    }
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "walk",
+      "dir": 3.14,
+      "speed": 0.6
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      5,
+      5,
+      14
+     ],
+     "to": [
+      4,
+      5,
+      12
+     ],
+     "look": [
+      0,
+      4,
+      -2
+     ],
+     "fov": 50
+    },
+    "fx": [
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0.6,
+      "gain": -27
+     }
+    ]
+   },
+   {
+    "env": "hay_inside",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "carry_armful",
+      "prop": "armful",
+      "dir": 0,
+      "speed": 0.5
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 15
+    },
+    "cut": "ressort",
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "carry_armful",
+      "prop": "armful",
+      "dir": 0,
+      "speed": 0.5,
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -15
+    },
+    "cut": "les",
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "talk",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 12
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "think",
+      "symbol": "?"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -10
+    }
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hold_up",
+      "prop": "spoon",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 10
+    },
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "dig",
+      "prop": "spoon",
+      "symbol": "txt:9"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": -15
+    },
+    "worldProps": [
+     {
+      "kind": "straws",
+      "n": 9,
+      "area": [
+       -2,
+       1,
+       2,
+       3
+      ]
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "idle",
+      "pos": [
+       -1.5,
+       0
+      ],
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      1,
+      2.2,
+      8
+     ],
+     "to": [
+      1,
+      2.4,
+      7
+     ],
+     "look": [
+      1,
+      1.5,
+      1
+     ],
+     "fov": 48
+    },
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       1.2,
+       1.2
+      ],
+      "facing": 0.2,
+      "hop": 0.3
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "idle",
+      "pos": [
+       -1.5,
+       0
+      ],
+      "emotion": "happy",
+      "symbol": "txt:KEVIN"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": 10
+    },
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       1.2,
+       1.2
+      ],
+      "facing": 0.2,
+      "hop": 0.3
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "shocked",
+      "pos": [
+       3,
+       2
+      ],
+      "facing": -0.6,
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "wide",
+     "angle": 15
+    },
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       -1,
+       -3
+      ],
+      "facing": 3.14,
+      "hop": 1.2
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.4,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "dig",
+      "prop": "spoon",
+      "symbol": "?"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 15
+    },
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_inside",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "look_around"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": -10
+    },
+    "cut": "dans",
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_inside",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "sad"
+     }
+    ],
+    "camera": {
+     "type": "high",
+     "angle": 10
+    }
+   }
+  ],
+  [
+   {
+    "env": "hay_inside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      1.5,
+      8
+     ],
+     "to": [
+      2,
+      1.5,
+      7
+     ],
+     "look": [
+      0,
+      1,
+      0
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "sparse": true
+    },
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       0,
+       0
+      ],
+      "facing": 0.6,
+      "hop": 1
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.2,
+      "gain": -26
+     },
+     {
+      "name": "pop",
+      "at": 0.9,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": -10
+    },
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -18,
+       -3,
+       18,
+       9
+      ],
+      "action": [
+       "dig",
+       "dig",
+       "carry_armful",
+       "dig"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "props": [
+       "pitchfork",
+       "spoon",
+       "blower",
+       "vacuum",
+       null
+      ]
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hold_up",
+      "prop": "keys",
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 15
+    },
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0.1,
+      "gain": -26
+     }
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "chercheur",
+      "action": "push",
+      "pos": [
+       4,
+       1
+      ],
+      "facing": -1.4
+     }
+    ],
+    "camera": {
+     "type": "wide",
+     "angle": 10
+    },
+    "worldProps": [
+     {
+      "kind": "piano",
+      "pos": [
+       -1,
+       -2
+      ],
+      "y": 2.2
+     }
+    ],
+    "cut": "un",
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0.1,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "pere",
+      "action": "lie",
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "crash_zoom"
+    },
+    "worldProps": [
+     {
+      "kind": "straws",
+      "n": 40,
+      "area": [
+       -3,
+       -3,
+       3,
+       2
+      ],
+      "y": 0.9
+     }
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "pere",
+      "action": "idle",
+      "emotion": "tired",
+      "symbol": "txt:MARDI"
+     },
+     {
+      "id": "eli",
+      "action": "shocked",
+      "pos": [
+       3,
+       2
+      ],
+      "facing": -0.8
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": -10
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "maire",
+      "action": "angry",
+      "pos": [
+       0,
+       -2
+      ]
+     }
+    ],
+    "camera": {
+     "type": "wide",
+     "angle": 0
+    },
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -14,
+       -4,
+       14,
+       8
+      ],
+      "action": [
+       "angry",
+       "point",
+       "angry"
+      ],
+      "emotion": "angry",
+      "facing": 3.14,
+      "spread": 0.5
+     }
+    ]
+   },
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "maire",
+      "action": "angry",
+      "pos": [
+       0,
+       -2
+      ],
+      "emotion": "scream",
+      "symbol": "anger"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 10
+    },
+    "cut": "ça",
+    "fx": [
+     "shake",
+     "punch"
+    ],
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      16,
+      40
+     ],
+     "to": [
+      0,
+      12,
+      32
+     ],
+     "look": [
+      0,
+      6,
+      0
+     ],
+     "fov": 56
+    },
+    "crowd": [
+     {
+      "n": 24,
+      "area": [
+       -22,
+       -3,
+       22,
+       14
+      ],
+      "action": [
+       "dig",
+       "dig",
+       "carry_armful",
+       "dig"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "props": [
+       "pitchfork",
+       "spoon",
+       "blower",
+       "vacuum",
+       null
+      ]
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      7,
+      26
+     ],
+     "to": [
+      2,
+      7,
+      24
+     ],
+     "look": [
+      0,
+      3,
+      0
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -10,
+       -2,
+       10,
+       6
+      ],
+      "action": "dig",
+      "props": [
+       "pitchfork"
+      ],
+      "facing": 0
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": -12
+    },
+    "cut": "souffleurs",
+    "crowd": [
+     {
+      "n": 7,
+      "area": [
+       -10,
+       -2,
+       10,
+       6
+      ],
+      "action": "idle",
+      "props": [
+       "blower"
+      ],
+      "facing": 0
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   },
+   {
+    "env": "hay_base",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      -4,
+      2.5,
+      18
+     ],
+     "to": [
+      -2,
+      2.5,
+      16
+     ],
+     "look": [
+      0,
+      3,
+      0
+     ],
+     "fov": 50
+    },
+    "cut": "aspirateurs",
+    "crowd": [
+     {
+      "n": 7,
+      "area": [
+       -8,
+       -2,
+       8,
+       5
+      ],
+      "action": "idle",
+      "props": [
+       "vacuum"
+      ],
+      "facing": 0
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "carry_armful",
+      "prop": "armful",
+      "dir": 0.4,
+      "speed": 0.4,
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -12
+    },
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "hold_up",
+      "prop": "dynamite",
+      "emotion": "evil"
+     }
+    ],
+    "camera": {
+     "type": "crash_zoom"
+    },
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      150,
+      30,
+      120
+     ],
+     "to": [
+      140,
+      30,
+      110
+     ],
+     "look": [
+      0,
+      50,
+      -60
+     ],
+     "fov": 56
+    },
+    "fx": [
+     "smoke"
+    ],
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0.8,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "dig",
+      "prop": "spoon",
+      "symbol": "txt:3 JOURS"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 10
+    },
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -18,
+       -3,
+       18,
+       9
+      ],
+      "action": [
+       "dig",
+       "dig",
+       "carry_armful",
+       "dig"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "props": [
+       "pitchfork",
+       "spoon",
+       "blower",
+       "vacuum",
+       null
+      ]
+     }
+    ],
+    "fx": [
+     "straw"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      18,
+      175
+     ],
+     "to": [
+      0,
+      18,
+      165
+     ],
+     "look": [
+      0,
+      30,
+      -40
+     ],
+     "fov": 55
+    },
+    "envOpts": {
+     "hay": 0.45
+    },
+    "crowd": [
+     {
+      "n": 24,
+      "area": [
+       -40,
+       30,
+       40,
+       60
+      ],
+      "action": "dig",
+      "facing": 3.14,
+      "spread": 0.6
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      22,
+      24
+     ],
+     "to": [
+      0,
+      18,
+      18
+     ],
+     "look": [
+      0,
+      3,
+      -40
+     ],
+     "fov": 55
+    },
+    "envOpts": {
+     "hay": 0.12
+    },
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 24,
+      "area": [
+       -30,
+       0,
+       30,
+       40
+      ],
+      "action": "dig",
+      "facing": 3.14,
+      "spread": 1.2
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      24,
+      40
+     ],
+     "to": [
+      0,
+      16,
+      32
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "worldProps": [
+     {
+      "kind": "straw_single",
+      "pos": [
+       0,
+       0
+      ]
+     }
+    ],
+    "crowd": [
+     {
+      "n": 26,
+      "area": [
+       -16,
+       -14,
+       16,
+       14
+      ],
+      "action": "idle",
+      "facing": 3.14,
+      "spread": 3.1
+     }
+    ],
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -29
+     }
+    ]
+   },
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      1.2,
+      6
+     ],
+     "to": [
+      2.5,
+      1.0,
+      5
+     ],
+     "look": [
+      0,
+      0.3,
+      0
+     ],
+     "fov": 46
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "worldProps": [
+     {
+      "kind": "straw_single",
+      "pos": [
+       0,
+       0
+      ]
+     }
+    ],
+    "cut": "seul"
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "maire",
+      "action": "hold_up",
+      "prop": "straw"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 10
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -12,
+       -10,
+       12,
+       -3
+      ],
+      "action": "idle",
+      "facing": 0,
+      "spread": 0.6
+     }
+    ],
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -29
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "maire",
+      "action": "hold_up",
+      "prop": "straw",
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -10
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset"
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": 0
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -8,
+       -6,
+       8,
+       4
+      ],
+      "action": "sad",
+      "facing": 0,
+      "spread": 0.6
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      7,
+      2.5
+     ],
+     "to": [
+      0,
+      6,
+      2
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 48
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       0,
+       0
+      ],
+      "facing": 0,
+      "hop": 0.2
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.3,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [],
+    "camera": {
+     "type": "high",
+     "angle": 10
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -12,
+       -10,
+       12,
+       6
+      ],
+      "action": "idle",
+      "emotion": "sad",
+      "facing": 0,
+      "spread": 1.5
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "vache",
+      "action": "laugh",
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 10
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.2,
+      "gain": -24
+     }
+    ]
+   },
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "hug",
+      "pos": [
+       1.3,
+       0
+      ],
+      "facing": -1.25,
+      "emotion": "happy"
+     },
+     {
+      "id": "eli",
+      "action": "hug",
+      "pos": [
+       -1.3,
+       0
+      ],
+      "facing": 1.25,
+      "emotion": "sad"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": 12
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "close": true,
+    "cut": "et",
+    "fx": [
+     "hearts"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hug",
+      "pos": [
+       -1.3,
+       0
+      ],
+      "facing": 1.25,
+      "emotion": "shocked",
+      "symbol": "!"
+     },
+     {
+      "id": "mamie",
+      "action": "hug",
+      "pos": [
+       1.3,
+       0
+      ],
+      "facing": -1.25,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -15
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "close": true,
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0.3,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "facing": 3.14,
+      "glint": true
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.8,
+      6.2,
+      -2.6
+     ],
+     "to": [
+      0.6,
+      6.1,
+      -2.2
+     ],
+     "look": [
+      0,
+      5.4,
+      0
+     ],
+     "fov": 40
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "point",
+      "pos": [
+       -2,
+       0
+      ],
+      "facing": 0.8
+     },
+     {
+      "id": "mamie",
+      "action": "idle",
+      "pos": [
+       2,
+       0
+      ],
+      "facing": -0.8
+     }
+    ],
+    "camera": {
+     "type": "ots",
+     "focus": 0
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset"
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "talk",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 12
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset"
+   }
+  ],
+  [
+   {
+    "env": "hay_base",
+    "actors": [
+     {
+      "id": "mamie_jeune",
+      "action": "hold_up",
+      "prop": "needle",
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 10
+    },
+    "fx": [
+     "sparkles",
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "talk",
+      "facing": 2.6,
+      "emotion": "smug",
+      "glint": true
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 60
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset"
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hold_up",
+      "prop": "needle",
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 0
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "fx": [
+     "rays"
+    ],
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -12,
+       -10,
+       12,
+       -3
+      ],
+      "action": "shocked",
+      "facing": 0,
+      "spread": 0.6
+     }
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0,
+      "gain": -24
+     },
+     {
+      "name": "cheer",
+      "at": 0.4,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "hold_up",
+      "prop": "spoon",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 15
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset"
+   },
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "hug",
+      "pos": [
+       1.3,
+       0
+      ],
+      "facing": -1.25,
+      "emotion": "happy"
+     },
+     {
+      "id": "eli",
+      "action": "hug",
+      "pos": [
+       -1.3,
+       0
+      ],
+      "facing": 1.25,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": -10
+    },
+    "envOpts": {
+     "hay": 0
+    },
+    "time": "sunset",
+    "close": true,
+    "cut": "et",
+    "fx": [
+     "hearts"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "celebrate"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 10
+    },
+    "fx": [
+     "coins",
+     "confetti"
+    ],
+    "crowd": [
+     {
+      "n": 14,
+      "area": [
+       -14,
+       -6,
+       14,
+       4
+      ],
+      "action": [
+       "celebrate",
+       "jump",
+       "dance"
+      ],
+      "facing": 0,
+      "spread": 0.8
+     }
+    ],
+    "sfx": [
+     {
+      "name": "cheer",
+      "at": 0,
+      "gain": -25
+     },
+     {
+      "name": "cash",
+      "at": 0.3,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "gold_pond",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      7,
+      6
+     ],
+     "to": [
+      0,
+      6,
+      2
+     ],
+     "look": [
+      0,
+      1,
+      -10
+     ],
+     "fov": 50
+    },
+    "pets": [
+     {
+      "kind": "frog",
+      "pos": [
+       0,
+       -10
+      ],
+      "y": 1.0,
+      "hop": 0.5,
+      "facing": 0
+     }
+    ],
+    "fx": [
+     "sparkles"
+    ],
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -14,
+       -24,
+       14,
+       -18
+      ],
+      "action": [
+       "wave",
+       "celebrate"
+      ],
+      "facing": 0
+     }
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "emotion": "happy",
+      "glint": true
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -10
+    }
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "pos": [
+       -2,
+       0
+      ],
+      "facing": 0.6,
+      "emotion": "happy"
+     },
+     {
+      "id": "oncle",
+      "action": "sneak",
+      "pos": [
+       3,
+       -1
+      ],
+      "facing": -0.6,
+      "emotion": "smug",
+      "prop": "toothpick"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": 10
+    }
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "point_cam",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "xcu"
+    }
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "pos": [
+       5,
+       118
+      ],
+      "facing": 0.15,
+      "glint": true
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2,
+      12,
+      175
+     ],
+     "to": [
+      2,
+      16,
+      168
+     ],
+     "look": [
+      0,
+      50,
+      -70
+     ],
+     "fov": 56
+    },
+    "fx": [
+     "straw"
+    ],
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -30,
+       70,
+       30,
+       110
+      ],
+      "action": [
+       "walk",
+       "idle"
+      ],
+      "facing": 0,
+      "spread": 3
+     }
+    ],
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hay_town",
+    "actors": [
+     {
+      "id": "mamie",
+      "action": "idle",
+      "pos": [
+       5,
+       118
+      ],
+      "facing": 0.15,
+      "glint": true
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      8,
+      140
+     ],
+     "to": [
+      4.5,
+      6.4,
+      125
+     ],
+     "look": [
+      5,
+      4,
+      118
+     ],
+     "fov": 44
+    },
+    "fx": [
+     "straw"
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.3,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "festival",
+    "actors": [
+     {
+      "id": "eli",
+      "action": "wave",
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 10
+    },
+    "fadeOut": 0.5,
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ]
+ ]
+}

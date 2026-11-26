@@ -143,6 +143,10 @@ function shirtTex(a) {
     const dark = '#00000040', light = '#ffffffcc';
     switch (a.shirtDesign) {
       case 'stripe': g.fillStyle = light; g.fillRect(0, 96, w, 40); break;
+      case 'plaid': g.fillStyle = '#00000040'; for (let i = 0; i < 8; i++) { g.fillRect(i * 32, 0, 10, h); g.fillRect(0, i * 32, w, 10); } break;
+      case 'suspenders': g.fillStyle = a.trim || '#c62828'; g.fillRect(60, 0, 22, h); g.fillRect(174, 0, 22, h); break;
+      case 'sash': g.fillStyle = '#c62828'; g.save(); g.translate(128, 128); g.rotate(-0.7); g.fillRect(-200, -22, 400, 44); g.fillStyle = '#ffd54f'; g.fillRect(-200, -26, 400, 6); g.restore(); g.fillStyle = '#ffd54f'; g.beginPath(); g.arc(150, 110, 16, 0, 7); g.fill(); break;
+      case 'spots': g.fillStyle = '#1b1b1b'; for (const [x, y, rr] of [[60, 60, 34], [190, 90, 28], [110, 180, 40], [210, 210, 22], [30, 200, 20]]) { g.beginPath(); g.ellipse(x, y, rr, rr * 0.75, 0.4, 0, 7); g.fill(); } break;
       case 'trim': g.fillStyle = a.trim || '#ff7a1a'; g.fillRect(0, 0, w, 22); g.fillRect(108, 0, 40, h); g.fillStyle = '#ffffff'; g.fillRect(118, 30, 20, 226); g.fillStyle = '#ffd23f'; g.beginPath(); g.arc(128, 110, 14, 0, 7); g.fill(); g.fillStyle = '#00000030'; g.fillRect(30, 140, 50, 40); g.fillRect(176, 140, 50, 40); break;
       case 'hoodie': g.fillStyle = '#00000022'; g.fillRect(60, 150, 136, 70); g.fillStyle = '#ffffffaa'; g.fillRect(100, 0, 6, 70); g.fillRect(150, 0, 6, 70); break;
       case 'dress': g.fillStyle = '#ffffff55'; for (let i = 0; i < 12; i++) { g.beginPath(); g.arc(30 + (i % 4) * 66, 40 + Math.floor(i / 4) * 80, 10, 0, 7); g.fill(); } break;
@@ -179,6 +183,21 @@ function addHair(head, a) {
     case 'ponytail': H(1.4, 0.4, 1.4, 0, 0.64, 0); H(1.4, 0.7, 0.3, 0, 0.3, -0.56); H(0.45, 1.6, 0.45, 0, -0.1, -0.95, { rx: 0.25 }); H(0.2, 0.7, 1.1, 0.68, 0.3, -0.05); H(0.2, 0.7, 1.1, -0.68, 0.3, -0.05); break;
     case 'bun': H(1.38, 0.36, 1.38, 0, 0.62, 0); H(1.38, 0.7, 0.3, 0, 0.3, -0.56); H(0.6, 0.55, 0.6, 0, 0.95, -0.35); break;
     case 'buns': H(1.4, 0.4, 1.4, 0, 0.64, 0); H(0.55, 0.55, 0.55, 0.55, 0.95, -0.1); H(0.55, 0.55, 0.55, -0.55, 0.95, -0.1); H(1.4, 0.9, 0.3, 0, 0.2, -0.56); break;
+  }
+  if (a.beard) { const bm = M(a.hair.color, { rough: 0.9 }); H(1.34, 0.6, 0.3, 0, -0.45, 0.56, { mat: bm }); H(0.3, 0.9, 1.0, 0.6, -0.1, 0.1, { mat: bm }); H(0.3, 0.9, 1.0, -0.6, -0.1, 0.1, { mat: bm }); H(0.9, 0.5, 0.3, 0, -0.75, 0.5, { mat: bm }); }
+  if (a.goggles) { H(1.42, 0.18, 1.42, 0, 0.42, 0, { mat: M('#5d4037') }); for (const x of [-0.3, 0.3]) H(0.42, 0.36, 0.2, x, 0.45, 0.66, { mat: M('#80deea', { rough: 0.1, metal: 0.3 }) }); }
+  if (a.topHat) { H(2.0, 0.12, 2.0, 0, 0.66, 0, { mat: M('#141414'), round: 0.04 }); H(1.25, 1.6, 1.25, 0, 1.5, 0, { mat: M('#141414') }); H(1.27, 0.25, 1.27, 0, 0.85, 0, { mat: M('#c62828') }); }
+  if (a.hat === 'fedora') { H(2.0, 0.12, 2.0, 0, 0.66, 0, { mat: M('#6d4c41'), round: 0.04 }); H(1.35, 0.6, 1.35, 0, 0.95, 0, { mat: M('#6d4c41') }); H(1.37, 0.18, 1.37, 0, 0.75, 0, { mat: M('#3e2723') }); }
+  if (a.needle) {
+    const nm = M('#ffd54f', { metal: 0.9, rough: 0.15, emissive: '#ffb300', ei: 0.8 });
+    const n = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.5, 6), nm); n.position.set(0.15, 0.98, -0.32); n.rotation.z = 1.1; n.rotation.x = 0.3; head.add(n);
+    const tip = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 6), nm); tip.position.set(-0.52, 1.3, -0.22); head.add(tip); head.userData.needle = tip;
+  }
+  if (a.cow) {
+    const wm = M('#f4f1ea'), pm = M('#f4a6b8'), hm2 = M('#e9d8a6');
+    H(1.1, 0.55, 0.4, 0, -0.36, 0.66, { mat: pm, round: 0.15 }); for (const x of [-0.22, 0.22]) H(0.14, 0.14, 0.05, x, -0.33, 0.87, { mat: M('#7a3b4a') });
+    for (const sx of [-1, 1]) { H(0.18, 0.5, 0.18, sx * 0.48, 0.82, 0, { mat: hm2, rz: -sx * 0.4 }); H(0.5, 0.26, 0.2, sx * 0.85, 0.35, 0, { mat: wm, rz: sx * 0.3 }); }
+    H(0.5, 0.3, 0.06, 0.3, 0.5, 0.64, { mat: M('#1b1b1b') });
   }
   if (a.accessory === 'glasses' || a.accessory === 'sunglasses') {
     const gm = M(a.accessory === 'sunglasses' ? '#111' : '#222', { rough: 0.3 });
@@ -432,6 +451,14 @@ export const ACTIONS = {
     av.arms[0].rotation.x = -1.0; av.arms[1].rotation.x = -1.0; av.inner.rotation.x = 0.3; av.inner.position.y = -0.3;
     av.neck.rotation.y = S(t * 1.5) * 0.4;
   },
+  dig(av, t, p) {
+    const ph = (t * 1.8) % 1, k = Math.sin(ph * Math.PI * 2);
+    av.body.rotation.x = 0.55 + 0.15 * k; av.arms[0].rotation.x = -1.2 - 0.6 * k; av.arms[1].rotation.x = -1.2 - 0.6 * k; av.neck.rotation.x = -0.2;
+    av.legs[0].rotation.x = 0.2; av.legs[1].rotation.x = -0.2;
+  },
+  hold_up(av, t, p) { av.arms[1].rotation.z = 2.9; av.arms[1].rotation.x = -0.2; av.arms[0].rotation.z = -0.3; av.neck.rotation.x = -0.3; av.body.position.y = 2 + Math.sin(t * 2) * 0.03; },
+  carry_armful(av, t, p) { ACTIONS.walk(av, t, p); av.arms[0].rotation.x = -1.4; av.arms[1].rotation.x = -1.4; av.arms[0].rotation.z = 0.15; av.arms[1].rotation.z = -0.15; },
+  point_cam(av, t, p) { ACTIONS.idle(av, t, p); av.arms[1].rotation.x = -1.5; av.arms[1].rotation.z = 0.35 + Math.sin(t * 6) * 0.05; av.arms[1].rotation.y = 0.3; },
   look_down(av, t, p) { ACTIONS.idle(av, t, p); av.neck.rotation.x = 0.55; av.neck.rotation.y = 0.1; },
   build(av, t, p) {
     const ph = (t * 2.2) % 1; av.arms[1].rotation.x = -2.4 + Math.min(1, ph * 3) * 1.6; av.arms[0].rotation.x = -0.9; av.body.rotation.x = 0.15; av.neck.rotation.x = 0.25;
@@ -451,6 +478,6 @@ export const ACTION_FACE = {
   angry: 'angry', scared: 'scared', jump: 'joy', celebrate: 'joy', dance: 'joy', wave: 'happy', point: 'neutral',
   think: 'think', phone: 'neutral', text: 'neutral', hug: 'happy', punch: 'angry', push: 'angry', fall: 'shocked', lie: 'tired',
   sleep: 'sleep', sit: 'neutral', sit_work: 'think', sit_sad: 'sad', sit_talk: 'neutral', eat: 'happy', laugh: 'joy', look_around: 'scared',
-  look_down: 'neutral', build: 'happy', carry: 'neutral', kneel: 'sad', sneak: 'smug', give: 'happy', drive: 'neutral',
+  dig: 'neutral', hold_up: 'neutral', carry_armful: 'happy', point_cam: 'happy', look_down: 'neutral', build: 'happy', carry: 'neutral', kneel: 'sad', sneak: 'smug', give: 'happy', drive: 'neutral',
 };
 export const TALKING_ACTIONS = new Set(['talk', 'sit_talk', 'phone', 'laugh', 'scream']);
