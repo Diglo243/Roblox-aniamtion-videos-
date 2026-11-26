@@ -68,6 +68,7 @@ function makeProp(kind) {
 }
 
 function makePet(kind, color) {
+  if (kind === 'pixel') return makePet('cat', '#ff8a1f');
   const g = new THREE.Group();
   if (kind === 'frog') {
     const c = color || '#43c84a';
@@ -78,12 +79,22 @@ function makePet(kind, color) {
     g.userData.frog = true; return g;
   }
   const c = color || (kind === 'cat' ? '#ff9f43' : '#c68642');
+  if (kind === 'cat') {
+    box(g, 1.46, 0.3, 0.3, '#7b3fe4', 0, 1.65, 2.05, { cast: false }); sphere(g, 0.18, M('#ffd23f', { metal: 0.6, rough: 0.3 }), 0, 1.6, 2.25, { cast: false });
+    const dk = shade(c, -0.12);
+    for (const zz of [-0.6, 0.0, 0.6]) box(g, 1.44, 0.18, 0.28, dk, 0, 2.35, zz, { cast: false });
+    box(g, 1.34, 0.2, 0.3, dk, 0, 2.7, 1.5, { cast: false });
+    box(g, 0.8, 0.5, 0.2, '#ffffff', 0, 1.75, 2.16, { cast: false, round: 0.1 });
+    box(g, 0.24, 0.16, 0.1, '#ff8fb1', 0, 2.08, 2.26, { cast: false });
+    for (const sx of [-0.3, 0.3]) { sphere(g, 0.2, '#ffffff', sx, 2.4, 2.12, { cast: false }); sphere(g, 0.11, '#111', sx, 2.4, 2.28, { cast: false }); }
+    for (const sx of [-1, 1]) for (const dy of [-0.06, 0.08]) box(g, 0.6, 0.03, 0.03, '#ffffff', sx * 0.62, 1.95 + dy, 2.2, { cast: false, rz: sx * dy * 2 });
+  }
   box(g, 1.4, 1.3, 2.6, c, 0, 1.1, 0, { round: 0.2 });
   box(g, 1.3, 1.3, 1.3, c, 0, 2.1, 1.5, { round: 0.25 });
-  box(g, 0.5, 0.4, 0.4, '#222', 0, 2.0, 2.2, {});
-  for (const x of [-0.4, 0.4]) { box(g, 0.32, kind === 'cat' ? 0.55 : 0.7, 0.2, kind === 'cat' ? c : '#5d4037', x, 2.75, 1.4, { rz: kind === 'cat' ? 0 : x * 0.8 }); sphere(g, 0.1, '#111', x * 0.7, 2.35, 2.17); }
+  if (kind !== 'cat') box(g, 0.5, 0.4, 0.4, '#222', 0, 2.0, 2.2, {});
+  for (const x of [-0.4, 0.4]) { if (kind === 'cat') { const e = new THREE.Mesh(new THREE.ConeGeometry(0.3, 0.7, 4), M(c)); e.position.set(x, 3.05, 1.4); e.rotation.y = Math.PI / 4; e.castShadow = true; g.add(e); } else { box(g, 0.32, 0.7, 0.2, '#5d4037', x, 2.75, 1.4, { rz: x * 0.8 }); sphere(g, 0.1, '#111', x * 0.7, 2.35, 2.17); } }
   for (const [x, z] of [[-0.45, 0.9], [0.45, 0.9], [-0.45, -0.9], [0.45, -0.9]]) box(g, 0.4, 1.1, 0.4, c, x, 0, z);
-  const tail = box(g, 0.25, 0.25, 1.2, c, 0, 1.7, -1.6, { rx: -0.6 });
+  const tail = kind === 'cat' ? box(g, 0.28, 2.0, 0.28, c, 0, 1.9, -1.4, { rx: -0.25 }) : box(g, 0.25, 0.25, 1.2, c, 0, 1.7, -1.6, { rx: -0.6 });
   g.userData.tail = tail;
   return g;
 }

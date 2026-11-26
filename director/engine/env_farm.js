@@ -217,5 +217,15 @@ function festival(p, r, night, o = {}) {
   return info;
 }
 
-export const FARM_ENVIRONMENTS = { hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
+function studio(p, r, night, o = {}) {
+  // brand backdrop: seamless curved cyclorama in the brand colours
+  const info = { stage: { x: 0, z: 0 }, interior: false, seats: [], beds: [], lampPoints: [], background: o.bg || '#2a1650', sun: [20, 40, 50], hemi: 1.5, sunIntensity: 2.2, shadowSize: 30 };
+  const tex = canvasTex('studio' + (o.c1 || '') + (o.c2 || ''), 64, 512, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, o.c1 || '#7b3fe4'); gr.addColorStop(1, o.c2 || '#ff7a1a'); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+  const wall = new THREE.Mesh(new THREE.CylinderGeometry(60, 60, 80, 48, 1, true, Math.PI * 0.6, Math.PI * 0.8), new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false })); wall.position.set(0, 40, 20); p.add(wall);
+  plane(p, 200, 200, M(o.floor || '#3a1f6e', { rough: 0.6 }), 0, 0, 0, { rx: -Math.PI / 2 });
+  if (o.ring !== false) { const ring = new THREE.Mesh(new THREE.RingGeometry(5.5, 6.2, 48), new THREE.MeshBasicMaterial({ color: '#ffd23f' })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.03; p.add(ring); }
+  return info;
+}
+
+export const FARM_ENVIRONMENTS = { studio, hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
   tool_shop: toolShop, crater, barn, gold_pond: goldPond, festival };

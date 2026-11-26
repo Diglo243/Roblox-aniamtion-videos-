@@ -1,0 +1,141 @@
+{
+ "_info": "Distribution officielle de la marque. Réutilisée automatiquement dans toutes les vidéos (voir director/brand.py). Couleurs signature : violet #7B3FE4, orange #FF7A1A, jaune #FFD23F.",
+ "nino": {
+  "name": "Nino",
+  "brand_role": "hero",
+  "gender": "m",
+  "tagline": "Le narrateur. Curieux, courageux, toujours dans les embrouilles.",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f2c9a0",
+   "shirt": "#7b3fe4",
+   "shirtDesign": "bolt",
+   "trim": "#ffd23f",
+   "sleeves": "long",
+   "pants": "#1f1f2e",
+   "shoes": "#ff7a1a",
+   "hair": {
+    "style": "spiky",
+    "color": "#ff7a1a"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "lila": {
+  "name": "Lila",
+  "brand_role": "friend_f",
+  "gender": "f",
+  "tagline": "La meilleure amie. Maline, sarcastique, a toujours un plan.",
+  "appearance": {
+   "gender": "f",
+   "skin": "#c98a5a",
+   "shirt": "#ffd23f",
+   "shirtDesign": "heart",
+   "sleeves": "short",
+   "pants": "#7b3fe4",
+   "dress": true,
+   "shoes": "#ffffff",
+   "hair": {
+    "style": "ponytail",
+    "color": "#1b1b1b"
+   },
+   "accessory": "glasses",
+   "scale": 1
+  }
+ },
+ "mamie_rose": {
+  "name": "Mamie Rose",
+  "brand_role": "grandma",
+  "gender": "f",
+  "tagline": "La grand-mère. Douce en apparence, légendaire en réalité.",
+  "appearance": {
+   "gender": "f",
+   "skin": "#f5d3b5",
+   "shirt": "#f06292",
+   "shirtDesign": "cardigan",
+   "trim": "#ffd23f",
+   "sleeves": "long",
+   "pants": "#7b3fe4",
+   "dress": true,
+   "shoes": "#7b3fe4",
+   "hair": {
+    "style": "bun",
+    "color": "#f2f2f2"
+   },
+   "accessory": "glasses",
+   "scale": 0.95
+  }
+ },
+ "max": {
+  "name": "Max",
+  "brand_role": "rival",
+  "gender": "m",
+  "tagline": "Le rival. Riche, frimeur, finit toujours par perdre.",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f5d3b5",
+   "shirt": "#1b1b1b",
+   "shirtDesign": "leather",
+   "trim": "#e53935",
+   "sleeves": "long",
+   "pants": "#3b3b4f",
+   "shoes": "#ffffff",
+   "hair": {
+    "style": "side",
+    "color": "#f2d16b"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "papa_bruno": {
+  "name": "Papa Bruno",
+  "brand_role": "father",
+  "gender": "m",
+  "tagline": "Le père. Gros cœur, idées catastrophiques.",
+  "appearance": {
+   "gender": "m",
+   "skin": "#e0a878",
+   "shirt": "#2e9e4f",
+   "shirtDesign": "plaid",
+   "sleeves": "short",
+   "pants": "#4a3b2a",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "cap",
+    "color": "#5d3a1a"
+   },
+   "beard": true,
+   "accessory": "none",
+   "scale": 1.05
+  }
+ },
+ "maman_sofia": {
+  "name": "Maman Sofia",
+  "brand_role": "mother",
+  "gender": "f",
+  "tagline": "La mère. Calme, organisée, la seule adulte responsable.",
+  "appearance": {
+   "gender": "f",
+   "skin": "#c98a5a",
+   "shirt": "#ff7a1a",
+   "shirtDesign": "none",
+   "sleeves": "long",
+   "pants": "#1f3a68",
+   "shoes": "#1b1b1b",
+   "hair": {
+    "style": "bob",
+    "color": "#3b2314"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "pixel": {
+  "name": "Pixel",
+  "brand_role": "pet",
+  "kind": "pixel",
+  "tagline": "La mascotte. Un chat orange au collier violet, présent dans chaque vidéo."
+ }
+}

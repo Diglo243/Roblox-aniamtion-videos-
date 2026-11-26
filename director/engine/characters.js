@@ -152,6 +152,9 @@ function shirtTex(a) {
       case 'dress': g.fillStyle = '#ffffff55'; for (let i = 0; i < 12; i++) { g.beginPath(); g.arc(30 + (i % 4) * 66, 40 + Math.floor(i / 4) * 80, 10, 0, 7); g.fill(); } break;
       case 'logo': g.fillStyle = light; g.beginPath(); g.arc(128, 110, 52, 0, 7); g.fill(); g.fillStyle = a.shirt; g.font = 'bold 70px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('R', 128, 114); break;
       case 'heart': g.fillStyle = '#ff4d6d'; g.beginPath(); g.moveTo(128, 160); g.bezierCurveTo(40, 90, 90, 30, 128, 80); g.bezierCurveTo(166, 30, 216, 90, 128, 160); g.fill(); break;
+      case 'bolt': g.fillStyle = a.trim || '#ffd23f'; g.strokeStyle = '#1b1b1b'; g.lineWidth = 8; g.beginPath(); g.moveTo(146, 30); g.lineTo(84, 136); g.lineTo(126, 136); g.lineTo(104, 226); g.lineTo(176, 108); g.lineTo(134, 108); g.closePath(); g.fill(); g.stroke(); g.fillStyle = '#00000025'; g.fillRect(70, 200, 116, 56); break;
+      case 'leather': g.fillStyle = '#00000030'; g.fillRect(0, 0, 60, h); g.fillRect(196, 0, 60, h); g.fillStyle = '#d9d9d9'; g.fillRect(124, 0, 8, h); g.fillStyle = a.trim || '#e53935'; g.fillRect(132, 0, 64, 70); break;
+      case 'cardigan': g.fillStyle = '#ffffff'; g.fillRect(110, 0, 36, h); g.fillStyle = a.trim || '#ffd23f'; for (let y = 40; y < h; y += 50) { g.beginPath(); g.arc(128, y, 9, 0, 7); g.fill(); } break;
       case 'star': g.fillStyle = '#ffe14d'; g.beginPath(); for (let i = 0; i < 10; i++) { const r = i % 2 ? 26 : 62, an = -Math.PI / 2 + i * Math.PI / 5; g.lineTo(128 + r * Math.cos(an), 116 + r * Math.sin(an)); } g.fill(); break;
       case 'jacket': g.fillStyle = dark; g.fillRect(0, 0, 70, h); g.fillRect(186, 0, 70, h); g.fillStyle = '#ffffff55'; g.fillRect(124, 0, 8, h); break;
       case 'coat': g.fillStyle = '#d9d9d9'; g.fillRect(122, 0, 12, h); g.fillStyle = '#4dd0e1'; g.fillRect(100, 0, 56, 60); g.fillStyle = '#e53935'; g.fillRect(170, 60, 40, 10); g.fillRect(185, 45, 10, 40); break;
@@ -184,7 +187,7 @@ function addHair(head, a) {
     case 'bun': H(1.38, 0.36, 1.38, 0, 0.62, 0); H(1.38, 0.7, 0.3, 0, 0.3, -0.56); H(0.6, 0.55, 0.6, 0, 0.95, -0.35); break;
     case 'buns': H(1.4, 0.4, 1.4, 0, 0.64, 0); H(0.55, 0.55, 0.55, 0.55, 0.95, -0.1); H(0.55, 0.55, 0.55, -0.55, 0.95, -0.1); H(1.4, 0.9, 0.3, 0, 0.2, -0.56); break;
   }
-  if (a.beard) { const bm = M(a.hair.color, { rough: 0.9 }); H(1.34, 0.6, 0.3, 0, -0.45, 0.56, { mat: bm }); H(0.3, 0.9, 1.0, 0.6, -0.1, 0.1, { mat: bm }); H(0.3, 0.9, 1.0, -0.6, -0.1, 0.1, { mat: bm }); H(0.9, 0.5, 0.3, 0, -0.75, 0.5, { mat: bm }); }
+  if (a.beard) { const bm = M(a.hair.color, { rough: 0.9 }); H(1.34, 0.34, 0.3, 0, -0.6, 0.56, { mat: bm }); H(0.3, 0.9, 1.0, 0.6, -0.1, 0.1, { mat: bm }); H(0.3, 0.9, 1.0, -0.6, -0.1, 0.1, { mat: bm }); H(0.9, 0.4, 0.3, 0, -0.8, 0.5, { mat: bm }); }
   if (a.goggles) { H(1.42, 0.18, 1.42, 0, 0.42, 0, { mat: M('#5d4037') }); for (const x of [-0.3, 0.3]) H(0.42, 0.36, 0.2, x, 0.45, 0.66, { mat: M('#80deea', { rough: 0.1, metal: 0.3 }) }); }
   if (a.topHat) { H(2.0, 0.12, 2.0, 0, 0.66, 0, { mat: M('#141414'), round: 0.04 }); H(1.25, 1.6, 1.25, 0, 1.5, 0, { mat: M('#141414') }); H(1.27, 0.25, 1.27, 0, 0.85, 0, { mat: M('#c62828') }); }
   if (a.hat === 'fedora') { H(2.0, 0.12, 2.0, 0, 0.66, 0, { mat: M('#6d4c41'), round: 0.04 }); H(1.35, 0.6, 1.35, 0, 0.95, 0, { mat: M('#6d4c41') }); H(1.37, 0.18, 1.37, 0, 0.75, 0, { mat: M('#3e2723') }); }
@@ -203,8 +206,9 @@ function addHair(head, a) {
     const gm = M(a.accessory === 'sunglasses' ? '#111' : '#222', { rough: 0.3 });
     const lens = a.accessory === 'sunglasses' ? M('#111', { rough: 0.1, metal: 0.3 }) : M('#cfe8ff', { transparent: true, opacity: 0.35, rough: 0.1 });
     for (const x of [-0.27, 0.27]) {
-      const fr = new THREE.Mesh(boxGeo(0.42, 0.34, 0.04, 0), gm); fr.position.set(x, 0.1, 0.65); head.add(fr);
-      const ln = new THREE.Mesh(boxGeo(0.34, 0.26, 0.05, 0), lens); ln.position.set(x, 0.1, 0.665); head.add(ln);
+      if (a.accessory === 'sunglasses') { const fr = new THREE.Mesh(boxGeo(0.42, 0.34, 0.04, 0), gm); fr.position.set(x, 0.1, 0.65); head.add(fr); }
+      else for (const [w, h, dx, dy] of [[0.44, 0.05, 0, 0.16], [0.44, 0.05, 0, -0.14], [0.05, 0.34, -0.2, 0.01], [0.05, 0.34, 0.2, 0.01]]) { const rim = new THREE.Mesh(boxGeo(w, h, 0.04, 0), gm); rim.position.set(x + dx, 0.1 + dy, 0.655); head.add(rim); }
+      if (a.accessory === 'sunglasses') { const ln = new THREE.Mesh(boxGeo(0.34, 0.26, 0.05, 0), lens); ln.position.set(x, 0.1, 0.665); head.add(ln); }
     }
     const br = new THREE.Mesh(boxGeo(0.14, 0.05, 0.04, 0), gm); br.position.set(0, 0.16, 0.65); head.add(br);
   }

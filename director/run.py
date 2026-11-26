@@ -115,6 +115,10 @@ def main():
                 sb["cast"].update(cast_override)
         else:
             sb = sbmod.build_storyboard(script, timing, prof, cast_override)
+        if prof.get("brand", True):
+            import brand
+            sb = brand.apply(sb, cast_override, mascot=prof.get("mascot", True))
+            log("    brand cast:", ", ".join(f"{k}->{v['brand']}" for k, v in sb["cast"].items() if v.get("brand")) or "(no match)")
         jdump(sb, sb_p)
         if not os.path.exists(cast_p):
             jdump(sb["cast"], cast_p)  # editable: names, gender, role, optional "appearance"

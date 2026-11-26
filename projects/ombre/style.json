@@ -21,5 +21,6 @@
   "contrast": 1.04,
   "brightness": 0.01
  },
- "sfx_gain_db": -24
+ "sfx_gain_db": -24,
+ "brand": false
 }

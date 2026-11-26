@@ -1,5 +1,26 @@
 {
- "caption": {"font": "Poppins ExtraBold", "mode": "word", "uppercase": false, "lowercase": true, "strip_punct": true, "color": "#F5D85F", "y": 0.672, "x": 0.5, "size": 104, "outline": 8, "shadow": 3, "pop": "soft", "char_w": 0.62, "max_width": 0.6, "spacing": 0},
- "grade": {"saturation": 1.12, "contrast": 1.05, "brightness": 0.01},
- "sfx_gain_db": -24
+ "caption": {
+  "font": "Poppins ExtraBold",
+  "mode": "word",
+  "uppercase": false,
+  "lowercase": true,
+  "strip_punct": true,
+  "color": "#F5D85F",
+  "y": 0.672,
+  "x": 0.5,
+  "size": 104,
+  "outline": 8,
+  "shadow": 3,
+  "pop": "soft",
+  "char_w": 0.62,
+  "max_width": 0.6,
+  "spacing": 0
+ },
+ "grade": {
+  "saturation": 1.12,
+  "contrast": 1.05,
+  "brightness": 0.01
+ },
+ "sfx_gain_db": -24,
+ "brand": false
 }

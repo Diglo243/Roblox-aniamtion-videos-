@@ -45,6 +45,29 @@ python3 director/run.py projects/<mon_projet>
 * **Effets** : flash, zoom-punch, tremblement, lignes de vitesse, vignettage sombre/rouge, pluie,
   confettis, billets, cœurs, étincelles, symboles au-dessus des têtes (! ? 💢 💧 Zz ★).
 
+## La bande : personnages officiels de la chaîne
+
+`assets/brand/cast.json` définit les personnages récurrents du compte (couleurs signature violet
+`#7B3FE4`, orange `#FF7A1A`, jaune `#FFD23F`) :
+
+| Personnage | Rôle | Signature |
+|---|---|---|
+| **Nino** | narrateur / héros | cheveux orange en pics, sweat violet à éclair jaune, baskets orange |
+| **Lila** | meilleure amie | queue de cheval noire, lunettes, haut jaune à cœur, jupe violette |
+| **Mamie Rose** | grand-mère | chignon blanc, lunettes, gilet rose à boutons dorés |
+| **Max** | rival | mèche blonde, blouson noir à col rouge |
+| **Papa Bruno** | père | casquette et chemise à carreaux verte, barbe |
+| **Maman Sofia** | mère | carré brun, haut orange |
+| **Pixel** | mascotte | chat orange au collier violet et grelot doré |
+
+Le pipeline les applique **automatiquement** à chaque nouveau projet (`director/brand.py`) : le
+narrateur « je » devient Nino (le prénom du script est conservé), les mères Maman Sofia, les pères
+Papa Bruno, les grands-mères Mamie Rose, les rivaux / riches / brutes Max, les amies / sœurs Lila ;
+Pixel fait une apparition dans le premier et le dernier plan. Un `appearance` dans le `cast.json`
+d'un projet garde la priorité ; `"brand": false` dans `style.json` désactive la bande pour un projet.
+Planche de référence : `assets/brand/brand_sheet.png`, fiches verticales : `assets/brand/cards/`
+(régénérées avec `director/brand_sheet.py`).
+
 ## Réalisation dirigée (projets exigeants)
 
 Pour une histoire très spécifique, le découpage automatique peut être remplacé par une liste de
