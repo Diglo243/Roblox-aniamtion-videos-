@@ -3,3 +3,5 @@ __pycache__/
 projects/*/work/
 *.pyc
 projects/*/output/
+projects/ombre/input/*.mp4
+projects/ombre/input/*.mp3
