@@ -18,6 +18,7 @@ import difflib
 import numpy as np
 
 SR = 16000
+UNM0, UNM1, STRONG, NUC = 0.5, 4.0, 12.0, 0.2  # tuned: every sentence start lands on a detected pause
 HOP = 0.01
 
 
@@ -31,6 +32,24 @@ def load_pcm(path):
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-ac", "1", "-ar", str(SR), "-f", "s16le", "-"],
                          capture_output=True, check=True).stdout
     return np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0
+
+
+def syllable_nuclei(x):
+    """Times (s) of syllable nuclei = peaks of the 300-2500 Hz energy envelope."""
+    hop = int(SR * HOP)
+    n = len(x) // hop
+    fr = x[: n * hop].reshape(n, hop)
+    spec = np.abs(np.fft.rfft(fr * np.hanning(hop), axis=1))
+    f = np.fft.rfftfreq(hop, 1 / SR)
+    band = spec[:, (f > 300) & (f < 2500)].sum(1)
+    w = np.hanning(7)
+    le = np.log(np.convolve(band, w / w.sum(), "same") + 1e-6)
+    thr = np.percentile(le, 40)
+    out = []
+    for i in range(2, n - 2):
+        if le[i] == le[max(0, i - 7): i + 8].max() and le[i] > thr and le[i] - min(le[max(0, i - 12): i].min(), le[i: i + 12].min()) > 0.6:
+            out.append(i * HOP)
+    return np.array(out)
 
 
 def vad(x, min_pause=0.16, min_speech=0.06):
@@ -154,7 +173,7 @@ def try_whisper(audio, words):
     return times
 
 
-def align(words, speech, pauses, duration):
+def align(words, speech, pauses, duration, nuclei=None):
     """DP alignment of punctuation boundaries to pauses (fallback aligner)."""
     if not speech:
         speech = [(0.0, duration)]
@@ -165,6 +184,11 @@ def align(words, speech, pauses, duration):
     T = cum[-1]
     pause_pos = [cum[i + 1] for i in range(len(speech) - 1)]  # speech-time at each pause
     pause_len = [p[1] - p[0] for p in pauses]
+    # second, rate-independent estimate of where each pause falls: count of syllable nuclei before it
+    match_pos = list(pause_pos)
+    if nuclei is not None and len(nuclei) > 10 and pause_pos:
+        tot = len(nuclei)
+        match_pos = [(1 - NUC) * pp + NUC * (np.searchsorted(nuclei, pauses[k][0]) / tot * T) for k, pp in enumerate(pause_pos)]
 
     wts = np.array([syllables(w["word"]) * 0.19 + 0.06 for w in words])
     # extra expected time just before punctuation (lengthening)
@@ -176,41 +200,56 @@ def align(words, speech, pauses, duration):
     def strength(j):
         p = words[j]["punct"]
         if re.search(r"[.!?…]", p):
-            return 3.0
+            return STRONG
         if re.search(r"[,;:]", p):
             return 1.4
         return 0.25
 
-    if K and J:
+    # Segment DP over punctuation boundaries x pauses, with a speaking-rate prior:
+    # state = (pause k matched to boundary j); transition from previous match (k', j').
+    syl = np.array([syllables(w["word"]) for w in words], dtype=float)
+    csyl = np.concatenate([[0.0], np.cumsum(syl)])
+    rate = T / max(1.0, csyl[-1])  # speech seconds per syllable
+    cand = [j for j in range(J) if words[j]["punct"]]
+    def bstr(j):
+        return strength(j)
+    anchors = {}
+    if K and cand:
+        # nodes: start (-1,-1) ... end (K, J)
+        nodes_k = list(range(K))
         INF = 1e18
-        # dp[k][j] = best cost having matched pauses[:k] and boundaries[:j]
-        dp = np.full((K + 1, J + 1), INF)
-        bt = np.zeros((K + 1, J + 1), dtype=np.int8)
-        dp[0, :] = [sum(strength(jj) * 0.35 for jj in range(j)) for j in range(J + 1)]
-        for k in range(1, K + 1):
-            dp[k, 0] = dp[k - 1, 0] + 1.2 + 0.4 / max(pause_len[k - 1], 0.05) * 0.1
-        unm_pause = lambda k: 0.6 + 0.6 * min(pause_len[k], 1.0)
-        for k in range(1, K + 1):
-            for j in range(1, J + 1):
-                c_match = dp[k - 1, j - 1] + abs(pause_pos[k - 1] - bpos[j - 1]) * 1.6 - strength(j - 1) * 0.5 * min(1.0, pause_len[k - 1] / 0.3)
-                c_skipb = dp[k, j - 1] + strength(j - 1) * 0.35
-                c_skipp = dp[k - 1, j] + unm_pause(k - 1)
-                best = min(c_match, c_skipb, c_skipp)
-                dp[k, j] = best
-                bt[k, j] = 0 if best == c_match else (1 if best == c_skipb else 2)
-        k, j = K, J
-        anchors = {}
-        while k > 0 and j > 0:
-            if bt[k, j] == 0:
-                anchors[j - 1] = k - 1
-                k -= 1
-                j -= 1
-            elif bt[k, j] == 1:
-                j -= 1
-            else:
-                k -= 1
-    else:
-        anchors = {}
+        best = {(-1, -1): (0.0, None)}
+        order = [(k, j) for k in nodes_k for j in cand] + [(K, J)]
+        cand_idx = {j: i for i, j in enumerate(cand)}
+        def seg_cost(k0, j0, k1, j1):
+            t0 = pause_pos[k0] if k0 >= 0 else 0.0
+            t1 = pause_pos[k1] if k1 < K else T
+            s0 = csyl[j0 + 1] if j0 >= 0 else 0.0
+            s1 = csyl[j1 + 1] if j1 < J else csyl[-1]
+            d, n = max(t1 - t0, 0.05), max(s1 - s0, 0.5)
+            c = 6.0 * np.log(d / (n * rate)) ** 2
+            # unmatched punctuation inside the segment
+            c += sum(bstr(j) * 0.35 for j in cand if j0 < j < j1)
+            # unmatched pauses inside the segment
+            c += sum(UNM0 + UNM1 * max(0.0, pause_len[k] - 0.25) for k in range(k0 + 1, k1))
+            return c
+        for (k, j) in order:
+            bestc, arg = INF, None
+            ci = cand_idx.get(j, len(cand))
+            for (k0, j0), (c0, _) in list(best.items()):
+                if k0 >= k or j0 >= j or k - k0 > 6:
+                    continue
+                if j0 >= 0 and ci - cand_idx[j0] > 8:
+                    continue
+                c = c0 + seg_cost(k0, j0, k, j) - (bstr(j) * 0.5 * min(1.0, pause_len[k] / 0.3) if k < K else 0)
+                if c < bestc:
+                    bestc, arg = c, (k0, j0)
+            if arg is not None:
+                best[(k, j)] = (bestc, arg)
+        node = best.get((K, J), (0, None))[1]
+        while node and node != (-1, -1):
+            anchors[node[1]] = node[0]
+            node = best[node][1]
 
     # piecewise-linear warp from weight axis -> speech-time axis
     xs = [0.0] + [bpos[j] for j in sorted(anchors)] + [T]
@@ -247,7 +286,7 @@ def analyze(audio_path, script_text):
     times = try_whisper(audio_path, words)
     method = "whisper"
     if times is None:
-        times = align(words, speech, pauses, duration)
+        times = align(words, speech, pauses, duration, syllable_nuclei(x))
         method = "vad-dp"
     for w, (s, e) in zip(words, times):
         w["start"], w["end"] = float(s), float(e)

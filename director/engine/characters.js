@@ -143,6 +143,9 @@ function shirtTex(a) {
     const dark = '#00000040', light = '#ffffffcc';
     switch (a.shirtDesign) {
       case 'stripe': g.fillStyle = light; g.fillRect(0, 96, w, 40); break;
+      case 'trim': g.fillStyle = a.trim || '#ff7a1a'; g.fillRect(0, 0, w, 22); g.fillRect(108, 0, 40, h); g.fillStyle = '#ffffff'; g.fillRect(118, 30, 20, 226); g.fillStyle = '#ffd23f'; g.beginPath(); g.arc(128, 110, 14, 0, 7); g.fill(); g.fillStyle = '#00000030'; g.fillRect(30, 140, 50, 40); g.fillRect(176, 140, 50, 40); break;
+      case 'hoodie': g.fillStyle = '#00000022'; g.fillRect(60, 150, 136, 70); g.fillStyle = '#ffffffaa'; g.fillRect(100, 0, 6, 70); g.fillRect(150, 0, 6, 70); break;
+      case 'dress': g.fillStyle = '#ffffff55'; for (let i = 0; i < 12; i++) { g.beginPath(); g.arc(30 + (i % 4) * 66, 40 + Math.floor(i / 4) * 80, 10, 0, 7); g.fill(); } break;
       case 'logo': g.fillStyle = light; g.beginPath(); g.arc(128, 110, 52, 0, 7); g.fill(); g.fillStyle = a.shirt; g.font = 'bold 70px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('R', 128, 114); break;
       case 'heart': g.fillStyle = '#ff4d6d'; g.beginPath(); g.moveTo(128, 160); g.bezierCurveTo(40, 90, 90, 30, 128, 80); g.bezierCurveTo(166, 30, 216, 90, 128, 160); g.fill(); break;
       case 'star': g.fillStyle = '#ffe14d'; g.beginPath(); for (let i = 0; i < 10; i++) { const r = i % 2 ? 26 : 62, an = -Math.PI / 2 + i * Math.PI / 5; g.lineTo(128 + r * Math.cos(an), 116 + r * Math.sin(an)); } g.fill(); break;
@@ -162,6 +165,9 @@ function addHair(head, a) {
   // head is 1.25 cube centred at 0 (local)
   switch (s) {
     case 'bald': break;
+    case 'curly': H(1.4, 0.4, 1.4, 0, 0.62, 0); for (let i = 0; i < 9; i++) H(0.62, 0.5, 0.62, -0.45 + (i % 3) * 0.45, 0.9 + Math.floor(i / 3) * 0.28 - (i % 2) * 0.05, -0.45 + Math.floor(i / 3) * 0.42, { round: 0.22 }); H(1.4, 0.7, 0.35, 0, 0.3, -0.55); H(0.2, 0.55, 1.0, 0.66, 0.35, -0.1); H(0.2, 0.55, 1.0, -0.66, 0.35, -0.1); break;
+    case 'sunhat': { H(1.38, 0.4, 1.38, 0, 0.6, 0); H(1.46, 1.6, 0.4, 0, -0.2, -0.56); const hm2 = M(a.hatColor || '#e9c46a', { rough: 0.9 }); H(2.6, 0.12, 2.6, 0, 0.82, 0, { mat: hm2, round: 0.05 }); H(1.4, 0.6, 1.4, 0, 1.1, 0, { mat: hm2 }); H(1.42, 0.16, 1.42, 0, 0.92, 0, { mat: M('#e76f51') }); break; }
+    case 'cap_green': H(1.42, 0.42, 1.42, 0, 0.66, 0, { mat: M(a.hatColor || '#2e9e4f') }); H(1.2, 0.1, 0.7, 0, 0.47, 0.9, { mat: M(a.hatColor || '#2e9e4f') }); H(1.36, 0.4, 0.3, 0, 0.3, -0.56); break;
     case 'short': H(1.36, 0.36, 1.36, 0, 0.62, -0.02); H(1.36, 0.5, 0.3, 0, 0.3, -0.56); H(0.18, 0.5, 1.1, 0.64, 0.33, -0.1); H(0.18, 0.5, 1.1, -0.64, 0.33, -0.1); H(1.0, 0.18, 0.2, 0.1, 0.48, 0.6); break;
     case 'fade': H(1.32, 0.3, 1.32, 0, 0.6, 0); break;
     case 'side': H(1.38, 0.4, 1.38, 0, 0.64, 0); H(1.38, 0.5, 0.3, 0, 0.3, -0.56); H(0.9, 0.3, 0.3, 0.25, 0.5, 0.6, { rz: -0.25 }); H(0.18, 0.4, 1.1, 0.64, 0.33, -0.1); H(0.18, 0.4, 1.1, -0.64, 0.33, -0.1); break;
@@ -209,6 +215,7 @@ export class Avatar {
       const sh = new THREE.Mesh(boxGeo(1.0, 0.34, 1.08, R), shoes); sh.position.set(0, -1.83, 0.04); sh.castShadow = true; p.add(sh);
       this.legs.push(p);
     }
+    if (a.dress) { const sk = new THREE.Mesh(boxGeo(2.3, 1.3, 1.35, 0.15), shirt); sk.position.set(0, 1.45, 0); sk.castShadow = true; inner.add(sk); }
     // body (everything above hips)
     const body = this.body = new THREE.Group(); body.position.y = 2; inner.add(body);
     const torsoMats = [shirt, shirt, shirt, shirt, shirtFront, shirt];
@@ -425,6 +432,11 @@ export const ACTIONS = {
     av.arms[0].rotation.x = -1.0; av.arms[1].rotation.x = -1.0; av.inner.rotation.x = 0.3; av.inner.position.y = -0.3;
     av.neck.rotation.y = S(t * 1.5) * 0.4;
   },
+  look_down(av, t, p) { ACTIONS.idle(av, t, p); av.neck.rotation.x = 0.55; av.neck.rotation.y = 0.1; },
+  build(av, t, p) {
+    const ph = (t * 2.2) % 1; av.arms[1].rotation.x = -2.4 + Math.min(1, ph * 3) * 1.6; av.arms[0].rotation.x = -0.9; av.body.rotation.x = 0.15; av.neck.rotation.x = 0.25;
+  },
+  carry(av, t, p) { ACTIONS.walk(av, t, p); av.arms[0].rotation.x = -1.2; av.arms[1].rotation.x = -1.2; av.arms[0].rotation.z = 0.3; av.arms[1].rotation.z = -0.3; },
   give(av, t, p) {
     ACTIONS.idle(av, t, p); const k = smooth(t / 0.4);
     av.arms[1].rotation.x = -1.35 * k; av.arms[0].rotation.x = -1.35 * k; av.arms[0].rotation.z = 0.25 * k; av.arms[1].rotation.z = -0.25 * k;
@@ -439,6 +451,6 @@ export const ACTION_FACE = {
   angry: 'angry', scared: 'scared', jump: 'joy', celebrate: 'joy', dance: 'joy', wave: 'happy', point: 'neutral',
   think: 'think', phone: 'neutral', text: 'neutral', hug: 'happy', punch: 'angry', push: 'angry', fall: 'shocked', lie: 'tired',
   sleep: 'sleep', sit: 'neutral', sit_work: 'think', sit_sad: 'sad', sit_talk: 'neutral', eat: 'happy', laugh: 'joy', look_around: 'scared',
-  kneel: 'sad', sneak: 'smug', give: 'happy', drive: 'neutral',
+  look_down: 'neutral', build: 'happy', carry: 'neutral', kneel: 'sad', sneak: 'smug', give: 'happy', drive: 'neutral',
 };
 export const TALKING_ACTIONS = new Set(['talk', 'sit_talk', 'phone', 'laugh', 'scream']);

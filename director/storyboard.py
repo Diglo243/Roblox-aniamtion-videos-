@@ -611,3 +611,69 @@ if __name__ == "__main__":
         print(f'{s["id"]} {s["start"]:6.2f}-{s["end"]:6.2f} {s["env"]:11s} {s["time"]:6s} {s["camera"]["type"]:10s} {s["beat"]:9s} '
               + " | ".join(f'{a["id"]}:{a.get("action")}/{a.get("emotion")}{"+" + a["prop"] if a.get("prop") else ""}' for a in s["actors"])
               + f'  fx={s["fx"]}  «{s["text"][:50]}»')
+
+
+# ---------------------------------------------------------------------------------------------
+# Directed mode: a hand-written shot list per sentence (projects/<p>/direction.json) is timed
+# automatically on the voice-over. Each sentence entry is a list of shots; a shot may carry
+#   "cut": "<word>"  -> the shot starts on that word of the sentence (first occurrence after the previous cut)
+#   "w": weight      -> otherwise the sentence span is shared proportionally to weights (snapped to word starts)
+#   "sfx": [{"name", "at" (s from shot start or "end"), "gain"}]
+def build_from_direction(direction, timing, profile):
+    words = timing["words"]
+    sents = split_sentences(words)
+    dur_total = timing["duration"]
+    if len(direction["sentences"]) != len(sents):
+        raise SystemExit(f"direction.json has {len(direction['sentences'])} sentences, script has {len(sents)}")
+    shots, sfx = [], []
+    defaults = direction.get("defaults", {})
+    n_id = 0
+    for si, idxs in enumerate(sents):
+        s0 = 0.0 if si == 0 else words[idxs[0]]["start"]
+        s1 = dur_total if si == len(sents) - 1 else words[sents[si + 1][0]]["start"]
+        plan = direction["sentences"][si]
+        if isinstance(plan, dict):
+            plan = [plan]
+        # cut times
+        cuts = [s0]
+        pos = 0
+        for k, sh in enumerate(plan[1:], 1):
+            t = None
+            if "cut" in sh:
+                target = norm(sh["cut"])
+                for j in range(pos + 1, len(idxs)):
+                    if norm(words[idxs[j]]["word"]).startswith(target):
+                        t, pos = words[idxs[j]]["start"], j
+                        break
+            if t is None:
+                wsum = sum(p.get("w", 1) for p in plan)
+                ideal = s0 + (s1 - s0) * sum(p.get("w", 1) for p in plan[:k]) / wsum
+                j = min(range(len(idxs)), key=lambda j: abs(words[idxs[j]]["start"] - ideal))
+                t = words[idxs[j]]["start"] if words[idxs[j]]["start"] > cuts[-1] + 0.4 else ideal
+                pos = j
+            cuts.append(max(t, cuts[-1] + 0.4))
+        cuts.append(s1)
+        text = " ".join(words[i]["display"] for i in idxs)
+        for k, sh in enumerate(plan):
+            n_id += 1
+            spec = json.loads(json.dumps(defaults))
+            spec.update({kk: vv for kk, vv in sh.items() if kk not in ("cut", "w", "sfx")})
+            spec.setdefault("actors", [])
+            spec.setdefault("camera", {"type": "medium"})
+            spec.setdefault("fx", [])
+            spec.setdefault("time", "day")
+            spec.update({"id": f"s{n_id:03d}", "sentence": si, "text": text, "start": round(cuts[k], 3), "end": round(cuts[k + 1], 3)})
+            shots.append(spec)
+            for ev in sh.get("sfx", []):
+                at = ev.get("at", 0)
+                t = cuts[k + 1] - 0.05 if at == "end" else cuts[k] + float(at)
+                sfx.append({"name": ev["name"], "t": round(t, 3), **({"gain": ev["gain"]} if "gain" in ev else {}), **({"dur": ev["dur"]} if "dur" in ev else {})})
+    for sh in shots:
+        f0, f1 = round(sh["start"] * FPS), round(sh["end"] * FPS)
+        sh["frames"] = max(1, f1 - f0)
+        sh["duration"] = sh["frames"] / FPS
+    total = round(dur_total * FPS)
+    shots[-1]["frames"] += total - sum(s["frames"] for s in shots)
+    shots[-1]["duration"] = shots[-1]["frames"] / FPS
+    return {"cast": direction.get("cast", {}), "shots": shots, "sfx": sfx, "fps": FPS, "duration": dur_total, "total_frames": total,
+            "profile": {k: profile.get(k) for k in ("source", "median_shot", "min_shot", "max_shot", "caption", "grade")}}

@@ -1,0 +1,25 @@
+{
+ "caption": {
+  "font": "Poppins ExtraBold",
+  "mode": "word",
+  "uppercase": false,
+  "color": "#E2FB0F",
+  "y": 0.762,
+  "x": 0.5,
+  "size": 140,
+  "outline": 10,
+  "shadow": 4,
+  "pop": "soft",
+  "char_w": 0.62,
+  "max_width": 0.6,
+  "spacing": 0,
+  "lowercase": true,
+  "strip_punct": true
+ },
+ "grade": {
+  "saturation": 1.1,
+  "contrast": 1.04,
+  "brightness": 0.01
+ },
+ "sfx_gain_db": -24
+}

@@ -45,6 +45,27 @@ python3 director/run.py projects/<mon_projet>
 * **Effets** : flash, zoom-punch, tremblement, lignes de vitesse, vignettage sombre/rouge, pluie,
   confettis, billets, cœurs, étincelles, symboles au-dessus des têtes (! ? 💢 💧 Zz ★).
 
+## Réalisation dirigée (projets exigeants)
+
+Pour une histoire très spécifique, le découpage automatique peut être remplacé par une liste de
+plans écrite par le réalisateur, calée automatiquement sur la voix off :
+
+* `projects/<p>/direction.py` → génère `direction.json` : pour chaque phrase du script, une liste de
+  plans (`env`, `actors`, `crowd`, `camera`, `fx`, `worldProps`, `envOpts`, `sfx`), la coupe se faisant
+  sur un mot (`"cut": "mot"`) ou au prorata (`"w"`).
+* `projects/<p>/style.json` → corrections du style mesuré sur la référence (police, couleur, taille,
+  position et mode mot-par-mot des sous-titres ; étalonnage ; volume des effets sonores).
+* Effets spéciaux d'ombre : `shadow: {action, prop, lift}` (l'ombre fait autre chose que le
+  personnage), `noShadow`, `shadowFrom` (l'ombre réapparaît), foules d'ombres seules (`shadowOnly`).
+* Décors « ville colorée » : `town_plaza`, `shadow_wall`, `town_street`, `hills` (ville en
+  contrebas, fissures, effondrement animé), `cave_entrance`, `cave`, `cross_section` (vue en coupe
+  de la ville au-dessus du vide), `construction`, `school_new`.
+* Effets sonores synthétisés (`director/sfx.py` : whoosh, grondement, craquement, boum, cloche,
+  caisse, alarme, moteur, vent, battements de cœur, scintillement, foule…) mixés **à bas niveau**
+  sous la voix (réglable via `sfx_gain_db`).
+
+Exemple complet : `projects/ombre/`.
+
 ## Ajuster le résultat
 
 * `projects/<p>/cast.json` : noms, genre, rôle de chaque personnage, et optionnellement

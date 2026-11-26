@@ -2,7 +2,12 @@
 import * as THREE from 'three';
 import { M, box, cyl, sphere, canvasTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack } from './core.js';
 import { Avatar, ACTIONS, ACTION_FACE, TALKING_ACTIONS, defaultAppearance } from './characters.js';
-import { ENVIRONMENTS, setupLighting, car } from './environments.js';
+import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js';
+import { TOWN_ENVIRONMENTS } from './env_town.js';
+const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS };
+const SHADOW_ONLY = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
+function shadowOnly(obj) { obj.traverse(o => { if (o.isMesh) { o.material = SHADOW_ONLY; o.castShadow = true; o.receiveShadow = false; } if (o.isSprite) o.visible = false; }); }
+function setCast(obj, on) { obj.traverse(o => { if (o.isMesh) o.castShadow = on; }); }
 
 const W = 1080, H = 1920;
 const canvas = document.getElementById('c');
@@ -34,6 +39,16 @@ function makeProp(kind) {
     case 'trophy': cyl(g, 0.45, 0.2, 0.7, M('#ffd54f', { metal: 0.6, rough: 0.3 }), 0, -0.2, 0.6); cyl(g, 0.25, 0.3, 0.3, M('#ffd54f', { metal: 0.6, rough: 0.3 }), 0, -0.5, 0.6); break;
     case 'sword': box(g, 0.2, 2.8, 0.1, M('#cfd8dc', { metal: 0.7, rough: 0.25 }), 0, -0.3, 0.4, { rx: -1.4 }); break;
     case 'key': box(g, 0.2, 0.6, 0.05, '#ffd54f', 0, -0.3, 0.3); break;
+    case 'paper_f': case 'paper_a': case 'photo': case 'ticket': {
+      const lbl = { paper_f: ['F', '#e53935'], paper_a: ['A+', '#2e7d32'], photo: ['', '#333'], ticket: ['LOTO', '#1e3a8a'] }[kind];
+      const tx = canvasTex('paper' + kind, 128, 160, (c) => { c.fillStyle = kind === 'photo' ? '#3b2a1c' : (kind === 'ticket' ? '#ffd23f' : '#ffffff'); c.fillRect(0, 0, 128, 160); if (kind === 'photo') { c.fillStyle = '#c7a77a'; c.fillRect(8, 8, 112, 144); c.fillStyle = '#1b120b'; c.fillRect(16, 70, 96, 70); c.fillStyle = '#e03a3a'; c.fillRect(30, 40, 20, 30); c.fillStyle = '#2f5fd0'; c.fillRect(70, 34, 22, 36); } else { c.fillStyle = '#9e9e9e'; for (let y = 70; y < 150; y += 14) c.fillRect(14, y, 100, 5); c.font = '64px "Luckiest Guy"'; c.textAlign = 'center'; c.fillStyle = lbl[1]; c.fillText(lbl[0], 64, 62); } });
+      const m = box(g, 1.3, 1.6, 0.06, M('#ffffff', { map: tx }), 0, -0.9, 0.62, { cast: true }); m.rotation.x = -0.25; break; }
+    case 'suitcase': box(g, 1.8, 1.4, 0.7, '#8d5a34', 0, -1.9, 0, { round: 0.15 }); box(g, 0.8, 0.25, 0.2, '#3e2723', 0, -1.15, 0); break;
+    case 'clipboard': box(g, 1.1, 1.5, 0.08, '#8d6e63', 0, -0.8, 0.6); box(g, 0.9, 1.1, 0.1, '#ffffff', 0, -0.95, 0.62, { cast: false }); break;
+    case 'hammer': box(g, 0.18, 1.6, 0.18, '#8d5a34', 0, -1.0, 0.4, { rx: -1.2 }); box(g, 0.9, 0.35, 0.35, '#555', 0, -0.3, 1.3); break;
+    case 'check': {
+      const tx = canvasTex('bigcheck', 512, 220, (c) => { c.fillStyle = '#fff'; c.fillRect(0, 0, 512, 220); c.fillStyle = '#3fbf5f'; c.fillRect(0, 0, 512, 40); c.fillStyle = '#222'; c.font = '30px "Fredoka"'; c.fillText('BANQUE DE LA VILLE', 20, 30); c.font = '86px "Luckiest Guy"'; c.fillStyle = '#1b5e20'; c.textAlign = 'center'; c.fillText('1 000 000 €', 256, 150); c.fillStyle = '#9e9e9e'; c.fillRect(30, 180, 452, 4); });
+      box(g, 7, 3, 0.15, M('#ffffff', { map: tx }), 0, 0.6, 0.5); break; }
     default: return null;
   }
   return g;
@@ -71,6 +86,7 @@ function symbolTex(kind) {
       case 'star': g.fillStyle = '#ffd60a'; g.strokeStyle = '#111'; g.lineWidth = 10; g.beginPath(); for (let i = 0; i < 10; i++) { const r = i % 2 ? 45 : 105, a = -Math.PI / 2 + i * Math.PI / 5; g.lineTo(128 + r * Math.cos(a), 128 + r * Math.sin(a)); } g.closePath(); g.fill(); g.stroke(); break;
       case 'skull': g.fillStyle = '#eee'; g.strokeStyle = '#111'; g.lineWidth = 10; g.beginPath(); g.arc(128, 110, 80, 0, 7); g.fill(); g.stroke(); g.fillRect(88, 170, 80, 50); g.fillStyle = '#111'; g.beginPath(); g.arc(98, 110, 22, 0, 7); g.arc(158, 110, 22, 0, 7); g.fill(); break;
       case 'note': txt('♪', '#af52de', 200); break;
+      default: if (kind.startsWith('txt:')) { const t = kind.slice(4); txt(t, '#ffe14d', Math.min(200, 520 / Math.max(1, t.length))); }
     }
   });
 }
@@ -150,12 +166,13 @@ function addOverlay(camera, kind, z) {
 
 // ----------------------------------------------------------------- setup ---
 function placeActors(spec, info) {
-  const n = spec.actors.length;
+  const n = spec.actors.filter(a => !a.extra).length;
   const st = info.stage;
   const res = [];
   const pairGap = 2.0;
   spec.actors.forEach((a, i) => {
     let x = st.x, z = st.z, ry = 0;
+    if (a.extra) i = 0;
     if (n === 2 && spec.close) { x = st.x + (i === 0 ? -1.35 : 1.35); ry = i === 0 ? 1.25 : -1.25; }
     else if (n === 2) { x = st.x + (i === 0 ? -pairGap : pairGap); ry = i === 0 ? 0.75 : -0.75; }
     else if (n >= 3) { const span = Math.min(3.2, 10 / n); x = st.x + (i - (n - 1) / 2) * span; z = st.z - Math.abs(i - (n - 1) / 2) * 0.8; ry = -(i - (n - 1) / 2) * 0.25; }
@@ -168,6 +185,7 @@ function placeActors(spec, info) {
 
 window.setupShot = async function setupShot(spec, cast) {
   await document.fonts.ready;
+  spec = JSON.parse(JSON.stringify(spec)); cast = JSON.parse(JSON.stringify(cast || {}));
   const r = rng('shot|' + spec.id + '|' + (spec.seed ?? 0));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(48, W / H, 0.1, 2000);
@@ -176,8 +194,25 @@ window.setupShot = async function setupShot(spec, cast) {
   const night = tod === 'night';
   const envFn = ENVIRONMENTS[spec.env] || ENVIRONMENTS.street;
   const world = new THREE.Group(); scene.add(world);
-  const info = envFn(world, rng('env|' + spec.env + '|' + (spec.envSeed ?? 0)), night);
+  const info = envFn(world, rng('env|' + spec.env + '|' + (spec.envSeed ?? 0)), night, spec.envOpts || {});
 
+  // crowds: expand into individual extras with varied looks
+  const S_movers = [];
+  spec.actors = (spec.actors || []).slice();
+  for (const [ci, cr] of (spec.crowd || []).entries()) {
+    const cr_r = rng('crowd|' + spec.id + '|' + ci + '|' + (cr.seed ?? 0));
+    const [x0, z0, x1, z1] = cr.area || [-12, -6, 12, 6];
+    for (let i = 0; i < (cr.n || 10); i++) {
+      const id = `crowd${cr.seed ?? ci}_${i}`;
+      const a = { id, pos: [cr_r.range(x0, x1), cr_r.range(z0, z1)], action: Array.isArray(cr.action) ? cr_r.pick(cr.action) : (cr.action || 'idle'),
+        emotion: Array.isArray(cr.emotion) ? cr_r.pick(cr.emotion) : cr.emotion, facing: (cr.facing ?? 0) + cr_r.range(-(cr.spread ?? 0.5), cr.spread ?? 0.5),
+        noShadow: cr.noShadow, shadowFrom: cr.shadowFrom !== undefined ? cr.shadowFrom + cr_r.range(0, cr.shadowJitter ?? 0) : undefined,
+        prop: cr.props ? cr_r.pick(cr.props) : undefined, dir: cr.dir, speed: cr.speed, symbol: cr.symbols && cr_r() < 0.5 ? cr_r.pick(cr.symbols) : undefined,
+        scale: cr.kids && cr_r() < cr.kids ? 0.72 : undefined, extra: true, shadowOnly: cr.shadowOnly };
+      spec.actors.push(a);
+      if (!cast[id]) cast[id] = { gender: cr_r() < 0.5 ? 'f' : 'm', role: cr.roles ? cr_r.pick(cr.roles) : (cr.old && cr_r() < cr.old ? 'old' : '') };
+    }
+  }
   // actors
   const actors = [];
   const places = placeActors(spec, info);
@@ -199,16 +234,28 @@ window.setupShot = async function setupShot(spec, cast) {
     if ((action === 'sleep' || action === 'lie') && beds.length) {
       const b = beds.shift(); av.root.position.set(b.x, b.y - 0.55, b.z + 1.5); av.root.rotation.y = b.ry;
     }
-    if (a.prop) { const pr = makeProp(a.prop); if (pr) av.hand.add(pr); }
+    if (a.prop) { const pr = makeProp(a.prop); if (pr) { if (a.prop === 'check') { pr.position.set(0, 4.2, 0.3); av.body.add(pr); } else av.hand.add(pr); } }
+    if (a.scale) av.inner.scale.setScalar(a.scale);
+    // shadow tricks: an invisible double performs the FUTURE action and casts the shadow
+    let double = null;
+    if (a.shadow) {
+      double = new Avatar(a.id + '_shadow', app);
+      if (a.scale) double.inner.scale.setScalar(a.scale);
+      const sp = a.shadow.prop; if (sp) { const pr = makeProp(sp); if (pr) { if (sp === 'check') { pr.position.set(0, 4.2, 0.3); double.body.add(pr); } else double.hand.add(pr); } }
+      shadowOnly(double.root); scene.add(double.root);
+      setCast(av.root, false);
+    }
+    if (a.noShadow) setCast(av.root, false);
+    if (a.shadowOnly) shadowOnly(av.root);
     if (action === 'sit_work') {
       const lap = new THREE.Group(); lap.position.set(0, 2.3, 1.9); lap.scale.setScalar(0.8); av.inner.add(lap);
       box(lap, 2.4, 0.15, 1.6, '#cfd8dc', 0, 0, 0); const scr = box(lap, 2.4, 1.6, 0.1, '#263238', 0, 0.1, 0.75, {}); scr.rotation.x = 0.35; scr.position.z = 0.85;
       const glow = box(lap, 2.2, 1.4, 0.05, M('#64b5f6', { emissive: '#64b5f6', ei: 0.9 }), 0, 0.2, 0.83, { cast: false }); glow.rotation.x = 0.35; glow.position.z = 0.79;
     }
     scene.add(av.root);
-    const sym = a.symbol ? makeSprite(a.symbol, 1.7) : null;
+    const sym = a.symbol && !a.shadowOnly ? makeSprite(a.symbol, 1.7) : null;
     if (sym) scene.add(sym);
-    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id) });
+    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, castOn: !(a.noShadow || a.shadow) });
   });
   // pets & extra props in world
   for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; scene.add(pg); actors.push({ pet: pg, phase: r() * 6 }); }
@@ -216,6 +263,20 @@ window.setupShot = async function setupShot(spec, cast) {
     const st = info.stage;
     if (wp.kind === 'car') car(world, st.x + (wp.pos?.[0] ?? 6), st.z + (wp.pos?.[1] ?? -4), wp.facing ?? 0, r, wp.color);
     else if (wp.kind === 'police_car') { const c = car(world, st.x + (wp.pos?.[0] ?? 7), st.z + (wp.pos?.[1] ?? -5), wp.facing ?? 0.3, r, '#ffffff'); box(c, 3, 0.6, 1.2, M('#ff1744', { emissive: '#ff1744', ei: 1.4 }), -0.8, 3.4, -0.6); box(c, 1.4, 0.6, 1.2, M('#2979ff', { emissive: '#2979ff', ei: 1.4 }), 0.8, 3.4, -0.6); }
+    else if (wp.kind === 'bus') {
+      const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? 0)); g.rotation.y = wp.facing ?? 0; world.add(g);
+      const col = wp.color || '#f9c80e';
+      box(g, 6, 6.5, 22, col, 0, 1, 0, { round: 0.4 }); box(g, 6.1, 1.8, 18, M('#1d2b3a', { rough: 0.1 }), 0, 4.6, -1, { cast: false }); box(g, 5.2, 2.6, 0.2, M('#1d2b3a', { rough: 0.1 }), 0, 4, 11.05, { cast: false });
+      for (const [wx, wz] of [[-3, 7], [3, 7], [-3, -7], [3, -7]]) cyl(g, 1.3, 1.3, 0.8, '#111', wx, 1.3, wz, { rz: Math.PI / 2 }).position.y = 1.3;
+      for (let k = 0; k < 5; k++) { const hd = box(g, 1.0, 1.0, 1.0, ['#f5cfa9', '#d6995f', '#eab98f', '#a86b3f'][k % 4], 2.2 * (k % 2 ? 1 : -1), 4.3, -7 + k * 3.2, { round: 0.2, cast: false }); }
+      g.userData.move = wp.move; g.userData.base = g.position.clone(); (S_movers).push(g);
+    }
+    else if (wp.kind === 'shadow_mountain') {
+      const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 2), 0, st.z + (wp.pos?.[1] ?? 0)); world.add(g);
+      const m = new THREE.Mesh(new THREE.ConeGeometry(wp.r || 3.2, wp.h || 5, 6), SHADOW_ONLY); m.position.y = (wp.h || 5) / 2; m.castShadow = true; g.add(m);
+      const m2 = new THREE.Mesh(new THREE.ConeGeometry((wp.r || 3.2) * 0.7, (wp.h || 5) * 0.75, 6), SHADOW_ONLY); m2.position.set(0, (wp.h || 5) * 0.37, -2.5); m2.castShadow = true; g.add(m2);
+    }
+    else if (wp.kind === 'check_board') { const pr = makeProp('check'); pr.scale.setScalar(wp.scale || 1.3); pr.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 5, st.z + (wp.pos?.[1] ?? -2)); pr.rotation.y = wp.facing ?? 0; world.add(pr); }
     else { const pr = makeProp(wp.kind); if (pr) { pr.scale.setScalar(wp.scale || 2); pr.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 3, st.z + (wp.pos?.[1] ?? 2)); scene.add(pr); } }
   }
 
@@ -243,10 +304,10 @@ window.setupShot = async function setupShot(spec, cast) {
     if (o.geometry.boundingSphere.radius * Math.max(sc.x, sc.y, sc.z) > 45 && !info.interior) return;
     occluders.push(o);
   });
-  S = { spec, scene, camera, actors, info, focusActor, fpos, parts, ov, r, dur: spec.duration, camSeed: hash(spec.id), occluders, ray: new THREE.Raycaster() };
+  S = { movers: S_movers, spec, scene, camera, actors, info, focusActor, fpos, parts, ov, r, dur: spec.duration, camSeed: hash(spec.id), occluders, ray: new THREE.Raycaster() };
   // choose one yaw offset for the whole shot that keeps the subject unobstructed
   S.yawFix = 0;
-  const cands = [0, 0.45, -0.45, 0.85, -0.85, 1.25, -1.25];
+  const cands = (spec.camera?.type === 'path' || spec.camera?.noCollide) ? [0] : [0, 0.45, -0.45, 0.85, -0.85, 1.25, -1.25];
   let best = 0, bestHits = 99;
   for (const c of cands) {
     S.yawFix = c; S.probe = true; let hits = 0;
@@ -347,6 +408,13 @@ function camPose(t) {
       pos = A.clone().addScaledVector(dir, lerp(4.8, 4.1, e)).addScaledVector(right, 3.3).setY(6.0);
       look = new THREE.Vector3(B.x, headY - 0.5, B.z); fov = 44; break;
     }
+    case 'path': {
+      const st = info.stage, k = cam.ease === 'linear' ? u : e;
+      const P = (a, b) => new THREE.Vector3(st.x + lerp(a[0], b[0], k), lerp(a[1], b[1], k), st.z + lerp(a[2], b[2], k));
+      pos = P(cam.from, cam.to || cam.from); look = P(cam.lookFrom || cam.look, cam.lookTo || cam.lookFrom || cam.look); fov = lerp(cam.fov ?? 46, cam.fovTo ?? cam.fov ?? 46, k); roll = cam.roll || 0;
+      if (cam.follow && focusActor) { const fp = focusActor.av.root.position; pos.x += fp.x - focusActor.base.x; pos.z += fp.z - focusActor.base.z; look.x += fp.x - focusActor.base.x; look.z += fp.z - focusActor.base.z; }
+      break;
+    }
     case 'pov_down': {
       pos = new THREE.Vector3(f.x, headY + 0.5, f.z + 2.5); look = new THREE.Vector3(f.x, 0.5, f.z - 3); fov = 55; break;
     }
@@ -359,7 +427,7 @@ function camPose(t) {
     const v = new THREE.Vector3().subVectors(pos, look); v.applyAxisAngle(new THREE.Vector3(0, 1, 0), S.yawFix); pos = look.clone().add(v);
   }
   // game-style camera collision: never let walls / furniture hide the subject
-  if (S.occluders.length && !S.noCollide) {
+  if (S.occluders.length && !S.noCollide && type !== 'path' && !cam.noCollide) {
     const dir = new THREE.Vector3().subVectors(pos, look); const dist = dir.length(); dir.normalize();
     S.ray.set(look, dir); S.ray.far = dist; S.ray.near = 0.6;
     let occ = S.occluders;
@@ -387,10 +455,14 @@ function updateActors(t) {
     const av = A.av; av.resetPose();
     const act = ACTIONS[A.action] ? A.action : 'idle';
     ACTIONS[act](av, at, { phase: A.phase, seat: A.seat?.y });
+    if (A.spec.shadowFrom !== undefined || A.spec.shadowUntil !== undefined) {
+      const on = t >= (A.spec.shadowFrom ?? -1) && t < (A.spec.shadowUntil ?? 1e9);
+      if (on !== A.castNow) { setCast(av.root, on); A.castNow = on; }
+    }
     // locomotion
     const mv = A.spec.move;
     if ((act === 'walk' || act === 'run' || act === 'sneak') && mv !== 'none') {
-      const speed = (act === 'run' ? 9 : act === 'walk' ? 3.6 : 2) * (S.info.interior && S.spec.env !== 'hallway' ? 0.35 : 1);
+      const speed = (A.spec.speed ?? 1) * (act === 'run' ? 9 : act === 'walk' ? 3.6 : 2) * (S.info.interior && S.spec.env !== 'hallway' ? 0.35 : 1);
       const dir = A.spec.dir ?? A.ry ?? 0; // heading
       const d = speed * at - speed * S.dur * slow * 0.5;
       av.root.position.set(A.base.x + Math.sin(dir) * d, 0, A.base.z + Math.cos(dir) * d);
@@ -406,6 +478,12 @@ function updateActors(t) {
     if (expr === 'shocked' || expr === 'scream') open = 0.6;
     const blink = ((t + A.phase) % 3.7) < 0.12;
     av.setFace(expr, open, blink);
+    if (A.double) {
+      const d = A.double; d.resetPose(); const sa = ACTIONS[A.spec.shadow.action] ? A.spec.shadow.action : 'idle';
+      ACTIONS[sa](d, at, { phase: A.phase + 1 });
+      const off = A.spec.shadow.offset || [0, 0];
+      d.root.position.set(av.root.position.x + off[0], A.spec.shadow.lift || 0, av.root.position.z + off[1]); d.root.rotation.y = A.spec.shadow.facing ?? (S.spec.env === 'shadow_wall' ? -Math.PI / 2 : av.root.rotation.y);
+    }
     if (A.sym) { av.headWorld(tmp); const pop = easeOutBack(clamp((t - 0.1) / 0.35, 0, 1)); A.sym.position.set(tmp.x + 1.0, tmp.y + 1.5 + Math.sin(t * 4) * 0.12, tmp.z); A.sym.scale.setScalar(1.7 * pop); }
   }
 }
@@ -413,6 +491,9 @@ function updateActors(t) {
 window.renderAt = function renderAt(t) {
   const { spec, camera, scene, parts, ov } = S;
   updateActors(t);
+  const u = clamp(t / Math.max(0.01, S.dur), 0, 1);
+  for (const g of S.movers) if (g.userData.move) { const [dx, dz] = g.userData.move; g.position.set(g.userData.base.x + dx * (u - 0.5), 0, g.userData.base.z + dz * (u - 0.5)); }
+  if (S.info.update) S.info.update(t, u, spec);
   scene.updateMatrixWorld(true);
   // camera
   const p = camPose(t);

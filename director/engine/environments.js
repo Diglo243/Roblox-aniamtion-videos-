@@ -106,10 +106,14 @@ export function setupLighting(scene, tod, interior, info, focus) {
   scene.add(hemi);
   const sun = new THREE.DirectionalLight({ day: '#fff3df', sunset: '#ffae6b', night: '#9fb4ff' }[tod], interior ? (night ? 0.5 : 1.6) : { day: 2.7, sunset: 2.2, night: 0.7 }[tod]);
   const fx = focus?.x || 0, fz = focus?.z || 0;
-  const dir = tod === 'sunset' ? new THREE.Vector3(-60, 25, -40) : new THREE.Vector3(35, 60, 28);
-  sun.position.set(fx + dir.x, dir.y, fz + dir.z); sun.target.position.set(fx, 0, fz);
+  const dir = info.sun ? new THREE.Vector3(...info.sun).normalize().multiplyScalar(80) : (tod === 'sunset' ? new THREE.Vector3(-60, 25, -40) : new THREE.Vector3(35, 60, 28));
+  const sf = info.shadowFocus || [fx, fz];
+  sun.position.set(sf[0] + dir.x, dir.y, sf[1] + dir.z); sun.target.position.set(sf[0], 0, sf[1]);
+  if (info.sunIntensity) sun.intensity = info.sunIntensity;
+  if (info.hemi) hemi.intensity = info.hemi;
   sun.castShadow = true; sun.shadow.mapSize.set(window.SHADOW_SIZE || 2048, window.SHADOW_SIZE || 2048);
-  const sc = sun.shadow.camera; sc.left = -38; sc.right = 38; sc.top = 38; sc.bottom = -38; sc.near = 1; sc.far = 220;
+  const ss = info.shadowSize || 38;
+  const sc = sun.shadow.camera; sc.left = -ss; sc.right = ss; sc.top = ss; sc.bottom = -ss; sc.near = 1; sc.far = 260;
   sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.04; sun.shadow.radius = 3;
   scene.add(sun); scene.add(sun.target);
   if (interior) {
@@ -121,9 +125,11 @@ export function setupLighting(scene, tod, interior, info, focus) {
     for (const p of pts) { const l = new THREE.PointLight('#ffcf7a', 420, 45, 1.7); l.position.set(p[0], p[1] - 0.6, p[2]); scene.add(l); }
   }
   const fogC = interior ? null : { day: '#cfeaff', sunset: '#f6b08a', night: '#18244a' }[tod];
-  if (fogC) scene.fog = new THREE.Fog(fogC, 90, 520);
-  if (!interior) sky(scene, tod);
+  if (fogC) scene.fog = new THREE.Fog(fogC, info.fogNear || 90, info.fogFar || 520);
+  if (info.background) { scene.background = new THREE.Color(info.background); scene.fog = info.fogColor ? new THREE.Fog(info.fogColor, info.fogNear || 30, info.fogFar || 140) : null; }
+  else if (!interior) sky(scene, tod);
   else scene.background = new THREE.Color('#222');
+  if (info.extraLights) for (const l of info.extraLights) { const pl = new THREE.PointLight(l.color, l.intensity, l.dist || 60, 1.5); pl.position.set(...l.pos); scene.add(pl); }
 }
 
 // ------------------------------------------------------------ EXTERIORS ----
@@ -460,4 +466,4 @@ export const ENVIRONMENTS = {
   street, city, house_ext: houseExt, school_ext: schoolExt, park, forest, beach,
   living_room: livingRoom, bedroom, kitchen, classroom, hallway, store, hospital,
 };
-export { car, tree };
+export { car, tree, bush, lamp, windowMat, ground };

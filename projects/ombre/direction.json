@@ -1,0 +1,3003 @@
+{
+ "cast": {
+  "hero": {
+   "name": "Moi",
+   "gender": "m",
+   "role": "",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#18b5a5",
+    "trim": "#ff7a1a",
+    "shirtDesign": "trim",
+    "sleeves": "long",
+    "pants": "#2b4a8b",
+    "shoes": "#f4f4f4",
+    "hair": {
+     "style": "curly",
+     "color": "#e2b64a"
+    },
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "voisin": {
+   "name": "Voisin",
+   "gender": "m",
+   "role": "",
+   "appearance": {
+    "gender": "m",
+    "skin": "#eab98f",
+    "shirt": "#d32f2f",
+    "shirtDesign": "jacket",
+    "sleeves": "short",
+    "pants": "#c8b27a",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "cap_green",
+     "color": "#4a2c17"
+    },
+    "hatColor": "#2e9e4f",
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "ami": {
+   "name": "Ami",
+   "gender": "m",
+   "role": "",
+   "appearance": {
+    "gender": "m",
+    "skin": "#8a5a3b",
+    "shirt": "#e53935",
+    "shirtDesign": "hoodie",
+    "sleeves": "long",
+    "pants": "#4e4e4e",
+    "shoes": "#ffffff",
+    "hair": {
+     "style": "short",
+     "color": "#1b1b1b"
+    },
+    "accessory": "glasses",
+    "scale": 1
+   }
+  },
+  "femme": {
+   "name": "Femme",
+   "gender": "f",
+   "role": "",
+   "appearance": {
+    "gender": "f",
+    "skin": "#f5cfa9",
+    "shirt": "#f7d23e",
+    "dress": true,
+    "shirtDesign": "dress",
+    "sleeves": "short",
+    "pants": "#f7d23e",
+    "shoes": "#e76f51",
+    "hair": {
+     "style": "sunhat",
+     "color": "#7a4a20"
+    },
+    "hatColor": "#e9c46a",
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "affaires": {
+   "name": "Homme d'affaires",
+   "gender": "m",
+   "role": "rich"
+  },
+  "policier": {
+   "name": "Policier",
+   "gender": "m",
+   "role": "police"
+  },
+  "scientifique1": {
+   "name": "Scientifique",
+   "gender": "f",
+   "role": "doctor"
+  },
+  "scientifique2": {
+   "name": "Scientifique",
+   "gender": "m",
+   "role": "doctor"
+  },
+  "maire": {
+   "name": "Maire",
+   "gender": "m",
+   "role": "",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f5cfa9",
+    "shirt": "#7b3fb8",
+    "shirtDesign": "suit",
+    "sleeves": "long",
+    "pants": "#4a2a7a",
+    "shoes": "#222222",
+    "hair": {
+     "style": "side",
+     "color": "#e8e8e8"
+    },
+    "accessory": "glasses",
+    "scale": 1
+   }
+  },
+  "maman": {
+   "name": "Maman",
+   "gender": "f",
+   "role": "mother"
+  },
+  "papa": {
+   "name": "Papa",
+   "gender": "m",
+   "role": "father"
+  },
+  "enfant": {
+   "name": "Enfant",
+   "gender": "f",
+   "role": "child"
+  }
+ },
+ "defaults": {
+  "time": "day"
+ },
+ "sentences": [
+  [
+   {
+    "env": "town_plaza",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      30,
+      40
+     ],
+     "to": [
+      0,
+      20,
+      32
+     ],
+     "look": [
+      0,
+      6,
+      -36
+     ],
+     "fov": 55
+    },
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -22,
+       -26,
+       22,
+       14
+      ],
+      "action": [
+       "walk",
+       "idle",
+       "talk"
+      ],
+      "facing": 0,
+      "spread": 3.1
+     }
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.6,
+      "shadow": {
+       "action": "wave"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      11,
+      4.5,
+      15
+     ],
+     "to": [
+      10,
+      4.5,
+      13
+     ],
+     "look": [
+      -6,
+      5.5,
+      -5
+     ],
+     "fov": 50
+    },
+    "cut": "ton",
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.6,
+      "shadow": {
+       "action": "dance"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    }
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.5,
+      "shadow": {
+       "action": "jump"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      1.2,
+      9
+     ],
+     "to": [
+      5.5,
+      1.4,
+      8
+     ],
+     "look": [
+      -7,
+      7,
+      -4
+     ],
+     "fov": 54
+    },
+    "cut": "c'est"
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "jump",
+      "facing": -0.5,
+      "symbol": "txt:24H"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      12,
+      6,
+      12
+     ],
+     "to": [
+      11,
+      5.5,
+      11
+     ],
+     "look": [
+      -6,
+      5,
+      -6
+     ],
+     "fov": 50
+    },
+    "cut": "24",
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "think",
+      "pos": [
+       3,
+       6
+      ],
+      "facing": 0.3,
+      "symbol": "idea"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      10,
+      6,
+      24
+     ],
+     "to": [
+      4,
+      6,
+      24
+     ],
+     "look": [
+      0,
+      4,
+      -4
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -18,
+       -20,
+       18,
+       4
+      ],
+      "action": [
+       "look_down",
+       "think",
+       "point",
+       "celebrate"
+      ],
+      "facing": 0,
+      "spread": 2.5
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "walk",
+      "facing": 3.14,
+      "dir": 3.14,
+      "speed": 0.5
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      11,
+      4.5,
+      15
+     ],
+     "to": [
+      10,
+      4.5,
+      13
+     ],
+     "look": [
+      -6,
+      5.5,
+      -5
+     ],
+     "fov": 50
+    }
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "shocked",
+      "facing": -0.5,
+      "symbol": "!",
+      "shadow": {
+       "action": "celebrate",
+       "prop": "check"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    },
+    "cut": "son",
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 0.3,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "give",
+      "pos": [
+       5,
+       -10
+      ],
+      "facing": 1.2,
+      "prop": "ticket"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      17,
+      5,
+      2
+     ],
+     "to": [
+      16,
+      5,
+      0
+     ],
+     "look": [
+      6,
+      5,
+      -12
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "kiosk": {
+      "pos": [
+       10,
+       -6
+      ],
+      "ry": -0.4
+     }
+    },
+    "sfx": [
+     {
+      "name": "cash",
+      "at": 1.0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "celebrate",
+      "pos": [
+       -5,
+       -36
+      ],
+      "prop": "check"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -5,
+      3,
+      -16
+     ],
+     "to": [
+      -5,
+      3.5,
+      -20
+     ],
+     "look": [
+      -5,
+      8,
+      -40
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -15,
+       -42,
+       5,
+       -39
+      ],
+      "action": [
+       "celebrate",
+       "jump",
+       "wave"
+      ],
+      "facing": 0,
+      "spread": 0.8
+     }
+    ],
+    "fx": [
+     "confetti"
+    ],
+    "sfx": [
+     {
+      "name": "cheer",
+      "at": 0,
+      "gain": -27
+     },
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "school_new",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "walk",
+      "dir": 0,
+      "speed": 0.6
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      34
+     ],
+     "to": [
+      0,
+      5,
+      28
+     ],
+     "look": [
+      0,
+      8,
+      -4
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 6,
+      "area": [
+       -20,
+       -2,
+       20,
+       8
+      ],
+      "action": "walk",
+      "dir": 0
+     }
+    ]
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "idle",
+      "facing": -0.6,
+      "shadow": {
+       "action": "cry",
+       "prop": "paper_f"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    },
+    "cut": "son",
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0.2,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "bedroom",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "sit_work"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 30
+    },
+    "time": "night"
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "idle",
+      "facing": -0.6,
+      "emotion": "happy",
+      "shadow": {
+       "action": "celebrate",
+       "prop": "paper_a"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    },
+    "cut": "finalement",
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.1,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "school_new",
+    "actors": [
+     {
+      "id": "ami",
+      "action": "celebrate",
+      "prop": "paper_a"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -15
+    },
+    "crowd": [
+     {
+      "n": 5,
+      "area": [
+       -10,
+       -4,
+       10,
+       2
+      ],
+      "action": [
+       "wave",
+       "celebrate"
+      ],
+      "facing": 0
+     }
+    ],
+    "fx": [
+     "sparkles"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -1.0,
+      "shadow": {
+       "action": "think"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      5,
+      7
+     ],
+     "to": [
+      3.2,
+      5,
+      6
+     ],
+     "look": [
+      -8,
+      5.5,
+      -2.5
+     ],
+     "fov": 48
+    }
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "point",
+      "facing": -1.3,
+      "emotion": "happy",
+      "shadow": {
+       "action": "celebrate"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      1.2,
+      9
+     ],
+     "to": [
+      5.5,
+      1.4,
+      8
+     ],
+     "look": [
+      -7,
+      7,
+      -4
+     ],
+     "fov": 54
+    },
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.1,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      30,
+      8,
+      40
+     ],
+     "to": [
+      24,
+      8,
+      34
+     ],
+     "look": [
+      0,
+      6,
+      -20
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -20,
+       -20,
+       20,
+       10
+      ],
+      "action": "walk",
+      "facing": 0,
+      "spread": 3
+     }
+    ]
+   },
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "look_around",
+      "symbol": "?"
+     }
+    ],
+    "camera": {
+     "type": "dutch",
+     "dir": 1
+    },
+    "cut": "quelque",
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "walk",
+      "dir": 0,
+      "prop": "bag"
+     }
+    ],
+    "camera": {
+     "type": "follow",
+     "side": 0.7
+    }
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "femme",
+      "action": "idle",
+      "facing": 0.4,
+      "noShadow": true
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      11,
+      4.5,
+      15
+     ],
+     "to": [
+      10,
+      4.5,
+      13
+     ],
+     "look": [
+      -6,
+      5.5,
+      -5
+     ],
+     "fov": 50
+    },
+    "cut": "une"
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "femme",
+      "action": "idle",
+      "facing": 0.4,
+      "noShadow": true
+     },
+     {
+      "id": "hero",
+      "action": "shocked",
+      "pos": [
+       -0.5,
+       -8
+      ],
+      "facing": 2.4,
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      11,
+      4.5,
+      15
+     ],
+     "to": [
+      10,
+      4.5,
+      13
+     ],
+     "look": [
+      -6,
+      5.5,
+      -5
+     ],
+     "fov": 50
+    },
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [
+     {
+      "id": "affaires",
+      "action": "walk",
+      "pos": [
+       9.5,
+       0
+      ],
+      "dir": 0,
+      "speed": 0.5,
+      "noShadow": true
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      1.5,
+      14
+     ],
+     "to": [
+      5,
+      1.5,
+      12
+     ],
+     "look": [
+      9,
+      4,
+      0
+     ],
+     "fov": 50,
+     "follow": true
+    }
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "policier",
+      "action": "look_around",
+      "pos": [
+       4,
+       0
+      ],
+      "noShadow": true
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": -20
+    },
+    "worldProps": [
+     {
+      "kind": "police_car",
+      "pos": [
+       -4,
+       -6
+      ],
+      "facing": 0.6
+     }
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "look_around",
+      "pos": [
+       0,
+       0
+      ]
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      40,
+      30
+     ],
+     "to": [
+      0,
+      34,
+      26
+     ],
+     "look": [
+      0,
+      0,
+      -6
+     ],
+     "fov": 55
+    },
+    "crowd": [
+     {
+      "n": 26,
+      "area": [
+       -22,
+       -24,
+       22,
+       14
+      ],
+      "action": [
+       "idle",
+       "walk",
+       "look_around",
+       "talk"
+      ],
+      "facing": 0,
+      "spread": 3.1,
+      "noShadow": true
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [],
+    "camera": {
+     "type": "wide",
+     "angle": 10
+    },
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -8,
+       -6,
+       8,
+       4
+      ],
+      "action": [
+       "think",
+       "look_around",
+       "scared"
+      ],
+      "facing": 0,
+      "spread": 0.7,
+      "noShadow": true,
+      "symbols": [
+       "?"
+      ]
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "scientifique1",
+      "action": "think",
+      "prop": "clipboard"
+     },
+     {
+      "id": "scientifique2",
+      "action": "look_down",
+      "prop": "clipboard"
+     },
+     {
+      "id": "femme",
+      "action": "idle",
+      "noShadow": true
+     }
+    ],
+    "camera": {
+     "type": "orbit",
+     "dir": 1
+    }
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.6,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      12,
+      6,
+      12
+     ],
+     "to": [
+      11,
+      5.5,
+      11
+     ],
+     "look": [
+      -6,
+      5,
+      -6
+     ],
+     "fov": 50
+    }
+   },
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "look_down",
+      "facing": -1.0
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      5,
+      7
+     ],
+     "to": [
+      3.2,
+      5,
+      6
+     ],
+     "look": [
+      -8,
+      5.5,
+      -2.5
+     ],
+     "fov": 48
+    },
+    "cut": "était"
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.6,
+      "shadow": {
+       "action": "scared",
+       "lift": 4.5
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    },
+    "worldProps": [
+     {
+      "kind": "shadow_mountain",
+      "pos": [
+       0,
+       0
+      ],
+      "r": 4.5,
+      "h": 5
+     }
+    ],
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -30
+     }
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "scared",
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      14,
+      18
+     ],
+     "to": [
+      3,
+      13,
+      16
+     ],
+     "look": [
+      0,
+      -70,
+      -158
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "town": true
+    },
+    "cut": "à"
+   },
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "scared",
+      "facing": 0.3
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 10
+    },
+    "cut": "regarder",
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "bedroom",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "think",
+      "prop": "bag",
+      "symbol": "txt:DEMAIN"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": -20
+    }
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "run",
+      "dir": 0
+     }
+    ],
+    "camera": {
+     "type": "follow",
+     "side": 0.6
+    },
+    "fx": [
+     "speed"
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0.1,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "walk",
+      "dir": 3.14,
+      "speed": 0.4
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      5,
+      22
+     ],
+     "to": [
+      3,
+      6,
+      18
+     ],
+     "look": [
+      0,
+      2,
+      -20
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true
+    }
+   },
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "shocked",
+      "facing": 3.14,
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      14,
+      12
+     ],
+     "to": [
+      5,
+      13,
+      10
+     ],
+     "look": [
+      0,
+      0,
+      -18
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "town": true,
+     "cracksNear": true
+    },
+    "cut": "j'ai",
+    "sfx": [
+     {
+      "name": "crack",
+      "at": 0.2,
+      "gain": -24
+     }
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "scared",
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      20,
+      26
+     ],
+     "to": [
+      5,
+      19,
+      22
+     ],
+     "look": [
+      0,
+      -70,
+      -158
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "town": true,
+     "cracks": true
+    },
+    "cut": "tout",
+    "sfx": [
+     {
+      "name": "rumble",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cave_entrance",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "walk",
+      "dir": 3.14,
+      "speed": 0.6
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      5,
+      28
+     ],
+     "to": [
+      2,
+      5,
+      22
+     ],
+     "look": [
+      0,
+      7,
+      -6
+     ],
+     "fov": 55
+    }
+   }
+  ],
+  [
+   {
+    "env": "cave",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "scared",
+      "facing": 0
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 0
+    },
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cave",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": 3.14,
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      3,
+      14
+     ],
+     "to": [
+      0,
+      6,
+      18
+     ],
+     "look": [
+      0,
+      22,
+      -90
+     ],
+     "fov": 62
+    },
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cross_section",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      -22,
+      160
+     ],
+     "to": [
+      0,
+      -22,
+      138
+     ],
+     "look": [
+      0,
+      -26,
+      0
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "crack": 0.2
+    }
+   },
+   {
+    "env": "cross_section",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      20,
+      -8,
+      80
+     ],
+     "to": [
+      16,
+      -8,
+      70
+     ],
+     "look": [
+      0,
+      -10,
+      0
+     ],
+     "fov": 48
+    },
+    "envOpts": {
+     "crack": 0.6,
+     "quake": true
+    },
+    "cut": "qui",
+    "sfx": [
+     {
+      "name": "crack",
+      "at": 0.3,
+      "gain": -25
+     },
+     {
+      "name": "rumble",
+      "at": 0,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cave",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "shocked",
+      "facing": 0,
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "crash_zoom"
+    },
+    "fx": [
+     "flash",
+     "punch"
+    ],
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cross_section",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      -22,
+      160
+     ],
+     "to": [
+      0,
+      -22,
+      138
+     ],
+     "look": [
+      0,
+      -26,
+      0
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "crack": 1,
+     "quake": true,
+     "sink": {
+      "start": 0.35,
+      "end": 1.0
+     }
+    },
+    "fx": [
+     "shake"
+    ],
+    "sfx": [
+     {
+      "name": "rumble",
+      "at": 0,
+      "gain": -24
+     },
+     {
+      "name": "boom",
+      "at": 0.9,
+      "gain": -25
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      12,
+      30
+     ],
+     "to": [
+      0,
+      10,
+      24
+     ],
+     "look": [
+      0,
+      2,
+      -10
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "dark"
+    ],
+    "crowd": [
+     {
+      "n": 18,
+      "area": [
+       -16,
+       -18,
+       16,
+       8
+      ],
+      "action": [
+       "idle",
+       "sad",
+       "look_around"
+      ],
+      "facing": 0,
+      "spread": 1.5,
+      "noShadow": true
+     }
+    ],
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0.3,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "run",
+      "dir": 0
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 15
+    },
+    "fx": [
+     "speed"
+    ],
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0,
+      "gain": -25
+     }
+    ]
+   },
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "give",
+      "pos": [
+       -2,
+       -36
+      ],
+      "facing": 0.9,
+      "prop": "photo"
+     },
+     {
+      "id": "maire",
+      "action": "shocked",
+      "pos": [
+       2,
+       -36
+      ],
+      "facing": -0.9
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      4.5,
+      -21
+     ],
+     "to": [
+      2,
+      4.5,
+      -23
+     ],
+     "look": [
+      0,
+      4.5,
+      -36
+     ],
+     "fov": 46
+    },
+    "cut": "j'ai",
+    "sfx": [
+     {
+      "name": "shutter",
+      "at": 0.4,
+      "gain": -24
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "maire",
+      "action": "point",
+      "pos": [
+       0,
+       -36
+      ],
+      "symbol": "!"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      1.5,
+      -27
+     ],
+     "to": [
+      2,
+      1.7,
+      -28
+     ],
+     "look": [
+      0,
+      6,
+      -36
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "red"
+    ],
+    "sfx": [
+     {
+      "name": "alarm",
+      "at": 0,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [
+     {
+      "id": "papa",
+      "action": "carry",
+      "pos": [
+       -10,
+       0
+      ],
+      "dir": 0,
+      "speed": 0.3,
+      "prop": "suitcase"
+     },
+     {
+      "id": "maman",
+      "action": "walk",
+      "pos": [
+       -12,
+       -2
+      ],
+      "dir": 0,
+      "speed": 0.3,
+      "prop": "suitcase"
+     },
+     {
+      "id": "enfant",
+      "action": "walk",
+      "pos": [
+       -11,
+       2
+      ],
+      "dir": 0,
+      "speed": 0.3,
+      "prop": "bag",
+      "scale": 0.72
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -2,
+      5,
+      12
+     ],
+     "to": [
+      -3,
+      5,
+      10
+     ],
+     "look": [
+      -11,
+      3,
+      0
+     ],
+     "fov": 50,
+     "follow": true,
+     "focus": 0
+    }
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      8,
+      40
+     ],
+     "to": [
+      4,
+      8,
+      34
+     ],
+     "look": [
+      0,
+      3,
+      -20
+     ],
+     "fov": 50
+    },
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -7,
+       -14,
+       7,
+       18
+      ],
+      "action": "walk",
+      "dir": 3.14,
+      "speed": 0.6,
+      "kids": 0.5,
+      "old": 0.5
+     }
+    ],
+    "worldProps": [
+     {
+      "kind": "bus",
+      "pos": [
+       -4,
+       -10
+      ],
+      "facing": 3.14,
+      "move": [
+       0,
+       -40
+      ]
+     }
+    ],
+    "sfx": [
+     {
+      "name": "engine",
+      "at": 0,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      22,
+      40
+     ],
+     "to": [
+      0,
+      20,
+      34
+     ],
+     "look": [
+      0,
+      0,
+      -40
+     ],
+     "fov": 55
+    },
+    "crowd": [
+     {
+      "n": 34,
+      "area": [
+       -8,
+       -60,
+       8,
+       20
+      ],
+      "action": "walk",
+      "dir": 3.14,
+      "speed": 0.7,
+      "props": [
+       "suitcase",
+       "bag",
+       null
+      ]
+     }
+    ],
+    "worldProps": [
+     {
+      "kind": "bus",
+      "pos": [
+       -4,
+       -30
+      ],
+      "facing": 3.14,
+      "move": [
+       0,
+       -30
+      ]
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4,
+      34
+     ],
+     "to": [
+      0,
+      4,
+      30
+     ],
+     "look": [
+      0,
+      3,
+      0
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true
+    },
+    "crowd": [
+     {
+      "n": 14,
+      "area": [
+       -10,
+       -4,
+       10,
+       12
+      ],
+      "action": "walk",
+      "dir": 0,
+      "speed": 0.5,
+      "props": [
+       "suitcase",
+       "bag",
+       null
+      ],
+      "noShadow": true
+     }
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      8,
+      2.5,
+      14
+     ],
+     "to": [
+      7,
+      3,
+      12
+     ],
+     "look": [
+      -4,
+      1,
+      -2
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true
+    },
+    "cut": "leurs",
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -8,
+       -6,
+       8,
+       6
+      ],
+      "action": [
+       "idle",
+       "look_down",
+       "celebrate"
+      ],
+      "facing": 0,
+      "spread": 0.6,
+      "shadowFrom": 0.3,
+      "shadowJitter": 2.0
+     }
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.3,
+      "gain": -26
+     },
+     {
+      "name": "sparkle",
+      "at": 1.4,
+      "gain": -28
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "pos": [
+       0,
+       0
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      6,
+      22
+     ],
+     "to": [
+      3,
+      7,
+      20
+     ],
+     "look": [
+      0,
+      0,
+      -40
+     ],
+     "fov": 52
+    },
+    "time": "sunset",
+    "envOpts": {
+     "town": true
+    },
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -14,
+       -6,
+       14,
+       8
+      ],
+      "action": [
+       "idle",
+       "hug",
+       "wave"
+      ],
+      "facing": 3.14,
+      "spread": 0.5
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      18,
+      24
+     ],
+     "to": [
+      0,
+      18,
+      22
+     ],
+     "look": [
+      0,
+      -75,
+      -158
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true
+    },
+    "crowd": [
+     {
+      "n": 14,
+      "area": [
+       -12,
+       -4,
+       12,
+       6
+      ],
+      "action": "idle",
+      "facing": 3.14,
+      "spread": 0.3
+     }
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      10,
+      6,
+      -40
+     ],
+     "to": [
+      8,
+      4,
+      -50
+     ],
+     "look": [
+      0,
+      -75,
+      -158
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true,
+     "sink": {
+      "start": 0.0,
+      "end": 1.0
+     }
+    },
+    "cut": "notre",
+    "fx": [
+     "shake"
+    ],
+    "sfx": [
+     {
+      "name": "rumble",
+      "at": 0,
+      "gain": -23
+     },
+     {
+      "name": "boom",
+      "at": 0.6,
+      "gain": -24
+     },
+     {
+      "name": "crack",
+      "at": 1.2,
+      "gain": -26
+     }
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "shocked",
+      "facing": 0.2
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": -10
+    },
+    "envOpts": {
+     "town": true
+    },
+    "cut": "disparaître",
+    "crowd": [
+     {
+      "n": 4,
+      "area": [
+       -6,
+       -4,
+       6,
+       -1
+      ],
+      "action": "shocked",
+      "facing": 0
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      14,
+      8,
+      -36
+     ],
+     "to": [
+      12,
+      7,
+      -44
+     ],
+     "look": [
+      0,
+      -75,
+      -158
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "town": true,
+     "sink": {
+      "from": 0.6,
+      "to": 0.95
+     }
+    },
+    "fx": [
+     "dark"
+    ]
+   },
+   {
+    "env": "hills",
+    "actors": [],
+    "camera": {
+     "type": "high"
+    },
+    "envOpts": {
+     "town": true
+    },
+    "cut": "tout",
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -8,
+       -4,
+       8,
+       6
+      ],
+      "action": [
+       "sad",
+       "cry"
+      ],
+      "facing": 0,
+      "spread": 0.6
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hills",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "hug",
+      "pos": [
+       -1.3,
+       0
+      ],
+      "facing": 1.25,
+      "emotion": "happy"
+     },
+     {
+      "id": "ami",
+      "action": "hug",
+      "pos": [
+       1.3,
+       0
+      ],
+      "facing": -1.25,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "two_shot",
+     "angle": 0
+    },
+    "envOpts": {
+     "town": true
+    },
+    "close": true,
+    "fx": [
+     "hearts"
+    ],
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -10,
+       -8,
+       10,
+       -3
+      ],
+      "action": [
+       "hug",
+       "idle",
+       "wave"
+      ],
+      "facing": 0
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "construction",
+    "actors": [],
+    "camera": {
+     "type": "establish"
+    },
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -30,
+       -14,
+       30,
+       8
+      ],
+      "action": [
+       "build",
+       "carry",
+       "walk"
+      ],
+      "props": [
+       "hammer",
+       null
+      ]
+     }
+    ]
+   },
+   {
+    "env": "construction",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "build",
+      "prop": "hammer"
+     }
+    ],
+    "camera": {
+     "type": "medium",
+     "angle": 25
+    },
+    "cut": "main",
+    "crowd": [
+     {
+      "n": 5,
+      "area": [
+       -8,
+       -6,
+       8,
+       0
+      ],
+      "action": [
+       "build",
+       "carry"
+      ],
+      "props": [
+       "hammer"
+      ]
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.2,
+      "gain": -28
+     },
+     {
+      "name": "pop",
+      "at": 0.7,
+      "gain": -28
+     },
+     {
+      "name": "pop",
+      "at": 1.2,
+      "gain": -28
+     }
+    ]
+   },
+   {
+    "env": "construction",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      30,
+      10,
+      30
+     ],
+     "to": [
+      18,
+      14,
+      34
+     ],
+     "look": [
+      0,
+      10,
+      -20
+     ],
+     "fov": 55
+    },
+    "cut": "construire",
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -24,
+       -10,
+       24,
+       8
+      ],
+      "action": [
+       "build",
+       "carry"
+      ]
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_street",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      6,
+      30
+     ],
+     "to": [
+      0,
+      7,
+      20
+     ],
+     "look": [
+      0,
+      8,
+      -60
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 8,
+      "area": [
+       -6,
+       -40,
+       6,
+       10
+      ],
+      "action": "walk",
+      "dir": 0
+     }
+    ]
+   },
+   {
+    "env": "town_street",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      -4,
+      4,
+      6
+     ],
+     "to": [
+      -2,
+      4.5,
+      2
+     ],
+     "look": [
+      14,
+      7,
+      -14
+     ],
+     "fov": 52
+    },
+    "cut": "magasins",
+    "crowd": [
+     {
+      "n": 5,
+      "area": [
+       8,
+       -14,
+       13,
+       4
+      ],
+      "action": [
+       "walk",
+       "idle"
+      ],
+      "facing": -1.5
+     }
+    ]
+   },
+   {
+    "env": "school_new",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      2,
+      40
+     ],
+     "to": [
+      0,
+      4,
+      34
+     ],
+     "look": [
+      0,
+      22,
+      -10
+     ],
+     "fov": 58
+    },
+    "envOpts": {
+     "big": true
+    },
+    "cut": "même",
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0,
+      "gain": -26
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "look_down",
+      "facing": -0.7
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7,
+      4,
+      9
+     ],
+     "to": [
+      6,
+      4,
+      7.5
+     ],
+     "look": [
+      -7,
+      6,
+      -3.5
+     ],
+     "fov": 50
+    }
+   }
+  ],
+  [
+   {
+    "env": "shadow_wall",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "facing": -0.7,
+      "emotion": "happy",
+      "shadow": {
+       "action": "celebrate"
+      }
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      12,
+      6,
+      12
+     ],
+     "to": [
+      11,
+      5.5,
+      11
+     ],
+     "look": [
+      -6,
+      5,
+      -6
+     ],
+     "fov": 50
+    },
+    "crowd": [
+     {
+      "n": 6,
+      "area": [
+       -2,
+       -9,
+       3,
+       3
+      ],
+      "action": [
+       "celebrate",
+       "jump",
+       "dance"
+      ],
+      "facing": -1.57,
+      "spread": 0.1,
+      "shadowOnly": true
+     }
+    ],
+    "sfx": [
+     {
+      "name": "cheer",
+      "at": 0.2,
+      "gain": -29
+     }
+    ]
+   },
+   {
+    "env": "school_new",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "celebrate"
+     }
+    ],
+    "camera": {
+     "type": "low",
+     "angle": 12
+    },
+    "envOpts": {
+     "big": true,
+     "ribbon": true
+    },
+    "cut": "l'ouverture",
+    "fx": [
+     "confetti"
+    ],
+    "crowd": [
+     {
+      "n": 14,
+      "area": [
+       -16,
+       -2,
+       16,
+       10
+      ],
+      "action": [
+       "celebrate",
+       "jump",
+       "wave",
+       "dance"
+      ],
+      "facing": 0,
+      "spread": 0.8
+     }
+    ],
+    "sfx": [
+     {
+      "name": "cheer",
+      "at": 0,
+      "gain": -25
+     },
+     {
+      "name": "sparkle",
+      "at": 0.3,
+      "gain": -27
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "idle",
+      "emotion": "happy",
+      "pos": [
+       0,
+       2
+      ]
+     }
+    ],
+    "camera": {
+     "type": "closeup",
+     "angle": 15
+    },
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -14,
+       -16,
+       14,
+       -4
+      ],
+      "action": [
+       "walk",
+       "idle",
+       "talk"
+      ],
+      "facing": 0,
+      "spread": 2
+     }
+    ]
+   },
+   {
+    "env": "town_plaza",
+    "actors": [
+     {
+      "id": "hero",
+      "action": "wave",
+      "pos": [
+       0,
+       2
+      ],
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4,
+      16
+     ],
+     "to": [
+      0,
+      30,
+      50
+     ],
+     "look": [
+      0,
+      5,
+      0
+     ],
+     "fov": 52,
+     "lookTo": [
+      0,
+      14,
+      -40
+     ]
+    },
+    "cut": "savoir",
+    "time": "sunset",
+    "crowd": [
+     {
+      "n": 14,
+      "area": [
+       -20,
+       -24,
+       20,
+       10
+      ],
+      "action": [
+       "walk",
+       "idle",
+       "wave"
+      ],
+      "facing": 0,
+      "spread": 3
+     }
+    ],
+    "fadeOut": 0.6,
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.5,
+      "gain": -28
+     }
+    ]
+   }
+  ]
+ ]
+}

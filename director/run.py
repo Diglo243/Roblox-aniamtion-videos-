@@ -92,6 +92,14 @@ def main():
         jdump(timing, timing_p)
         log(f"    duration={timing['duration']:.2f}s words={len(timing['words'])} pauses={len(timing['pauses'])} method={timing['method']}")
     prof = json.load(open(prof_p))
+    style_p = os.path.join(proj, "style.json")  # director's manual corrections of the measured style
+    if os.path.exists(style_p):
+        st = json.load(open(style_p))
+        for k, v in st.items():
+            if isinstance(v, dict) and isinstance(prof.get(k), dict):
+                prof[k].update(v)
+            else:
+                prof[k] = v
     timing = json.load(open(timing_p))
 
     # ---------------------------------------------------------- storyboard
@@ -99,7 +107,14 @@ def main():
         log("3/5 building storyboard (scene breakdown, cast, camera plan)")
         cast_p = os.path.join(proj, "cast.json")
         cast_override = json.load(open(cast_p)) if os.path.exists(cast_p) else None
-        sb = sbmod.build_storyboard(script, timing, prof, cast_override)
+        dir_p = os.path.join(proj, "direction.json")
+        if os.path.exists(dir_p):
+            log("    using hand-directed shot list:", dir_p)
+            sb = sbmod.build_from_direction(json.load(open(dir_p, encoding="utf-8")), timing, prof)
+            if cast_override:
+                sb["cast"].update(cast_override)
+        else:
+            sb = sbmod.build_storyboard(script, timing, prof, cast_override)
         jdump(sb, sb_p)
         if not os.path.exists(cast_p):
             jdump(sb["cast"], cast_p)  # editable: names, gender, role, optional "appearance"
@@ -133,12 +148,22 @@ def main():
                 f.write(f"file '{seg}'\n")
         raw = os.path.join(work, "video_raw.mp4")
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", raw], check=True)
+        audio_in = audio_p
+        amix = None
+        if sb.get("sfx"):
+            import sfx as sfxmod
+            bed = os.path.join(work, "sfx_bed.wav")
+            sfxmod.render_bed(sb["sfx"], timing["duration"], bed, prof.get("sfx_gain_db", -24.0))
+            amix = bed
+            log(f"    {len(sb['sfx'])} sound effects mixed at low level ({prof.get('sfx_gain_db', -24.0)} dB)")
         g = prof.get("grade", {})
         vf = (f"eq=saturation={g.get('saturation', 1.12)}:contrast={g.get('contrast', 1.04)}:brightness={g.get('brightness', 0.0)},"
               f"vignette=angle=0.55,ass=captions.ass:fontsdir={os.path.join(ROOT, 'assets', 'fonts')},format=yuv420p")
         dur = timing["duration"]
-        cmd = ["ffmpeg", "-y", "-v", "error", "-i", raw, "-i", audio_p, "-filter_complex", f"[0:v]{vf}[v]",
-               "-map", "[v]", "-map", "1:a:0", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-profile:v", "high", "-level", "4.2",
+        inputs = ["-i", raw, "-i", audio_in] + (["-i", amix] if amix else [])
+        afc = ";[1:a]aresample=48000,aformat=channel_layouts=stereo[vo];[2:a]aresample=48000[fx];[vo][fx]amix=inputs=2:duration=first:normalize=0[a]" if amix else ""
+        cmd = ["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex", f"[0:v]{vf}[v]{afc}",
+               "-map", "[v]", "-map", "[a]" if amix else "1:a:0", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-profile:v", "high", "-level", "4.2",
                "-r", "30", "-g", "60", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                "-movflags", "+faststart", "-t", f"{dur:.3f}", final_p]
         subprocess.run(cmd, check=True, cwd=work)

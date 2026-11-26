@@ -42,12 +42,16 @@ def clean(txt, upper=True):
 def build_ass(words, profile, duration, W=1080, H=1920):
     cap = profile.get("caption", {})
     n = int(cap.get("words", 2))
-    y = min(0.72, max(0.30, float(cap.get("y", 0.60))))
-    size = int(round(min(160, max(80, float(cap.get("height", 0.034)) * H / 0.54))))  # Luckiest Guy cap-height ~0.54 em
+    y = min(0.78, max(0.30, float(cap.get("y", 0.60))))
+    size = int(cap["size"]) if cap.get("size") else int(round(min(160, max(80, float(cap.get("height", 0.034)) * H / 0.54))))  # Luckiest Guy cap-height ~0.54 em
     outline = int(cap.get("outline", 9))
     color = _hex_to_ass(cap.get("color", "#FFE500"))
     pop = cap.get("pop", True)
     upper = cap.get("uppercase", True)
+    mode = cap.get("mode", "group")
+    font = cap.get("font", "Luckiest Guy")
+    if mode == "word":
+        n = 1
     groups = group_words(words, n_words=n, max_chars=14 if n <= 2 else 20)
     head = f"""[Script Info]
 ScriptType: v4.00+
@@ -58,13 +62,15 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Luckiest Guy,{size},{color},&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,1,0,1,{outline},4,5,110,150,0,1
+Style: Cap,{font},{size},{color},&H00FFFFFF,&H00000000,&H96000000,0,0,0,0,100,100,{cap.get("spacing", 1)},0,1,{outline},{cap.get("shadow", 4)},5,110,150,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     lines = []
-    px, py = int(W * 0.47), int(H * y)
+    px, py = int(W * cap.get("x", 0.47)), int(H * y)
+    char_w = cap.get("char_w", 0.6)  # average glyph width / font size
+    max_w = W * cap.get("max_width", 0.62)
     for gi, g in enumerate(groups):
         st = g[0]["start"]
         nxt = groups[gi + 1][0]["start"] if gi + 1 < len(groups) else None
@@ -77,6 +83,19 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         if en - st < 0.12:
             en = st + 0.12
         txt = clean(" ".join(w["display"] for w in g), upper)
-        anim = r"{\fscx55\fscy55\t(0,70,\fscx114\fscy114)\t(70,140,\fscx100\fscy100)}" if pop else ""
+        if cap.get("lowercase"):
+            txt = txt.lower()
+        if cap.get("strip_punct"):
+            txt = re.sub(r"[.,;:!?…]+", "", txt).strip() or txt
+        fit = ""
+        est = len(txt) * size * char_w
+        if est > max_w:
+            fit = f"\\fs{int(size * max_w / est)}"
+        if pop == "soft":
+            anim = r"{\fscx88\fscy88\t(0,60,\fscx100\fscy100)" + fit + "}"
+        elif pop:
+            anim = r"{\fscx55\fscy55\t(0,70,\fscx114\fscy114)\t(70,140,\fscx100\fscy100)" + fit + "}"
+        else:
+            anim = "{" + fit + "}" if fit else ""
         lines.append(f"Dialogue: 0,{_fmt(st)},{_fmt(en)},Cap,,0,0,0,,{{\\pos({px},{py})}}{anim}{txt}")
     return head + "\n".join(lines) + "\n", groups

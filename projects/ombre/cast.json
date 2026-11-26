@@ -1,0 +1,14 @@
+{
+ "hero": {"name": "Moi", "gender": "m", "role": "", "appearance": {"gender": "m", "skin": "#f5cfa9", "shirt": "#18b5a5", "trim": "#ff7a1a", "shirtDesign": "trim", "sleeves": "long", "pants": "#2b4a8b", "shoes": "#f4f4f4", "hair": {"style": "curly", "color": "#e2b64a"}, "accessory": "none", "scale": 1}},
+ "voisin": {"name": "Voisin", "gender": "m", "role": "", "appearance": {"gender": "m", "skin": "#eab98f", "shirt": "#d32f2f", "shirtDesign": "jacket", "sleeves": "short", "pants": "#c8b27a", "shoes": "#3e2723", "hair": {"style": "cap_green", "color": "#4a2c17"}, "hatColor": "#2e9e4f", "accessory": "none", "scale": 1}},
+ "ami": {"name": "Ami", "gender": "m", "role": "", "appearance": {"gender": "m", "skin": "#8a5a3b", "shirt": "#e53935", "shirtDesign": "hoodie", "sleeves": "long", "pants": "#4e4e4e", "shoes": "#ffffff", "hair": {"style": "short", "color": "#1b1b1b"}, "accessory": "glasses", "scale": 1}},
+ "femme": {"name": "Femme", "gender": "f", "role": "", "appearance": {"gender": "f", "skin": "#f5cfa9", "shirt": "#f7d23e", "dress": true, "shirtDesign": "dress", "sleeves": "short", "pants": "#f7d23e", "shoes": "#e76f51", "hair": {"style": "sunhat", "color": "#7a4a20"}, "hatColor": "#e9c46a", "accessory": "none", "scale": 1}},
+ "affaires": {"name": "Homme d'affaires", "gender": "m", "role": "rich"},
+ "policier": {"name": "Policier", "gender": "m", "role": "police"},
+ "scientifique1": {"name": "Scientifique", "gender": "f", "role": "doctor"},
+ "scientifique2": {"name": "Scientifique", "gender": "m", "role": "doctor"},
+ "maire": {"name": "Maire", "gender": "m", "role": "", "appearance": {"gender": "m", "skin": "#f5cfa9", "shirt": "#7b3fb8", "shirtDesign": "suit", "sleeves": "long", "pants": "#4a2a7a", "shoes": "#222222", "hair": {"style": "side", "color": "#e8e8e8"}, "accessory": "glasses", "scale": 1}},
+ "maman": {"name": "Maman", "gender": "f", "role": "mother"},
+ "papa": {"name": "Papa", "gender": "m", "role": "father"},
+ "enfant": {"name": "Enfant", "gender": "f", "role": "child"}
+}
