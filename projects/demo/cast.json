@@ -1,0 +1,32 @@
+{
+ "hero": {
+  "name": "Léo",
+  "gender": "m",
+  "role": ""
+ },
+ "kevin": {
+  "name": "Kevin",
+  "gender": "m",
+  "role": "rich"
+ },
+ "eleve_a": {
+  "name": "Élève",
+  "gender": "m",
+  "role": ""
+ },
+ "eleve_b": {
+  "name": "Élève",
+  "gender": "f",
+  "role": ""
+ },
+ "eleve_c": {
+  "name": "Élève",
+  "gender": "m",
+  "role": ""
+ },
+ "mere": {
+  "name": "Mere",
+  "gender": "f",
+  "role": "mother"
+ }
+}
