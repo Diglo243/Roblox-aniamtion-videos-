@@ -40,6 +40,8 @@ def match(cid, c, roles):
         return roles.get("rival")
     if n in ("amie", "soeur", "copine", "meilleure_amie"):
         return roles.get("friend_f")
+    if n in ("ami", "pote", "copain", "meilleur_ami", "frere"):
+        return roles.get("friend_m")
     return None
 
 

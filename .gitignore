@@ -9,3 +9,6 @@ output/ombre/
 projects/foin/input/*.mp4
 projects/foin/input/*.mp3
 output/foin/
+projects/hush/input/*.mp4
+projects/hush/input/*.mp3
+output/hush/

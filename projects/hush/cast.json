@@ -1,0 +1,5 @@
+{
+ "facteur": {"name": "Facteur", "gender": "m", "appearance": {"gender": "m", "skin": "#d6995f", "shirt": "#5b8fd6", "shirtDesign": "none", "sleeves": "short", "pants": "#1f3a68", "shoes": "#222222", "hair": {"style": "cap", "color": "#2b1b10"}, "accessory": "none", "scale": 1}},
+ "maire": {"name": "Maire", "gender": "m", "appearance": {"gender": "m", "skin": "#f5cfa9", "shirt": "#1a237e", "shirtDesign": "sash", "sleeves": "long", "pants": "#111111", "shoes": "#111111", "hair": {"style": "short", "color": "#5d4037"}, "topHat": true, "accessory": "none", "scale": 1}},
+ "voisin": {"name": "Voisin", "gender": "m", "appearance": {"gender": "m", "skin": "#eab98f", "shirt": "#ff8a65", "shirtDesign": "stripe", "sleeves": "short", "pants": "#455a64", "shoes": "#ffffff", "hair": {"style": "side", "color": "#4a2c17"}, "accessory": "none", "scale": 1}}
+}

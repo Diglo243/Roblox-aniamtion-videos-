@@ -132,6 +132,27 @@
    "scale": 1
   }
  },
+ "sam": {
+  "name": "Sam",
+  "brand_role": "friend_m",
+  "gender": "m",
+  "tagline": "Le meilleur pote. Se croit le plus cool de la ville, rarement à raison.",
+  "appearance": {
+   "gender": "m",
+   "skin": "#8a5a3b",
+   "shirt": "#18b5a5",
+   "shirtDesign": "hoodie",
+   "sleeves": "long",
+   "pants": "#2b2b3b",
+   "shoes": "#ffd23f",
+   "hair": {
+    "style": "cap",
+    "color": "#1b1b1b"
+   },
+   "accessory": "none",
+   "scale": 1
+  }
+ },
  "pixel": {
   "name": "Pixel",
   "brand_role": "pet",

@@ -227,5 +227,48 @@ function studio(p, r, night, o = {}) {
   return info;
 }
 
-export const FARM_ENVIRONMENTS = { studio, hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
+function shower(p, r, night, o = {}) {
+  const W = 22, D = 20, H = 13;
+  const info = { stage: { x: 0, z: -4 }, interior: true, seats: [], beds: [], lampPoints: [], bounds: { minX: -W / 2 + 1, maxX: W / 2 - 1, minZ: -D / 2 + 1, maxZ: D / 2 - 1, maxY: H - 0.6 } };
+  const tiles = canvasTex('btiles', 256, 256, (g, w, h) => { g.fillStyle = '#e6f4fb'; g.fillRect(0, 0, w, h); g.strokeStyle = '#b8d7e6'; g.lineWidth = 4; for (let i = 0; i <= 8; i++) { g.beginPath(); g.moveTo(i * 32, 0); g.lineTo(i * 32, h); g.stroke(); g.beginPath(); g.moveTo(0, i * 32); g.lineTo(w, i * 32); g.stroke(); } });
+  plane(p, W, D, M('#ffffff', { map: repeatTex(tiles, 4, 4) }), 0, 0.01, 0, { rx: -Math.PI / 2 });
+  const wm = M('#ffffff', { map: repeatTex(tiles, 5, 3) });
+  box(p, W, H, 0.6, wm, 0, 0, -D / 2 - 0.3, { cast: false }); box(p, 0.6, H, D, wm, -W / 2 - 0.3, 0, 0, { cast: false }); box(p, 0.6, H, D, wm, W / 2 + 0.3, 0, 0, { cast: false }); box(p, W, H, 0.6, wm, 0, 0, D / 2 + 0.3, { cast: false }); box(p, W, 0.5, D, '#f4f1ea', 0, H, 0, { cast: false });
+  // shower cabin (glass) around the stage
+  const gl = M('#bfe8ff', { transparent: true, opacity: 0.28, rough: 0.05 });
+  box(p, 6.4, 0.5, 6.4, '#ffffff', 0, 0, -6); box(p, 6.4, 9, 0.15, gl, 0, 0.5, -2.85, { cast: false }); box(p, 0.15, 9, 6.4, gl, -3.2, 0.5, -6, { cast: false }); box(p, 0.15, 9, 6.4, gl, 3.2, 0.5, -6, { cast: false }); box(p, 6.6, 0.3, 6.6, '#cfd8dc', 0, 9.5, -6, { metal: 0.5 });
+  cyl(p, 0.15, 0.15, 2, '#b0bec5', 0, 9.5, -8.6, { rx: Math.PI / 2 }); cyl(p, 0.8, 0.5, 0.3, '#b0bec5', 0, 8.6, -7.8);
+  box(p, 5, 3.4, 2.6, '#ffffff', 7, 0, -8); box(p, 2.4, 4, 0.2, M('#cfe8ff', { metal: 0.6, rough: 0.05 }), 7, 6, -9.6, { cast: false });
+  info.stage = { x: 0, z: -6 };
+  return info;
+}
+
+function windowRoom(p, r, night, o = {}) {
+  // bedroom wall with a real opening; the street outside is visible through it
+  const info = { stage: { x: 0, z: -16 }, interior: false, seats: [], beds: [], lampPoints: [], sun: [30, 50, 40], shadowSize: 60 };
+  ground(p, M('#ffffff', { map: repeatTex(limeTex(), 100, 100) }));
+  const wc = o.wall || '#cfe3f7'; const z = -6;
+  const WW = 40, WH = 16, hx = 10, hy0 = 4, hy1 = 12;
+  box(p, (WW - hx) / 2, WH, 0.6, wc, -(hx / 2 + (WW - hx) / 4), 0, z); box(p, (WW - hx) / 2, WH, 0.6, wc, hx / 2 + (WW - hx) / 4, 0, z);
+  box(p, hx, hy0, 0.6, wc, 0, 0, z); box(p, hx, WH - hy1, 0.6, wc, 0, hy1, z);
+  box(p, hx + 1, 0.5, 1.4, '#ffffff', 0, hy0 - 0.25, z + 0.3); box(p, 0.4, hy1 - hy0, 0.8, '#ffffff', -hx / 2, hy0, z); box(p, 0.4, hy1 - hy0, 0.8, '#ffffff', hx / 2, hy0, z); box(p, hx, 0.4, 0.8, '#ffffff', 0, hy1, z);
+  plane(p, 40, 14, M('#ffffff', { map: repeatTex(TEX_wood(), 6, 2) }), 0, 0.02, z + 7, { rx: -Math.PI / 2 });
+  box(p, 6, 3.6, 3, '#a1887f', 7, 0, z + 2.5); box(p, 1.2, 1.6, 0.8, '#ffd23f', 6, 3.6, z + 2.5);
+  for (let i = 0; i < 5; i++) gabled(p, -40 + i * 20, -60, 0, r, { w: 12, h: r.pick([14, 18]), gable: 'point' });
+  for (let i = 0; i < 5; i++) tree(p, -30 + i * 15, -40, r, 0.9, 'round');
+  plane(p, 300, 12, M('#55575c'), 0, 0.03, -30, { rx: -Math.PI / 2 });
+  return info;
+}
+function TEX_wood() { return canvasTex('wood2', 256, 256, (g, w, h) => { const r = rng('w2'); for (let i = 0; i < 8; i++) { g.fillStyle = ['#b07a47', '#a86f3d', '#b9834f', '#9f6a3a'][i % 4]; g.fillRect(0, i * 32, w, 32); g.fillStyle = 'rgba(0,0,0,0.18)'; g.fillRect(0, i * 32 + 31, w, 2); g.fillRect(r() * w, i * 32, 2, 32); } }); }
+
+function cloudSky(p, r, night, o = {}) {
+  const info = { stage: { x: 0, z: 0 }, interior: false, seats: [], beds: [], lampPoints: [], sun: [30, 60, 40], fogNear: 200, fogFar: 900, shadowSize: 60 };
+  ground(p, M('#ffffff', { map: repeatTex(limeTex(), 100, 100) })).position.y = -60;
+  const cm = M('#ffffff', { rough: 1 });
+  const Y = o.cloudY ?? 14;
+  for (let i = 0; i < 160; i++) { const a = r() * Math.PI * 2, d = Math.sqrt(r()) * 140; const x = Math.cos(a) * d, z = Math.sin(a) * d - 20; if (Math.hypot(x, z) < (o.hole ?? 0)) continue; const m = new THREE.Mesh(new THREE.SphereGeometry(r.range(5, 11), 12, 8), cm); m.position.set(x, Y + r.range(-1.5, 1.5), z); m.scale.y = 0.55; m.receiveShadow = true; p.add(m); }
+  return info;
+}
+
+export const FARM_ENVIRONMENTS = { studio, shower, window_room: windowRoom, cloud_sky: cloudSky, hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
   tool_shop: toolShop, crater, barn, gold_pond: goldPond, festival };

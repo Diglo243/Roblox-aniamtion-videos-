@@ -1,6 +1,6 @@
 // Shot renderer: builds one shot from a JSON spec and renders deterministic frames.
 import * as THREE from 'three';
-import { M, box, cyl, sphere, canvasTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
+import { M, box, cyl, sphere, canvasTex, textTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
 import { Avatar, ACTIONS, ACTION_FACE, TALKING_ACTIONS, defaultAppearance } from './characters.js';
 import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js';
 import { TOWN_ENVIRONMENTS } from './env_town.js';
@@ -246,7 +246,11 @@ window.setupShot = async function setupShot(spec, cast) {
         emotion: Array.isArray(cr.emotion) ? cr_r.pick(cr.emotion) : cr.emotion, facing: (cr.facing ?? 0) + cr_r.range(-(cr.spread ?? 0.5), cr.spread ?? 0.5),
         noShadow: cr.noShadow, shadowFrom: cr.shadowFrom !== undefined ? cr.shadowFrom + cr_r.range(0, cr.shadowJitter ?? 0) : undefined,
         prop: cr.props ? cr_r.pick(cr.props) : undefined, dir: cr.dir, speed: cr.speed, symbol: cr.symbols && cr_r() < 0.5 ? cr_r.pick(cr.symbols) : undefined,
-        scale: cr.kids && cr_r() < cr.kids ? 0.72 : undefined, extra: true, shadowOnly: cr.shadowOnly };
+        scale: cr.kids && cr_r() < cr.kids ? 0.72 : undefined, extra: true, shadowOnly: cr.shadowOnly,
+        head: cr.head ? (Array.isArray(cr.head) ? cr_r.range(cr.head[0], cr.head[1]) : cr.head) : undefined,
+        float: cr.float ? (Array.isArray(cr.float) ? cr_r.range(cr.float[0], cr.float[1]) : cr.float) : undefined,
+        emotion: Array.isArray(cr.emotion) ? cr_r.pick(cr.emotion) : cr.emotion };
+      if (cr.descend) { const f0 = a.float ?? 15, h0 = a.head ?? 4, st0 = cr_r.range(0, 0.55); a.float = [f0, 0]; a.head = [h0, 1]; a.animAt = [st0, st0 + 0.35]; }
       spec.actors.push(a);
       if (!cast[id]) cast[id] = { gender: cr_r() < 0.5 ? 'f' : 'm', role: cr.roles ? cr_r.pick(cr.roles) : (cr.old && cr_r() < cr.old ? 'old' : '') };
     }
@@ -292,10 +296,12 @@ window.setupShot = async function setupShot(spec, cast) {
     }
     scene.add(av.root);
     const sym = a.symbol && !a.shadowOnly ? makeSprite(a.symbol, 1.7) : null;
+    let cloud = null;
+    if (a.weather) { cloud = new THREE.Group(); for (const [x, y, z, r0] of [[0, 0, 0, 1.1], [1.0, -0.1, 0.2, 0.85], [-1.0, -0.1, 0.1, 0.9], [0.3, 0.5, -0.2, 0.8]]) sphere(cloud, r0, '#8f969e', x, y, z, { seg: 10, cast: false }); cloud.userData.rain = []; for (let i = 0; i < 12; i++) { const d = box(cloud, 0.06, 0.5, 0.06, M('#7fc3ff', { basic: true }), -1.2 + (i % 6) * 0.48, -0.6, -0.3 + Math.floor(i / 6) * 0.6, { cast: false }); cloud.userData.rain.push(d); } scene.add(cloud); }
     let glint = null;
     if ((a.glint || app.needle) && !a.shadowOnly && av.head.userData.needle) { glint = makeSprite('star', a.glint ? 1.2 : 0.55); glint.material.depthTest = !a.glint; scene.add(glint); }
     if (sym) scene.add(sym);
-    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, glint, castOn: !(a.noShadow || a.shadow) });
+    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, glint, cloud, castOn: !(a.noShadow || a.shadow) });
   });
   // pets & extra props in world
   for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; if (pet.scale) pg.scale.setScalar(pet.scale); if (pet.y) pg.position.y = pet.y; scene.add(pg); actors.push({ pet: pg, petSpec: pet, phase: r() * 6 });
@@ -317,6 +323,17 @@ window.setupShot = async function setupShot(spec, cast) {
       const m = new THREE.Mesh(new THREE.ConeGeometry(wp.r || 3.2, wp.h || 5, 6), SHADOW_ONLY); m.position.y = (wp.h || 5) / 2; m.castShadow = true; g.add(m);
       const m2 = new THREE.Mesh(new THREE.ConeGeometry((wp.r || 3.2) * 0.7, (wp.h || 5) * 0.75, 6), SHADOW_ONLY); m2.position.set(0, (wp.h || 5) * 0.37, -2.5); m2.castShadow = true; g.add(m2);
     }
+    else if (wp.kind === 'mail_truck') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 6), 0, st.z + (wp.pos?.[1] ?? 0)); g.rotation.y = wp.facing ?? 0; world.add(g);
+      box(g, 5, 6.5, 11, '#f5f5f5', 0, 1.2, -1, { round: 0.3 }); box(g, 5, 4, 4, '#f5f5f5', 0, 1.2, 6, { round: 0.3 }); box(g, 4.6, 1.8, 0.2, M('#1d2b3a', { rough: 0.1 }), 0, 3.4, 8.05, { cast: false }); box(g, 5.05, 0.9, 11, '#1e5bd8', 0, 4, -1, { cast: false });
+      box(g, 0.2, 2.2, 6, M('#ffffff', { map: canvasTex('poste', 512, 200, (c) => { c.fillStyle = '#fff'; c.fillRect(0, 0, 512, 200); c.fillStyle = '#1e5bd8'; c.font = '120px "Luckiest Guy"'; c.textAlign = 'center'; c.fillText('POSTE', 256, 150); }) }), 2.55, 4.6, -1, { cast: false });
+      for (const [wx, wz] of [[-2.5, 5.5], [2.5, 5.5], [-2.5, -4.5], [2.5, -4.5]]) cyl(g, 1.1, 1.1, 0.8, '#111', wx, 1.1, wz, { rz: Math.PI / 2 }).position.y = 1.1; }
+    else if (wp.kind === 'stage') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -3)); world.add(g);
+      box(g, 16, 1.6, 9, '#c47a3a'); box(g, 2.4, 3.2, 1.6, '#6d4c41', 0, 1.6, 1.5); cyl(g, 0.6, 0.6, 0.1, M('#ffd23f', { metal: 0.5 }), 0, 3.4, 2.32, { rx: Math.PI / 2 });
+      for (const x of [-8.5, 8.5]) box(g, 0.5, 11, 0.5, '#3b3b3b', x, 0, -3);
+      box(g, 17, 2.6, 0.3, M('#ffffff', { map: textTex(wp.label || 'MAIRIE', { bg: '#1e3a8a', color: '#ffffff', size: 140, w: 1200, h: 200 }) }), 0, 9.5, -3, { cast: false });
+      for (let i = 0; i < 12; i++) box(g, 0.9, 0.9, 0.05, ['#e53935', '#fdd835', '#1e88e5', '#43a047'][i % 4], -7.2 + i * 1.3, 8.4 - Math.sin(i / 11 * Math.PI) * 0.8, -2.8, { cast: false, rz: Math.PI / 4 }); }
+    else if (wp.kind === 'big_tree') { const tg = new THREE.Group(); tg.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -4)); world.add(tg); cyl(tg, 2.2, 3.2, 40, '#7a4b2a', 0, 0, 0, { seg: 10 }); for (const [x, y, z, s0] of [[0, 44, -2, 16], [-10, 36, -3, 10], [10, 37, -4, 11]]) box(tg, s0, s0 * 0.8, s0, '#3f9b3a', x, y - s0 * 0.4, z, { round: 2 }); }
+    else if (wp.kind === 'party') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -8)); world.add(g); for (let k = 0; k < 3; k++) for (let i = 0; i < 16; i++) box(g, 0.8, 0.8, 0.05, ['#e53935', '#fdd835', '#1e88e5', '#43a047', '#ff7a1a', '#7b3fe4'][i % 6], -12 + i * 1.6, 9 - Math.sin(i / 15 * Math.PI) * 1.4, k * 5, { cast: false, rz: Math.PI / 4 }); for (let i = 0; i < 14; i++) sphere(g, 0.25, M(['#ffd23f', '#ff7a1a', '#7b3fe4'][i % 3], { emissive: ['#ffd23f', '#ff7a1a', '#7b3fe4'][i % 3], ei: 1.6 }), -11 + i * 1.7, 7.4 - Math.sin(i / 13 * Math.PI) * 1.2, 2.5, { cast: false }); box(g, 9, 2, 0.3, M('#ffffff', { map: textTex('FÊTE !', { bg: '#7b3fe4', color: '#ffd23f', size: 150, w: 800, h: 220 }) }), 0, 10.5, -1, { cast: false }); }
     else if (wp.kind === 'piano') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 0, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(wp.rx ?? 0.2, wp.facing ?? 0.4, wp.rz ?? 0.15); world.add(g); box(g, 6, 3.6, 2.4, '#111'); box(g, 6, 0.6, 1.2, '#f5f5f5', 0, 2.2, 1.6); for (let i = 0; i < 10; i++) box(g, 0.25, 0.3, 0.7, '#111', -2.6 + i * 0.6, 2.8, 1.6, { cast: false }); for (const x of [-2.6, 2.6]) box(g, 0.3, 2.2, 0.3, '#111', x, -2.2, 1.6); }
     else if (wp.kind === 'needle_big') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 4, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(0, 0, wp.rz ?? 0.5); world.add(g); const gm = M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffb300', ei: 1.4 }); const n = cyl(g, 0.12, 0.02, 7, gm, 0, -3.5, 0, { seg: 10 }); const eye = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.12, 8, 16), gm); eye.position.y = 3.7; g.add(eye); g.userData.spin = true; S_movers.push(g); }
     else if (wp.kind === 'straw_single') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 0.1, st.z + (wp.pos?.[1] ?? 0)); world.add(g); box(g, 0.14, 0.14, 3, '#f3c75a', 0, 0, 0, { ry: 0.6 }); }
@@ -347,6 +364,7 @@ window.setupShot = async function setupShot(spec, cast) {
   world.updateMatrixWorld(true);
   world.traverse(o => {
     if (!o.isMesh || o.geometry.type === 'PlaneGeometry' && o.rotation.x !== 0) return;
+    if (o.material && o.material.transparent) return;
     if (!o.geometry.boundingSphere) o.geometry.computeBoundingSphere();
     const sc = o.getWorldScale(new THREE.Vector3());
     if (o.geometry.boundingSphere.radius * Math.max(sc.x, sc.y, sc.z) > 45 && !info.interior) return;
@@ -383,11 +401,13 @@ function camPose(t) {
   let f;
   if (focusActor) { f = focusActor.av.root.position.clone(); } else f = new THREE.Vector3(info.stage.x, 0, info.stage.z);
   const lying = focusActor && ['sleep', 'lie', 'fall'].includes(focusActor.action);
-  const headY = (lying ? 1.2 : 4.6 * sc + (focusActor?.seat ? (focusActor.seat.y - 2.0) : 0));
+  const hsc = focusActor?.hs || 1;
+  const headY = (lying ? 1.2 : (3.95 + 0.68 * hsc) * sc + (focusActor?.seat ? (focusActor.seat.y - 2.0) : 0)) + (focusActor ? focusActor.av.root.position.y : 0);
   const chestY = lying ? 1.0 : headY - 1.4 * sc;
   const faceRy = focusActor ? focusActor.av.root.rotation.y : 0;
   const rel = ['closeup', 'xcu', 'crash_zoom', 'medium', 'low', 'high', 'dutch', 'truck', 'orbit'].includes(type);
-  const at = (dist, h, a) => { if (rel) a += clamp(faceRy, -1.1, 1.1); return new THREE.Vector3(f.x + Math.sin(a) * dist, h, f.z + Math.cos(a) * dist); };
+  const kHead = Math.max(1, (focusActor?.hs || 1) * 0.85);
+  const at = (dist, h, a) => { dist *= kHead; if (rel) a += clamp(faceRy, -1.1, 1.1); return new THREE.Vector3(f.x + Math.sin(a) * dist, h, f.z + Math.cos(a) * dist); };
   let pos, look, fov = 46, roll = 0;
   // multi-actor midpoint
   let mid = f.clone();
@@ -402,15 +422,16 @@ function camPose(t) {
       look = new THREE.Vector3(c.x, info.interior ? 3 : 5, c.z - (info.interior ? 4 : 10)); fov = 56; break;
     }
     case 'wide': {
-      const d = lerp(17, 14, e) + spread * 0.8; const a = ang0 + lerp(-0.18, 0.18, e) * (cam.dir ?? 1);
-      pos = new THREE.Vector3(mid.x + Math.sin(a) * d, 6.5, mid.z + Math.cos(a) * d); look = new THREE.Vector3(mid.x, 3.4, mid.z); fov = 50; break;
+      const fy = focusActor ? focusActor.av.root.position.y : 0, hy = (headY - 4.6) * 0.5;
+      const d = (lerp(17, 14, e) + spread * 0.8) * kHead; const a = ang0 + lerp(-0.18, 0.18, e) * (cam.dir ?? 1);
+      pos = new THREE.Vector3(mid.x + Math.sin(a) * d, 6.5 + fy * 0.8 + hy, mid.z + Math.cos(a) * d); look = new THREE.Vector3(mid.x, 3.4 + hy + (real.length > 1 ? 0 : fy), mid.z); fov = 50; break;
     }
     case 'two_shot': {
       const d = lerp(12.5, 10.5, e) + spread * 0.9; const a = ang0 + lerp(-0.08, 0.08, e) * (cam.dir ?? 1);
       pos = new THREE.Vector3(mid.x + Math.sin(a) * d, 4.6, mid.z + Math.cos(a) * d); look = new THREE.Vector3(mid.x, 3.8 * sc, mid.z); fov = 46; break;
     }
     case 'medium': default: {
-      pos = at(lerp(9.5, 7.6, e), lerp(4.6, 4.3, e), ang0); look = new THREE.Vector3(f.x, chestY + 0.5, f.z); fov = 44; break;
+      pos = at(lerp(9.5, 7.6, e), lerp(4.6, 4.3, e) + (headY - 4.6) * 0.6, ang0); look = new THREE.Vector3(f.x, chestY + 0.5, f.z); fov = 44; break;
     }
     case 'closeup': {
       pos = at(lerp(5.2, 4.2, e), headY + 0.15, ang0 + lerp(-0.06, 0.06, e) * (cam.dir ?? 1)); look = new THREE.Vector3(f.x, headY - 0.25, f.z); fov = 40; break;
@@ -527,6 +548,10 @@ function updateActors(t) {
     if (expr === 'shocked' || expr === 'scream') open = 0.6;
     const blink = ((t + A.phase) % 3.7) < 0.12;
     av.setFace(expr, open, blink);
+    const lerpSpec = (v, dflt) => { if (v === undefined) return dflt; if (!Array.isArray(v)) return v; const [a, b] = v; const w = A.spec.animAt || [0, 1]; const k = smooth(clamp((t / S.dur - w[0]) / Math.max(0.01, w[1] - w[0]), 0, 1)); return lerp(a, b, A.spec.animEase === 'pop' ? easeOutBack(k) : k); };
+    const hs = lerpSpec(A.spec.head, 1); av.neck.scale.setScalar(hs); A.hs = hs;
+    const fl = lerpSpec(A.spec.float, 0); if (fl || A.spec.float !== undefined) { av.root.position.y = fl + (fl > 0.5 ? Math.sin(t * 1.3 + A.phase) * 0.4 : 0); }
+    if (A.cloud) { av.headWorld(tmp); A.cloud.position.set(tmp.x, tmp.y + 0.75 * hs * (av.app.scale || 1) + 1.6 + hs * 0.35, tmp.z); A.cloud.scale.setScalar(Math.max(1, hs * 0.45)); A.cloud.userData.rain.forEach((d, i) => { d.position.y = -((t * 6 + i * 0.37) % 1) * 3; }); }
     if (A.double) {
       const d = A.double; d.resetPose(); const sa = ACTIONS[A.spec.shadow.action] ? A.spec.shadow.action : 'idle';
       ACTIONS[sa](d, at, { phase: A.phase + 1 });

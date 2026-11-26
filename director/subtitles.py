@@ -85,6 +85,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         txt = clean(" ".join(w["display"] for w in g), upper)
         if cap.get("lowercase"):
             txt = txt.lower()
+        if cap.get("upper_words") and txt.strip(".,;:!?…").lower() in cap["upper_words"]:
+            txt = txt.upper()
         if cap.get("strip_punct"):
             txt = re.sub(r"[.,;:!?…]+", "", txt).strip() or txt
         fit = ""
