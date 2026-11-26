@@ -2555,12 +2555,28 @@
      {
       "id": "hero",
       "action": "build",
-      "prop": "hammer"
+      "prop": "hammer",
+      "facing": 0.4
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": 25
+     "type": "path",
+     "from": [
+      6,
+      5,
+      12
+     ],
+     "to": [
+      5,
+      5,
+      10
+     ],
+     "look": [
+      0,
+      3.5,
+      0
+     ],
+     "fov": 46
     },
     "cut": "main",
     "crowd": [

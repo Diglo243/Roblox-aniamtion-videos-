@@ -183,7 +183,7 @@ sentences = [
        crowd=[dict(n=8, area=[-10, -8, 10, -3], action=["hug", "idle", "wave"], facing=0)])],
     # 41 Au cours des mois suivants, tout le monde a travaillé main dans la main pour construire une nouvelle ville sur un terrain solide.
     [S("construction", [], {"type": "establish"}, crowd=[dict(n=10, area=[-30, -14, 30, 8], action=["build", "carry", "walk"], props=["hammer", None])]),
-     S("construction", [A("hero", "build", prop="hammer")], {"type": "medium", "angle": 25}, cut="main",
+     S("construction", [A("hero", "build", prop="hammer", facing=0.4)], P([6, 5, 12], [5, 5, 10], [0, 3.5, 0], 46), cut="main",
        crowd=[dict(n=5, area=[-8, -6, 8, 0], action=["build", "carry"], props=["hammer"])], sfx=[sfx("pop", 0.2, -28), sfx("pop", 0.7, -28), sfx("pop", 1.2, -28)]),
      S("construction", [], P([30, 10, 30], [18, 14, 34], [0, 10, -20], 55), cut="construire", crowd=[dict(n=8, area=[-24, -10, 24, 8], action=["build", "carry"])])],
     # 42 De nouvelles maisons, de nouveaux magasins et même une école encore plus grande.
