@@ -1,11 +1,21 @@
 // Shot renderer: builds one shot from a JSON spec and renders deterministic frames.
 import * as THREE from 'three';
-import { M, box, cyl, sphere, canvasTex, textTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
+import { M, box, boxGeo, cyl, sphere, canvasTex, textTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
 import { Avatar, ACTIONS, ACTION_FACE, TALKING_ACTIONS, defaultAppearance } from './characters.js';
 import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js';
 import { TOWN_ENVIRONMENTS } from './env_town.js';
 import { FARM_ENVIRONMENTS, looseStraw, haystack } from './env_farm.js';
-const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS, ...FARM_ENVIRONMENTS };
+import { MSG_ENVIRONMENTS, msgProp, updateMsgMovers } from './env_msg.js';
+const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS, ...FARM_ENVIRONMENTS, ...MSG_ENVIRONMENTS };
+const EMOJI_FONT = '"Poppins", "Noto Color Emoji", sans-serif';
+function bubbleTex(text) {
+  return canvasTex('bubble|' + text, 1024, 256, (g, w, h) => {
+    g.font = `700 92px ${EMOJI_FONT}`; const tw = Math.min(w - 60, g.measureText(text).width + 90);
+    const x0 = (w - tw) / 2; g.fillStyle = 'rgba(0,0,0,0.18)'; g.beginPath(); g.roundRect(x0 + 6, 46, tw, 170, 60); g.fill();
+    g.fillStyle = '#ffffff'; g.beginPath(); g.roundRect(x0, 36, tw, 170, 60); g.fill();
+    g.fillStyle = '#1b1b1b'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, w / 2, 124);
+  });
+}
 const SHADOW_ONLY = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
 function shadowOnly(obj) { obj.traverse(o => { if (o.isMesh) { o.material = SHADOW_ONLY; o.castShadow = true; o.receiveShadow = false; } if (o.isSprite) o.visible = false; }); }
 function setCast(obj, on) { obj.traverse(o => { if (o.isMesh) o.castShadow = on; }); }
@@ -72,6 +82,12 @@ function makeProp(kind) {
 function makePet(kind, color) {
   if (kind === 'pixel') return makePet('cat', '#ff8a1f');
   const g = new THREE.Group();
+  if (kind === 'ghost') {
+    const gm = M('#f4f8ff', { transparent: true, opacity: 0.85, rough: 0.4 });
+    box(g, 3.2, 3.6, 2.6, gm, 0, 1.2, 0, { round: 1.1 }); for (const x of [-1.0, 0, 1.0]) box(g, 0.9, 0.9, 2.2, gm, x, 0.6, 0, { round: 0.4 });
+    for (const sx of [-0.6, 0.6]) { sphere(g, 0.38, '#1b1b2e', sx, 3.4, 1.25); sphere(g, 0.12, '#ffffff', sx - 0.1, 3.55, 1.55); } box(g, 0.5, 0.35, 0.1, '#ff9ab0', 0, 2.75, 1.3, { round: 0.1 });
+    g.userData.ghost = true; return g;
+  }
   if (kind === 'frog') {
     const c = color || '#43c84a';
     box(g, 1.8, 1.1, 1.6, c, 0, 0, 0, { round: 0.45 });
@@ -134,7 +150,7 @@ function makeSprite(kind, size = 1.6) {
 class Particles {
   constructor(kind, scene, focus, camera, r) {
     this.kind = kind; this.items = []; this.r = r; this.focus = focus; this.camera = camera;
-    const n = { straw: 140, coins: 50, rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
+    const n = { pizza: 70, fire: 60, steam: 40, straw: 140, coins: 50, rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
     this.group = new THREE.Group(); scene.add(this.group);
     if (kind === 'rain') {
       const geo = new THREE.BufferGeometry(); const pos = new Float32Array(n * 6); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -147,6 +163,9 @@ class Particles {
       if (kind === 'confetti') m = new THREE.Mesh(new THREE.PlaneGeometry(0.35, 0.6), M(r.pick(['#ff3b30', '#ffcc00', '#34c759', '#007aff', '#af52de', '#ff2d55']), { side: THREE.DoubleSide, basic: true }));
       else if (kind === 'money') m = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.5), M('#4caf50', { side: THREE.DoubleSide, map: moneyTex() }));
       else if (kind === 'snow') m = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), M('#ffffff', { basic: true }));
+      else if (kind === 'pizza') { m = new THREE.Sprite(new THREE.SpriteMaterial({ map: canvasTex('emoji_pizza', 128, 128, (c) => { c.font = '100px ' + EMOJI_FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('🍕', 64, 70); }), transparent: true })); m.scale.set(1.8, 1.8, 1); }
+      else if (kind === 'fire') m = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 0.9), M(r.pick(['#ff4a1a', '#ffb21a', '#ff7a1a']), { basic: true, transparent: true, opacity: 0.9 }));
+      else if (kind === 'steam') m = new THREE.Mesh(new THREE.SphereGeometry(0.7, 8, 6), M('#ffffff', { transparent: true, opacity: 0.5, basic: true }));
       else if (kind === 'straw') m = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, 0.9), M(r.pick(['#ffd977', '#f3c75a', '#e0a92e']), { basic: true }));
       else if (kind === 'coins') m = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.08, 12), M('#ffd54f', { metal: 0.7, rough: 0.25 }));
       else if (kind === 'hearts') m = makeSprite('heart', 0.9);
@@ -170,6 +189,8 @@ class Particles {
       if (this.kind === 'stars') { const a = t * 4 + ph * 6.28; m.position.set(f.x + Math.cos(a) * 1.3, f.y + 0.9, f.z + Math.sin(a) * 1.3); continue; }
       if (this.kind === 'sparkles') { const k = (t * sp + ph) % 1; m.position.set(f.x + x * 0.35, f.y - 2 + y0 * 0.3, f.z + z * 0.3); m.scale.setScalar(Math.sin(k * Math.PI) * 0.7 + 0.01); continue; }
       if (this.kind === 'smoke') { const k = (t * 0.6 * sp + ph) % 1; m.position.set(f.x + x * 0.4, k * 10, f.z + z * 0.4); m.scale.setScalar(0.5 + k * 3); m.material.opacity = 0.6 * (1 - k); continue; }
+      if (this.kind === 'fire') { const k = (t * 1.6 * sp + ph) % 1; m.position.set(f.x + x * 0.35, f.y - 3 + k * 12, f.z + z * 0.35); m.scale.setScalar(1.6 * (1 - k) + 0.1); continue; }
+      if (this.kind === 'steam') { const k = (t * 0.7 * sp + ph) % 1; m.position.set(f.x + x * 1.1, k * 9, f.z + z * 1.1); m.scale.setScalar(0.5 + k * 2); m.material.opacity = 0.5 * (1 - k); continue; }
       if (this.kind === 'straw') { const k = (t * 0.25 * sp + ph) % 1; m.position.set(f.x + x * 1.2 + Math.sin(t + ph * 9) * 2, 1 + y0 * 0.6 + Math.sin(t * 1.3 + ph * 5) * 1.5, f.z + z * 1.2); m.rotation.set(t * 2 * sp + ph * 6, t * 1.5 + ph * 3, t * sp); continue; }
       const speed = this.kind === 'snow' ? 2 : 5;
       const y = 24 - ((y0 + t * speed * sp) % 24);
@@ -248,7 +269,7 @@ window.setupShot = async function setupShot(spec, cast) {
         emotion: Array.isArray(cr.emotion) ? cr_r.pick(cr.emotion) : cr.emotion, facing: (cr.facing ?? 0) + cr_r.range(-(cr.spread ?? 0.5), cr.spread ?? 0.5),
         noShadow: cr.noShadow, shadowFrom: cr.shadowFrom !== undefined ? cr.shadowFrom + cr_r.range(0, cr.shadowJitter ?? 0) : undefined,
         prop: cr.props ? cr_r.pick(cr.props) : undefined, dir: cr.dir, speed: cr.speed, symbol: cr.symbols && cr_r() < 0.5 ? cr_r.pick(cr.symbols) : undefined,
-        scale: cr.kids && cr_r() < cr.kids ? 0.72 : undefined, extra: true, shadowOnly: cr.shadowOnly,
+        scale: cr.kids && cr_r() < cr.kids ? 0.72 : undefined, extra: true, shadowOnly: cr.shadowOnly, frozen: cr.frozen,
         head: cr.head ? (Array.isArray(cr.head) ? cr_r.range(cr.head[0], cr.head[1]) : cr.head) : undefined,
         float: cr.float ? (Array.isArray(cr.float) ? cr_r.range(cr.float[0], cr.float[1]) : cr.float) : undefined,
         emotion: Array.isArray(cr.emotion) ? cr_r.pick(cr.emotion) : cr.emotion };
@@ -298,18 +319,23 @@ window.setupShot = async function setupShot(spec, cast) {
     }
     scene.add(av.root);
     const sym = a.symbol && !a.shadowOnly ? makeSprite(a.symbol, 1.7) : null;
+    let bubble = null;
+    if (a.bubble) { bubble = new THREE.Sprite(new THREE.SpriteMaterial({ map: bubbleTex(a.bubble), transparent: true, depthTest: false, fog: false })); bubble.renderOrder = 900; scene.add(bubble); }
+    if (a.frozen) { const ice = new THREE.Mesh(boxGeo(3.4, 6.8, 2.6, 0.3), M('#bfefff', { transparent: true, opacity: 0.42, rough: 0.05 })); ice.position.y = 3.3; av.inner.add(ice); }
+    if (a.goat === true) av.setGoat(true);
     let cloud = null;
     if (a.weather) { cloud = new THREE.Group(); for (const [x, y, z, r0] of [[0, 0, 0, 1.1], [1.0, -0.1, 0.2, 0.85], [-1.0, -0.1, 0.1, 0.9], [0.3, 0.5, -0.2, 0.8]]) sphere(cloud, r0, '#8f969e', x, y, z, { seg: 10, cast: false }); cloud.userData.rain = []; for (let i = 0; i < 12; i++) { const d = box(cloud, 0.06, 0.5, 0.06, M('#7fc3ff', { basic: true }), -1.2 + (i % 6) * 0.48, -0.6, -0.3 + Math.floor(i / 6) * 0.6, { cast: false }); cloud.userData.rain.push(d); } scene.add(cloud); }
     let glint = null;
     if ((a.glint || app.needle) && !a.shadowOnly && av.head.userData.needle) { glint = makeSprite('star', a.glint ? 1.2 : 0.55); glint.material.depthTest = !a.glint; scene.add(glint); }
     if (sym) scene.add(sym);
-    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + (spec.parentId || spec.id)), double, glint, cloud, castOn: !(a.noShadow || a.shadow) });
+    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + (spec.parentId || spec.id)), double, glint, cloud, bubble, castOn: !(a.noShadow || a.shadow) });
   });
   // pets & extra props in world
   for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; if (pet.scale) pg.scale.setScalar(pet.scale); if (pet.y) pg.position.y = pet.y; scene.add(pg); actors.push({ pet: pg, petSpec: pet, phase: r() * 6 });
     if (pet.focus) { /* camera can target the pet */ spec._petFocus = pg; } }
   for (const wp of spec.worldProps || []) {
     const st = info.stage;
+    if (msgProp(world, wp, st, r, S_movers, {})) continue;
     if (wp.kind === 'car') car(world, st.x + (wp.pos?.[0] ?? 6), st.z + (wp.pos?.[1] ?? -4), wp.facing ?? 0, r, wp.color);
     else if (wp.kind === 'police_car') { const c = car(world, st.x + (wp.pos?.[0] ?? 7), st.z + (wp.pos?.[1] ?? -5), wp.facing ?? 0.3, r, '#ffffff'); box(c, 3, 0.6, 1.2, M('#ff1744', { emissive: '#ff1744', ei: 1.4 }), -0.8, 3.4, -0.6); box(c, 1.4, 0.6, 1.2, M('#2979ff', { emissive: '#2979ff', ei: 1.4 }), 0.8, 3.4, -0.6); }
     else if (wp.kind === 'bus') {
@@ -354,7 +380,7 @@ window.setupShot = async function setupShot(spec, cast) {
 
   // particles / fx
   const parts = [];
-  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + (spec.parentId || spec.id))));
+  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins', 'pizza', 'fire', 'steam'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + (spec.parentId || spec.id))));
   const ov = {
     vignette: addOverlay(camera, spec.fx?.includes('red') ? 'red' : (spec.fx?.includes('dark') ? 'dark' : 'vignette'), 1),
     speed: addOverlay(camera, 'speed', 2),
@@ -522,6 +548,7 @@ function updateActors(t) {
   const slow = spec.fx?.includes('slowmo') ? 0.35 : 1;
   const at = t * slow;
   for (const A of actors) {
+    if (A.pet && A.pet.userData.ghost) { A.pet.position.y = (A.petSpec.y ?? 1.5) + Math.sin(t * 2 + A.phase) * 0.4; A.pet.rotation.z = Math.sin(t * 1.3) * 0.08; continue; }
     if (A.pet && A.pet.userData.frog) { const hop = A.petSpec.hop ?? 1; const ph = (t * 1.4 + A.phase) % 1; A.pet.position.y = (A.petSpec.y ?? 0) + Math.max(0, Math.sin(ph * Math.PI * 2)) * 1.6 * hop; continue; }
     if (A.pet) { A.pet.position.y = Math.abs(Math.sin(t * 6 + A.phase)) * 0.15; if (A.pet.userData.tail) A.pet.userData.tail.rotation.y = Math.sin(t * 14) * 0.5; continue; }
     const av = A.av; av.resetPose();
@@ -553,6 +580,14 @@ function updateActors(t) {
     const lerpSpec = (v, dflt) => { if (v === undefined) return dflt; if (!Array.isArray(v)) return v; const [a, b] = v; const w = A.spec.animAt || [0, 1]; const k = smooth(clamp((t / S.adur - w[0]) / Math.max(0.01, w[1] - w[0]), 0, 1)); return lerp(a, b, A.spec.animEase === 'pop' ? easeOutBack(k) : k); };
     const hs = lerpSpec(A.spec.head, 1); av.neck.scale.setScalar(hs); A.hs = hs;
     const fl = lerpSpec(A.spec.float, 0); if (fl || A.spec.float !== undefined) { av.root.position.y = fl + (fl > 0.5 ? Math.sin(t * 1.3 + A.phase) * 0.4 : 0); }
+    if (A.bubble) {
+      const bs = A.spec.bubbleAt ?? 0.1, k = clamp((t / S.adur - bs) / 0.12, 0, 1);
+      if (A.spec.bubbleType) { const n = Math.max(1, Math.round(A.spec.bubble.length * clamp((t / S.adur - bs) / 0.45, 0, 1))); A.bubble.material.map = bubbleTex(A.spec.bubble.slice(0, n) + (n < A.spec.bubble.length ? '|' : '')); }
+      av.headWorld(tmp); const hs0 = (A.hs || 1) * (av.app.scale || 1); const sz = (A.spec.bubbleSize || 2.7) * Math.max(1, hs0 * 0.6);
+      const side = A.spec.bubbleSide ?? 0; A.bubble.position.set(tmp.x + side * 1.6 * hs0, tmp.y + 1.9 * hs0 + (A.spec.bubbleDy || 0), tmp.z + 0.5); A.bubble.scale.set(sz * easeOutBack(k), sz * 0.25 * easeOutBack(k), 1); A.bubble.visible = k > 0.01;
+    }
+    if (A.spec.goatAt !== undefined) av.setGoat(t / S.adur >= A.spec.goatAt);
+    if (A.spec.vanishAt !== undefined) { const gone = t / S.adur >= A.spec.vanishAt; av.root.visible = !gone; if (gone && !A.vanFx) { A.vanFx = true; } }
     if (A.cloud) { av.headWorld(tmp); A.cloud.position.set(tmp.x, tmp.y + 0.75 * hs * (av.app.scale || 1) + 1.6 + hs * 0.35, tmp.z); A.cloud.scale.setScalar(Math.max(1, hs * 0.45)); A.cloud.userData.rain.forEach((d, i) => { d.position.y = -((t * 6 + i * 0.37) % 1) * 3; }); }
     if (A.double) {
       const d = A.double; d.resetPose(); const sa = ACTIONS[A.spec.shadow.action] ? A.spec.shadow.action : 'idle';
@@ -572,6 +607,7 @@ window.renderAt = function renderAt(t) {
   const u = clamp(ta / Math.max(0.01, S.adur), 0, 1);
   for (const g of S.movers) if (g.userData.spin) { g.rotation.y = ta * 1.2; g.position.y += Math.sin(t * 2) * 0.005; }
   for (const g of S.movers) if (g.userData.move) { const [dx, dz] = g.userData.move; g.position.set(g.userData.base.x + dx * (u - 0.5), 0, g.userData.base.z + dz * (u - 0.5)); }
+  updateMsgMovers(S.movers, ta, u);
   if (S.info.update) S.info.update(ta, u, spec);
   scene.updateMatrixWorld(true);
   // camera

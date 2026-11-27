@@ -12,3 +12,6 @@ output/foin/
 projects/hush/input/*.mp4
 projects/hush/input/*.mp3
 output/hush/
+projects/message/input/*.mp4
+projects/message/input/*.mp3
+output/message/

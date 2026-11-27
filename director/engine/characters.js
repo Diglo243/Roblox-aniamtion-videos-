@@ -22,6 +22,8 @@ function drawEye(g, x, y, kind, s = 1) {
     case 'half':
       g.fillStyle = '#1b1b1b'; g.beginPath(); g.ellipse(0, 4, 13 * s, 12 * s, 0, 0, Math.PI); g.fill();
       g.fillRect(-17, 0, 34, 6); break;
+    case 'socket':
+      g.fillStyle = '#1b1b1b'; g.beginPath(); g.ellipse(0, 4, 22 * s, 26 * s, 0, 0, 7); g.fill(); break;
     case 'dollar':
       g.fillStyle = '#18a84a'; g.font = 'bold 54px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$', 0, 2); break;
     default: // classic oval eye with highlight
@@ -58,6 +60,7 @@ function mouth(g, kind, open) {
     case 'flat': g.beginPath(); g.moveTo(cx - 22, cy); g.lineTo(cx + 22, cy); g.stroke(); break;
     case 'smirk': g.beginPath(); g.moveTo(cx - 24, cy + 4); g.quadraticCurveTo(cx + 10, cy + 10, cx + 32, cy - 10); g.stroke(); break;
     case 'wavy': g.beginPath(); g.moveTo(cx - 32, cy); for (let i = 0; i <= 8; i++) g.lineTo(cx - 32 + i * 8, cy + (i % 2 ? 7 : -5)); g.stroke(); break;
+    case 'teeth': g.fillStyle = '#1b1b1b'; g.fillRect(cx - 40, cy - 8, 80, 28); g.fillStyle = '#f4f1ea'; for (let i = 0; i < 6; i++) g.fillRect(cx - 37 + i * 13, cy - 6, 10, 24); g.beginPath(); g.moveTo(cx, cy - 40); g.lineTo(cx - 10, cy - 22); g.lineTo(cx + 10, cy - 22); g.closePath(); g.fillStyle = '#1b1b1b'; g.fill(); break;
     case 'O': g.fillStyle = '#3a0d10'; g.beginPath(); g.ellipse(cx, cy + 4, 16 + open * 4, 22 + open * 8, 0, 0, 7); g.fill(); break;
     case 'scream': g.fillStyle = '#3a0d10'; g.beginPath(); g.ellipse(cx, cy + 6, 26, 30, 0, 0, 7); g.fill(); g.fillStyle = '#fff'; g.fillRect(cx - 18, cy - 22, 36, 9); break;
     case 'grin': case 'laugh':
@@ -87,6 +90,7 @@ const FACE_DEF = {
   scream: { eye: 'wide', brow: 'angry', mouth: 'scream' },
   greedy: { eye: 'dollar', brow: 'up', mouth: 'grin' },
   tired: { eye: 'half', brow: 'sad', mouth: 'flat' },
+  skull: { eye: 'socket', brow: null, mouth: 'teeth' },
 };
 export const EXPRESSIONS = Object.keys(FACE_DEF);
 
@@ -143,6 +147,8 @@ function shirtTex(a) {
     const dark = '#00000040', light = '#ffffffcc';
     switch (a.shirtDesign) {
       case 'stripe': g.fillStyle = light; g.fillRect(0, 96, w, 40); break;
+      case 'ribs': g.fillStyle = '#1b1b1b'; g.fillRect(122, 20, 12, 200); for (let i = 0; i < 5; i++) { g.fillRect(40, 40 + i * 34, 76, 9); g.fillRect(140, 40 + i * 34, 76, 9); } break;
+      case 'pajama': g.fillStyle = '#ffffffaa'; for (let i = 0; i < 18; i++) { g.beginPath(); g.arc(20 + (i % 6) * 44, 30 + Math.floor(i / 6) * 80, 8, 0, 7); g.fill(); } break;
       case 'plaid': g.fillStyle = '#00000040'; for (let i = 0; i < 8; i++) { g.fillRect(i * 32, 0, 10, h); g.fillRect(0, i * 32, w, 10); } break;
       case 'suspenders': g.fillStyle = a.trim || '#c62828'; g.fillRect(60, 0, 22, h); g.fillRect(174, 0, 22, h); break;
       case 'sash': g.fillStyle = '#c62828'; g.save(); g.translate(128, 128); g.rotate(-0.7); g.fillRect(-200, -22, 400, 44); g.fillStyle = '#ffd54f'; g.fillRect(-200, -26, 400, 6); g.restore(); g.fillStyle = '#ffd54f'; g.beginPath(); g.arc(150, 110, 16, 0, 7); g.fill(); break;
@@ -196,6 +202,10 @@ function addHair(head, a) {
     const n = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 1.5, 6), nm); n.position.set(0.15, 0.98, -0.32); n.rotation.z = 1.1; n.rotation.x = 0.3; head.add(n);
     const tip = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 6), nm); tip.position.set(-0.52, 1.3, -0.22); head.add(tip); head.userData.needle = tip;
   }
+  if (a.pacifier) { H(0.5, 0.36, 0.12, 0, -0.32, 0.66, { mat: M('#ff8fb1'), round: 0.1 }); H(0.2, 0.2, 0.2, 0, -0.32, 0.76, { mat: M('#ffd23f'), round: 0.08 }); }
+  if (a.bow) { const bm = M(a.bow); H(0.5, 0.36, 0.2, -0.32, 0.9, 0.2, { mat: bm, rz: 0.4 }); H(0.5, 0.36, 0.2, 0.32, 0.9, 0.2, { mat: bm, rz: -0.4 }); H(0.2, 0.2, 0.22, 0, 0.9, 0.2, { mat: bm }); }
+  if (a.mustache) { H(0.9, 0.2, 0.12, 0, -0.18, 0.66, { mat: M(a.hair.color || '#3e2723'), round: 0.08 }); }
+  if (a.headset) { H(1.42, 0.14, 0.3, 0, 0.66, 0, { mat: M('#222') }); for (const sx of [-0.7, 0.7]) H(0.2, 0.5, 0.5, sx, 0.1, 0, { mat: M('#26c6da') }); }
   if (a.cow) {
     const wm = M('#f4f1ea'), pm = M('#f4a6b8'), hm2 = M('#e9d8a6');
     H(1.1, 0.55, 0.4, 0, -0.36, 0.66, { mat: pm, round: 0.15 }); for (const x of [-0.22, 0.22]) H(0.14, 0.14, 0.05, x, -0.33, 0.87, { mat: M('#7a3b4a') });
@@ -260,6 +270,13 @@ export class Avatar {
     this.faceMat = new THREE.MeshStandardMaterial({ transparent: true, roughness: 0.7, map: faceTexture('neutral', 0, false), polygonOffset: true, polygonOffsetFactor: -2 });
     const face = new THREE.Mesh(new THREE.PlaneGeometry(1.12, 1.12), this.faceMat); face.position.z = 0.627; head.add(face);
     addHair(head, a);
+    // goat transformation (hidden until av.setGoat(true))
+    const goat = this.goatHead = new THREE.Group(); goat.visible = false; neck.add(goat); goat.position.y = 0.72;
+    { const gw = M('#f4f1ea', { rough: 0.8 }), gh = M('#c9a46a'), gd = M('#1b1b1b'), gp = M('#f4a6b8');
+      const G = (w, h, d, x, y, z, m, o = {}) => { const mm = new THREE.Mesh(boxGeo(w, h, d, o.round ?? 0.12), m); mm.position.set(x, y, z); if (o.rx) mm.rotation.x = o.rx; if (o.rz) mm.rotation.z = o.rz; mm.castShadow = true; goat.add(mm); return mm; };
+      G(1.2, 1.2, 1.3, 0, 0, 0, gw); G(0.9, 0.8, 0.9, 0, -0.25, 0.85, gw); G(0.6, 0.25, 0.1, 0, -0.2, 1.31, gp);
+      for (const sx of [-1, 1]) { G(0.26, 0.26, 0.06, sx * 0.34, 0.34, 0.68, gd); G(0.36, 0.36, 0.05, sx * 0.34, 0.36, 0.66, M('#ffffff')); G(0.62, 0.22, 0.3, sx * 0.8, 0.15, 0, gw, { rz: sx * 0.5 }); G(0.22, 0.7, 0.22, sx * 0.32, 0.75, -0.15, gh, { rx: -0.5, rz: -sx * 0.35 }); }
+      G(0.3, 0.55, 0.3, 0, -0.85, 0.85, M('#d9d4c8')); }
     this.expr = 'neutral'; this.talk = false; this.prop = null; this.fx = [];
     root.traverse(o => { if (o.isMesh) o.castShadow = true; });
   }
@@ -267,6 +284,7 @@ export class Avatar {
   get handL() { return this.arms[0].userData.hand; }
   headWorld(v = new THREE.Vector3()) { return this.head.getWorldPosition(v); }
 
+  setGoat(on) { this.goatHead.visible = on; this.head.visible = !on; }
   setFace(expr, open, blink) {
     this.faceMat.map = faceTexture(expr, open, blink);
   }

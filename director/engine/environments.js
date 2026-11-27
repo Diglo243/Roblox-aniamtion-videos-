@@ -72,8 +72,8 @@ export function house(p, x, z, ry, r, night, o = {}) {
 }
 
 function sky(scene, tod) {
-  const top = { day: '#3f9cf5', sunset: '#5a4fb3', night: '#060b24' }[tod];
-  const bot = { day: '#cfeaff', sunset: '#ffb37a', night: '#1c2a55' }[tod];
+  const top = { day: '#3f9cf5', sunset: '#5a4fb3', night: '#060b24', doom: '#b3260f' }[tod];
+  const bot = { day: '#cfeaff', sunset: '#ffb37a', night: '#1c2a55', doom: '#ff8a3d' }[tod];
   const geo = new THREE.SphereGeometry(900, 24, 16);
   const cols = []; const pos = geo.attributes.position; const ct = new THREE.Color(top), cb = new THREE.Color(bot);
   for (let i = 0; i < pos.count; i++) { const y = pos.getY(i) / 900; const k = Math.pow(Math.max(0, y), 0.55); const c = cb.clone().lerp(ct, k); cols.push(c.r, c.g, c.b); }
@@ -100,11 +100,11 @@ function sky(scene, tod) {
 export function setupLighting(scene, tod, interior, info, focus) {
   const night = tod === 'night';
   const hemi = new THREE.HemisphereLight(
-    { day: '#cfe8ff', sunset: '#ffd0a8', night: '#5d6fb0' }[tod],
-    { day: '#8d7a5a', sunset: '#6a4a5a', night: '#1a1a30' }[tod],
-    interior ? (night ? 0.9 : 1.4) : { day: 1.35, sunset: 1.0, night: 0.55 }[tod]);
+    { day: '#cfe8ff', sunset: '#ffd0a8', night: '#5d6fb0', doom: '#ffb08a' }[tod],
+    { day: '#8d7a5a', sunset: '#6a4a5a', night: '#1a1a30', doom: '#6a2a1a' }[tod],
+    interior ? (night ? 0.9 : 1.4) : { day: 1.35, sunset: 1.0, night: 0.55, doom: 1.1 }[tod]);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight({ day: '#fff3df', sunset: '#ffae6b', night: '#9fb4ff' }[tod], interior ? (night ? 0.5 : 1.6) : { day: 2.7, sunset: 2.2, night: 0.7 }[tod]);
+  const sun = new THREE.DirectionalLight({ day: '#fff3df', sunset: '#ffae6b', night: '#9fb4ff', doom: '#ff8a4a' }[tod], interior ? (night ? 0.5 : 1.6) : { day: 2.7, sunset: 2.2, night: 0.7, doom: 2.4 }[tod]);
   const fx = focus?.x || 0, fz = focus?.z || 0;
   const dir = info.sun ? new THREE.Vector3(...info.sun).normalize().multiplyScalar(80) : (tod === 'sunset' ? new THREE.Vector3(-60, 25, -40) : new THREE.Vector3(35, 60, 28));
   const sf = info.shadowFocus || [fx, fz];
@@ -124,7 +124,7 @@ export function setupLighting(scene, tod, interior, info, focus) {
     const pts = info.lampPoints.slice().sort((a, b) => (Math.hypot(a[0] - fx, a[2] - fz) - Math.hypot(b[0] - fx, b[2] - fz))).slice(0, 3);
     for (const p of pts) { const l = new THREE.PointLight('#ffcf7a', 420, 45, 1.7); l.position.set(p[0], p[1] - 0.6, p[2]); scene.add(l); }
   }
-  const fogC = interior ? null : { day: '#cfeaff', sunset: '#f6b08a', night: '#18244a' }[tod];
+  const fogC = interior ? null : { day: '#cfeaff', sunset: '#f6b08a', night: '#18244a', doom: '#ff9a5a' }[tod];
   if (fogC) scene.fog = new THREE.Fog(fogC, info.fogNear || 90, info.fogFar || 520);
   if (info.background) { scene.background = new THREE.Color(info.background); scene.fog = info.fogColor ? new THREE.Fog(info.fogColor, info.fogNear || 30, info.fogFar || 140) : null; }
   else if (!interior) sky(scene, tod);
@@ -356,7 +356,7 @@ function bedroom(p, r, night) {
   return info;
 }
 
-function kitchen(p, r, night) {
+function kitchen(p, r, night, o = {}) {
   const W = 32, D = 28, H = 13;
   const info = room(p, W, D, H, r.pick(['#fff8e1', '#e0f2f1', '#fce4ec']), M('#ffffff', { map: repeatTex(TEX.tiles('#fafafa', '#cfd8dc'), 6, 6) }), night);
   info.stage = { x: 0, z: 2 };
@@ -366,7 +366,7 @@ function kitchen(p, r, night) {
   box(p, 5, 0.2, 3, '#9e9e9e', 4, 4.2, -12); box(p, 4.4, 0.1, 2.6, '#222', -6, 4.2, -12);
   box(p, 5, 11, 4.4, '#eceff1', 13.2, 0, -11.6); box(p, 0.3, 5, 0.3, '#9e9e9e', 11, 5.5, -9.3);
   wallWindow(p, 4, 7.6, -13.7, 5, 3.4, night);
-  const t = new THREE.Group(); t.position.set(-2, 0, 3); p.add(t);
+  const t = new THREE.Group(); t.position.set(-2, 0, 3); if (!o.noTable) p.add(t);
   box(t, 9, 0.5, 6, '#a1887f', 0, 3.6, 0); for (const [x, z] of [[-4, -2.5], [4, -2.5], [-4, 2.5], [4, 2.5]]) box(t, 0.5, 3.6, 0.5, '#8d6e63', x, 0, z);
   for (const x of [-3, 3]) { box(t, 2.6, 0.4, 2.6, '#6d4c41', x, 2.2, -4.6); box(t, 2.6, 4, 0.4, '#6d4c41', x, 2.2, -5.8); }
   info.seats.push({ x: -5, z: -1.6, y: 2.6, ry: 0 }, { x: 1, z: -1.6, y: 2.6, ry: 0 });
