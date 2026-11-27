@@ -96,7 +96,7 @@ sentences = [
      S(SUB, [A("facteur", "talk", pos=[SWX, 36], facing=FACE, head=[2.3, 2.8], animAt=[0.1, 0.4], animEase="pop", emotion="smug", prop="satchel")],
        HEAD(SWX, 36, 2.8, az=10), cut="hush", sfx=[POP(0.1)])],
     # 3 Maintenant, sa tête ne rentre même plus dans son camion postal. ref #3 from behind, at the mail truck
-    [S(SUB, [A("facteur", "push", pos=[7.2, 22], facing=3.14, head=4.4, prop="satchel")], FR([6.0, 5.5, 18], 9, az=-120, pitch=10, fov=50),
+    [S(SUB, [A("facteur", "push", pos=[7.2, 22], facing=3.14, head=4.4, prop="satchel")], FR([6.0, 5.5, 18], 9, az=70, pitch=10, fov=50),
        worldProps=[{"kind": "mail_truck", "pos": [4.2, 14], "facing": 0}])],
     # 4 La tête de grand-mère est tellement énorme qu'elle a sa propre météo.   ref #4 full shot, ref #5 top of head + rain cloud
     [S(SUB, [A("mamie_rose", "idle", pos=[SWX, 53], facing=FACE, head=5.2, emotion="happy")], BODY(SWX, 53, 5.2, az=25, pitch=4, ratio=0.62), w=1.3),
@@ -156,7 +156,7 @@ sentences = [
     [S(SUB, [A("sam", "idle", pos=[SWX - 2, -4], head=4.6, float=7, facing=FACE), A("nino", "idle", pos=[SWX - 1, 4], facing=2.6)], FR([SWX - 2, 12, -4], 14, az=-70, pitch=-18, fov=52, ratio=0.8),
        crowd=[dict(FLOAT_FAR, n=6, area=[-10, -60, 20, -20])], w=1.5),
      S(SUB, [A("sam", "talk", pos=[SWX - 2, -4], head=4.6, float=7, facing=FACE, emotion="smug"), A("nino", "idle", pos=[SWX - 1.6, 4.5], facing=2.7)],
-       FR([SWX - 2, hy(4.6, 7), -4], 8.5, az=-85, pitch=-10, fov=46, ratio=0.8), cut="mec", w=0.8)],
+       FR([SWX - 2, hy(4.6, 7), -4], 8.5, az=-45, pitch=0, fov=46, ratio=0.75), cut="mec", w=0.8)],
     # 23 J'ai répondu : Non, on dirait une sucette.                     ref #29 close-up "no", ref #30 the lollipop over its shoes
     [S(SUB, [A("nino", "talk", pos=[SWX, 0], facing=FACE, emotion="smug")], HEAD(SWX, 0, 1, az=-10), w=0.9),
      S(SUB, [A("sam", "idle", pos=[SWX, -6], head=5.0, float=6, facing=FACE, emotion="shocked"), A("nino", "idle", pos=[SWX + 2.6, 1.5], facing=-2.4)],
@@ -180,18 +180,18 @@ sentences = [
        crowd=[dict(n=4, area=[0, 10, 24, 30], action="idle", facing=0, spread=3, head=[4, 5], float=[34, 44])], w=1.1)],
     # 30 Monsieur le maire, vos discours sont ennuyeux !                ref #36 over the shoulder from the tree top, town below
     [S(SUB, [A("nino", "angry", pos=[9.4, 27], facing=-0.8, float=22, emotion="scream"), A("maire", "shocked", pos=[1, 18], head=2.8, float=23, facing=0.9)],
-       P([6.5, 28.5, 31], [6.4, 28.6, 30.6], [1, 27, 18], 48), worldProps=[{"kind": "big_tree", "pos": [12, 27]}])],
+       P([6.5, 28.5, 31], [6.4, 28.6, 30.6], [1, 27, 18], 48), noSplit=True, worldProps=[{"kind": "big_tree", "pos": [12, 27]}])],
     # 31 Il est redescendu.                                             ref #37 top-down, he drops to the street
     [S(SUB, [A("maire", "shocked", pos=[1, 18], head=[2.8, 1.0], float=[23, 0], animAt=[0, 1])], P([3, 70, 26], [3, 66, 25], [1, 0, 18], 50), noSplit=True, sfx=[sfx("whoosh", 0, -26)])],
     # 32 Facteur, tu as perdu mon colis deux fois !                     ref #38 OTS on the floating mailman, ref #39 close-up "twice"
     [S(SUB, [A("nino", "angry", pos=[9.4, 27], facing=-1.8, float=22, emotion="scream"), A("facteur", "sad", pos=[0, 32], head=3.2, float=23, facing=1.8, prop="satchel")],
-       P([6, 28.5, 23.5], [6.1, 28.6, 23.8], [0, 27, 32], 48), worldProps=[{"kind": "big_tree", "pos": [12, 27]}], w=1.6),
+       P([6, 28.5, 23.5], [6.1, 28.6, 23.8], [0, 27, 32], 48), noSplit=True, worldProps=[{"kind": "big_tree", "pos": [12, 27]}], w=1.6),
      S(SUB, [A("nino", "angry", pos=[9.4, 27], facing=-1.4, float=22, emotion="smug")], HEAD(9.4, 27, 1, 22, az=-10), worldProps=[{"kind": "big_tree", "pos": [12, 27]}], cut="deux", w=0.4)],
     # 33 Il est redescendu.                                             ref #40 aerial, he drops
     [S(SUB, [A("facteur", "sad", pos=[0, 32], head=[3.2, 1.0], float=[23, 0], animAt=[0, 1], prop="satchel")], P([-6, 66, 40], [-6, 62, 39], [0, 0, 32], 50), noSplit=True, sfx=[sfx("whoosh", 0, -26)])],
     # 34 Grand-mère, tes biscuits ont le goût du sable !                ref #41 OTS on floating grandma
     [S(SUB, [A("nino", "angry", pos=[9.4, 27], facing=-0.4, float=22, emotion="scream"), A("mamie_rose", "sad", pos=[5, 14], head=4.2, float=21, facing=0.4)],
-       P([6.4, 28.5, 32], [6.5, 28.6, 31.6], [5, 28, 14], 48), worldProps=[{"kind": "big_tree", "pos": [12, 27]}])],
+       P([6.4, 28.5, 32], [6.5, 28.6, 31.6], [5, 28, 14], 48), noSplit=True, worldProps=[{"kind": "big_tree", "pos": [12, 27]}])],
     # 35 Elle est redescendue tellement vite qu'elle m'en veut encore.  ref #42 lands fast in a cloud of dust, ref #43 angry
     [S(SUB, [A("mamie_rose", "shocked", pos=[SWX, 53], head=[4.2, 1.0], float=[22, 0], animAt=[0, 0.3], facing=FACE)], BODY(SWX, 53, 1, az=25, pitch=4, ratio=0.35),
        fx=["shake"], w=1.1, noSplit=True, sfx=[sfx("boom", 0.25, -26)]),
