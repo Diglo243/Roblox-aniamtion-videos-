@@ -3,6 +3,7 @@
   "duration": 18,
   "steps": 20,
   "summitAt": 14.3,
+  "music": true,
   "title": {"text": "WHO REACHES\nTHE *TOP*?", "from": 0.0, "to": 2.8},
   "outro": {"text": "*DISCIPLINE* ALWAYS WINS.", "from": 15.6},
   "camera": {"dist": [[0, 13], [6, 15], [12, 17.5], [18, 19]], "focusWeights": {"DISCIPLINE": 1.6}},

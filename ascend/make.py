@@ -22,8 +22,8 @@ def main():
     wav = os.path.join(work, name + "_music.wav")
     extra = sys.argv[2:]
     subprocess.run(["node", os.path.join(ROOT, "ascend", "render.js"), ep, silent] + extra, check=True)
-    # "music": false -> effects-only soundtrack (ascend/sfx.py), otherwise generated music (ascend/music.py)
-    audio = "music.py" if json.load(open(ep)).get("music", True) else "sfx.py"
+    # channel default: effects-only quiet soundtrack (ascend/sfx.py); "music": true -> generated music (ascend/music.py)
+    audio = "music.py" if json.load(open(ep)).get("music", False) else "sfx.py"
     subprocess.run([sys.executable, os.path.join(ROOT, "ascend", audio), ep, wav], check=True)
     final = os.path.join(out_dir, name + ".mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", silent, "-i", wav, "-map", "0:v", "-map", "1:a",

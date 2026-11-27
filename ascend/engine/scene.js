@@ -468,7 +468,7 @@ export class Arena {
     let fx = 0, fy = 0, n = 0;
     for (let k = -12; k <= 12; k++) { const tt = clamp(t + k * 0.08, 0, dur); const f = this.focusAt(tt); fx += f[0]; fy += f[1]; n++; }
     fx /= n; fy /= n;
-    const D = c.dist ? pchip(c.dist) : (tt) => lerp(13, 17, tt / dur);
+    const D = c.dist ? pchip(c.dist) : (tt) => lerp(17, 23, tt / dur);
     const dist = D(t);
     const dir = new THREE.Vector3(...(c.dir || [-0.52, 0.4, 0.75])).normalize();
     const tgt = new THREE.Vector3(fx + (c.offset?.[0] || 0), fy + (c.offset?.[1] || 0), (c.offset?.[2] || 0));
@@ -522,7 +522,7 @@ export class Arena {
     vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.55)');
     ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
     const v = new THREE.Vector3();
-    const labelPx = ep.labelPx || 40;
+    const labelPx = ep.labelPx || 36;
     // labels: avoid overlaps by pushing apart vertically
     const items = [];
     for (const l of this.lanes) {

@@ -74,6 +74,9 @@ Au niveau de l'épisode :
 * `crowd` : spectateurs.
 
 ### Effets et son
+**Réglage par défaut de la chaîne** (depuis l'épisode 2) : pas de musique, effets sonores à volume bas, personnages petits
+(caméra à 17 → 23 m). Pour remettre la musique générée sur un épisode : `"music": true`.
+
 * `"music": false` → pas de musique, **effets sonores seuls** (`ascend/sfx.py`) : pas à chaque marche, souffle et chocs
   quand quelqu'un tombe, « pop » des bulles de texte, et au sommet un petit impact, des scintillements et le logo sonore.
   Le volume est bas : les crêtes sont réglées par `sfx_peak_db` (−9 dB par défaut, environ −26 LUFS).
