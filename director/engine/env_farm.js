@@ -262,7 +262,7 @@ function windowRoom(p, r, night, o = {}) {
 function TEX_wood() { return canvasTex('wood2', 256, 256, (g, w, h) => { const r = rng('w2'); for (let i = 0; i < 8; i++) { g.fillStyle = ['#b07a47', '#a86f3d', '#b9834f', '#9f6a3a'][i % 4]; g.fillRect(0, i * 32, w, 32); g.fillStyle = 'rgba(0,0,0,0.18)'; g.fillRect(0, i * 32 + 31, w, 2); g.fillRect(r() * w, i * 32, 2, 32); } }); }
 
 function cloudSky(p, r, night, o = {}) {
-  const info = { stage: { x: 0, z: 0 }, interior: false, seats: [], beds: [], lampPoints: [], sun: [30, 60, 40], fogNear: 200, fogFar: 900, shadowSize: 60 };
+  const info = { stage: { x: 0, z: 0 }, interior: false, seats: [], beds: [], lampPoints: [], sun: [30, 60, 40], fogNear: 200, fogFar: 900, shadowSize: 60, hemi: night ? 1.25 : undefined, extraLights: night ? [{ color: '#dfe6ff', intensity: 2600, pos: [0, 30, 40], dist: 160 }] : undefined };
   ground(p, M('#ffffff', { map: repeatTex(limeTex(), 100, 100) })).position.y = -60;
   const cm = M('#ffffff', { rough: 1 });
   const Y = o.cloudY ?? 14;
@@ -270,5 +270,84 @@ function cloudSky(p, r, night, o = {}) {
   return info;
 }
 
-export const FARM_ENVIRONMENTS = { studio, shower, window_room: windowRoom, cloud_sky: cloudSky, hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
+// ---------------------------------------------------------------- suburb (Hush reference) --
+const SUB_COLORS = ['#c9b6e4', '#a8d5a2', '#9cc3e6', '#f6e3a1', '#f4b6c2', '#e8dcc8', '#7aa6d6', '#e9967a', '#b5e0d0', '#d9c3f0'];
+const sidingTex = (col) => canvasTex('sub_siding' + col, 128, 128, (g, w, h) => { g.fillStyle = col; g.fillRect(0, 0, w, h); for (let y = 0; y < 10; y++) { g.fillStyle = 'rgba(0,0,0,0.10)'; g.fillRect(0, y * 13 + 11, w, 2); g.fillStyle = 'rgba(255,255,255,0.10)'; g.fillRect(0, y * 13, w, 2); } });
+export function suburbHouse(p, x, z, ry, r, o = {}) {
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; p.add(g);
+  const w = o.w || r.pick([13, 14, 15]), d = 12, two = o.two ?? r() < 0.6, h = two ? 14 : 8.5;
+  const col = o.color || r.pick(SUB_COLORS);
+  box(g, w, h, d, M('#ffffff', { map: repeatTex(sidingTex(col), w / 6, h / 6) }), 0, 0, 0);
+  box(g, w + 0.3, 0.6, d + 0.3, '#ffffff', 0, 0, 0, { cast: false });
+  for (const sx of [-1, 1]) box(g, 0.4, h, 0.4, '#ffffff', sx * w / 2, 0, d / 2, { cast: false });
+  const roofC = o.roof || r.pick(['#4a4f5a', '#5b5f6a', '#8d3b2f', '#6b4a3a', '#3f4652']);
+  const sh = new THREE.Shape(); sh.moveTo(-w / 2 - 0.8, 0); sh.lineTo(0, w * 0.38); sh.lineTo(w / 2 + 0.8, 0); sh.lineTo(-w / 2 - 0.8, 0);
+  const roof = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: d + 1.6, bevelEnabled: false }), M(roofC, { rough: 0.85 })); roof.position.set(0, h, -d / 2 - 0.8); roof.castShadow = true; roof.receiveShadow = true; g.add(roof);
+  const tri = new THREE.Shape(); tri.moveTo(-w / 2, 0); tri.lineTo(0, w * 0.36); tri.lineTo(w / 2, 0); tri.lineTo(-w / 2, 0);
+  const gab = new THREE.Mesh(new THREE.ShapeGeometry(tri), M('#ffffff', { map: repeatTex(sidingTex(col), w / 6, 1) })); gab.position.set(0, h, d / 2 + 0.01); g.add(gab);
+  box(g, 1.6, 4, 1.6, '#a1503d', w / 4, h + 1, -2);
+  if (o.simple) { const wm0 = o.night ? M('#ffd98a', { emissive: '#ffcf6b', ei: 0.9 }) : M('#dff1ff'); for (const wx of [-w / 2 + 3.2, w / 2 - 3.2]) box(g, 2.4, 2.9, 0.3, wm0, wx, 3.2, d / 2 + 0.02, { cast: false }); box(g, 2.1, 5, 0.35, r.pick(['#f2b705', '#c62828', '#1e5bd8']), 0.5, 0.6, d / 2 + 0.02, { cast: false }); return g; }
+  const wm = o.night ? M('#ffd98a', { emissive: '#ffcf6b', ei: 0.9 }) : M('#dff1ff', { rough: 0.2, emissive: '#bfe3ff', ei: 0.2 });
+  const shut = o.shutter || r.pick(['#2f3b52', '#3b2f2f', '#2e4a3a', '#ffffff']);
+  const rows = two ? [3.2, 9.4] : [3.2];
+  for (const fy of rows) for (const wx of [-w / 2 + 3.2, w / 2 - 3.2]) {
+    if (fy === 3.2 && wx < 0 && !two) continue;
+    box(g, 2.9, 3.4, 0.25, '#ffffff', wx, fy - 0.2, d / 2, { cast: false }); box(g, 2.4, 2.9, 0.3, wm, wx, fy, d / 2 + 0.02, { cast: false });
+    box(g, 0.15, 2.9, 0.34, '#ffffff', wx, fy, d / 2 + 0.03, { cast: false }); box(g, 2.4, 0.15, 0.34, '#ffffff', wx, fy + 1.4, d / 2 + 0.03, { cast: false });
+    for (const sx of [-1.75, 1.75]) box(g, 0.8, 3.1, 0.2, shut, wx + sx, fy - 0.1, d / 2 + 0.05, { cast: false });
+    box(g, 2.8, 0.6, 0.6, '#ffffff', wx, fy - 0.5, d / 2 + 0.3, { cast: false });
+    if (fy === 3.2 && r() < 0.6) box(g, 2.6, 0.6, 0.6, r.pick(['#ff6b9a', '#ffd23f', '#c77dff']), wx, fy - 0.9, d / 2 + 0.35, { cast: false });
+  }
+  const dc = o.door || r.pick(['#f2b705', '#c62828', '#1e5bd8', '#2e7d32', '#ffffff']);
+  box(g, 2.6, 5.4, 0.3, '#ffffff', 0.5, 0.6, d / 2); box(g, 2.1, 5, 0.35, dc, 0.5, 0.6, d / 2 + 0.02); sphere(g, 0.15, '#ffd54f', 1.2, 3, d / 2 + 0.25);
+  box(g, 5, 0.3, 3, '#ffffff', 0.5, 5.9, d / 2 + 1.4); for (const sx of [-1.8, 2.8]) box(g, 0.3, 5.9, 0.3, '#ffffff', sx, 0, d / 2 + 2.6);
+  for (let k = 0; k < 3; k++) box(g, 4.4, 0.3, 1, '#d8d8d8', 0.5, k * 0.3, d / 2 + 0.6 + (2 - k) * 0.9, { cast: false });
+  for (let k = 0; k < 4; k++) box(g, 1.8, 1.4, 1.8, '#3fa34a', -w / 2 + 1.2 + k * 2.1, 0, d / 2 + 1.0, { round: 0.6 });
+  return g;
+}
+
+function suburb(p, r, night, o = {}) {
+  const info = { stage: { x: 0, z: 0 }, interior: false, seats: [], beds: [], lampPoints: [], sun: o.sun || [40, 60, 30], fogNear: 300, fogFar: 1200, shadowSize: 50 };
+  ground(p, M('#ffffff', { map: repeatTex(limeTex(), 120, 120) }));
+  const L = 520;
+  plane(p, 12, L, M('#5a5d63'), 0, 0.02, -L / 2 + 80, { rx: -Math.PI / 2 });
+  for (let zz = 80; zz > -L + 80; zz -= 9) box(p, 0.35, 0.05, 4, '#f5f5f5', 0, 0.03, zz, { cast: false });
+  for (const sx of [-1, 1]) {
+    box(p, 0.5, 0.3, L, '#cfcfcf', sx * 6.2, 0, -L / 2 + 80, { cast: false });
+    plane(p, 2.2, L, M('#6fd34a'), sx * 7.6, 0.03, -L / 2 + 80, { rx: -Math.PI / 2 });
+    plane(p, 3.6, L, M('#e4e4e2'), sx * 10.5, 0.04, -L / 2 + 80, { rx: -Math.PI / 2 });
+    for (let zz = 80; zz > -L + 80; zz -= 4) box(p, 3.6, 0.03, 0.12, '#c8c8c6', sx * 10.5, 0.05, zz, { cast: false });
+    for (let zz = 70, i = 0; zz > -210; zz -= 17, i++) {
+      const isShop = o.bakery && i === 3 && sx < 0;
+      if (isShop) {
+        const g = new THREE.Group(); g.position.set(sx * 21, 0, zz); g.rotation.y = -sx * Math.PI / 2; p.add(g);
+        box(g, 15, 9, 12, '#f1dfb5'); box(g, 15.4, 0.8, 12.4, '#2e9e6a', 0, 9, 0); box(g, 13, 2, 0.3, M('#ffffff', { map: textTex('BOULANGERIE', { bg: '#f1dfb5', color: '#8d5a34', size: 120, w: 1200, h: 200 }) }), 0, 6.6, 6.1, { cast: false });
+        box(g, 12, 0.5, 3, '#2e9e6a', 0, 5.6, 7.2, { rx: -0.2 }); box(g, 3.2, 5.4, 0.4, '#8d5a34', 0, 0, 6.05); box(g, 2.6, 4.8, 0.45, M('#dff1ff', { emissive: '#bfe3ff', ei: 0.2 }), 0, 0.2, 6.06, { cast: false });
+        box(g, 3.6, 3.2, 0.3, M('#dff1ff', { emissive: '#bfe3ff', ei: 0.2 }), -4.6, 1.4, 6.05, { cast: false }); box(g, 3.6, 3.2, 0.3, M('#dff1ff', { emissive: '#bfe3ff', ei: 0.2 }), 4.6, 1.4, 6.05, { cast: false });
+        info.bakery = [sx * 13, zz];
+        continue;
+      }
+      suburbHouse(p, sx * 21, zz, -sx * Math.PI / 2, r, { night });
+      if (i % 2 === 0) tree(p, sx * 13.5, zz - 8, r, 0.75, r.pick(['round', 'pine']));
+      if (i % 3 === 1) { box(p, 0.25, 3.4, 0.25, '#5d4037', sx * 12.6, 0, zz + 4); box(p, 1.4, 1, 1.8, r.pick(['#1e5bd8', '#c62828', '#2e7d32']), sx * 12.6, 3.4, zz + 4); }
+      if (i % 4 === 2) { cyl(p, 0.45, 0.5, 1.6, '#e53935', sx * 8.2, 0, zz + 6, { seg: 10 }); sphere(p, 0.45, '#e53935', sx * 8.2, 1.65, zz + 6, { seg: 10 }); }
+      if (sx < 0 && r() < 0.35 && !(o.noCars)) car(p, -4, zz - 6, r() < 0.5 ? 0 : Math.PI, r, r.pick(['#1e5bd8', '#ffffff', '#f2b705', '#e53935', '#2a3d66']));
+      if (i % 3 === 0) { cyl(p, 0.18, 0.22, 10, '#2b2b2b', sx * 8.4, 0, zz - 2, { seg: 8 }); box(p, 1.8, 0.25, 0.4, '#2b2b2b', sx * 7.6, 9.9, zz - 2); box(p, 0.9, 0.4, 0.7, night ? M('#fff4c2', { emissive: '#ffe9a0', ei: 1.5 }) : M('#eeeeee'), sx * 6.9, 9.6, zz - 2); if (night) info.lampPoints.push([sx * 6.9, 9.4, zz - 2]); }
+    }
+    // back rows for aerial views
+    for (const bx of [44, 66]) for (let zz = 70; zz > -210; zz -= 17) suburbHouse(p, sx * bx, zz, -sx * Math.PI / 2, r, { night, simple: true });
+    plane(p, 10, L, M('#5a5d63'), sx * 55, 0.02, -L / 2 + 80, { rx: -Math.PI / 2 });
+  }
+  if (o.partyHouse) {
+    const g = new THREE.Group(); g.position.set(-21, 0, -6); g.rotation.y = Math.PI / 2; p.add(g);
+    box(g, 16, 11, 12, '#5b3fb8'); box(g, 16.4, 0.6, 12.4, '#3b2a80', 0, 11, 0);
+    box(g, 11, 2.6, 0.4, M('#ffffff', { map: textTex('LA FÊTE', { bg: '#2a1650', color: '#ff7ad9', size: 160, w: 1000, h: 240 }) }), 0, 7.6, 6.2, { cast: false });
+    box(g, 3.4, 5.4, 0.4, M('#ff7ad9', { emissive: '#ff4fc8', ei: 1.0 }), 3, 0.3, 6.05, { cast: false });
+    box(g, 3.4, 3, 0.3, M('#ffd98a', { emissive: '#ffcf6b', ei: 1 }), -4, 2, 6.05, { cast: false });
+    info.lampPoints.push([-14, 7, -6]);
+  }
+  return info;
+}
+
+export const FARM_ENVIRONMENTS = { studio, suburb, shower, window_room: windowRoom, cloud_sky: cloudSky, hay_town: hayTown, hay_base: hayBase, hay_inside: hayInside, hay_shop: hayShop, cow_bank: cowBank,
   tool_shop: toolShop, crater, barn, gold_pond: goldPond, festival };

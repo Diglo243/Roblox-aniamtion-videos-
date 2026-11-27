@@ -1,0 +1,25 @@
+{
+ "_info": "Style par défaut de la chaîne (appliqué à toutes les vidéos, avant le style.json du projet).",
+ "caption": {
+  "font": "Poppins",
+  "mode": "word",
+  "uppercase": false,
+  "lowercase": true,
+  "strip_punct": false,
+  "color": "#FFFFFF",
+  "y": 0.578,
+  "x": 0.5,
+  "size": 96,
+  "outline": 6,
+  "shadow": 4,
+  "pop": "soft",
+  "char_w": 0.6,
+  "max_width": 0.62,
+  "spacing": 0,
+  "upper_words": [
+   "hush"
+  ]
+ },
+ "max_shot_cut": 1.25,
+ "sfx_gain_db": -24
+}

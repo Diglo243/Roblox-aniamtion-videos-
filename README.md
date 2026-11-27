@@ -68,6 +68,12 @@ d'un projet garde la priorité ; `"brand": false` dans `style.json` désactive l
 Planche de référence : `assets/brand/brand_sheet.png`, fiches verticales : `assets/brand/cards/`
 (régénérées avec `director/brand_sheet.py`).
 
+### Style par défaut de la chaîne
+`assets/brand/style.json` s'applique à **toutes** les vidéos (avant le `style.json` du projet) :
+sous-titres mot par mot, police Poppins, blanc à contour noir, « HUSH » en majuscules, et un
+montage nerveux (`max_shot_cut` : tout plan plus long que ~1,25 s est découpé automatiquement en
+angles de couverture — plan rapproché, contre-angle — sans couper les animations).
+
 ## Réalisation dirigée (projets exigeants)
 
 Pour une histoire très spécifique, le découpage automatique peut être remplacé par une liste de
@@ -87,7 +93,10 @@ plans écrite par le réalisateur, calée automatiquement sur la voix off :
   caisse, alarme, moteur, vent, battements de cœur, scintillement, foule…) mixés **à bas niveau**
   sous la voix (réglable via `sfx_gain_db`).
 
-Exemple complet : `projects/ombre/`.
+Exemples complets : `projects/ombre/`, `projects/foin/`, `projects/hush/` (adaptation plan par plan de
+la référence : chaque phrase reprend les plans de la référence dans le même ordre, avec le même
+cadrage, et leurs durées relatives — `FR()/HEAD()/BODY()` calculent la caméra à partir de la largeur
+du sujet dans le cadre vertical).
 
 ## Ajuster le résultat
 

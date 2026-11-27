@@ -668,12 +668,86 @@ def build_from_direction(direction, timing, profile):
                 at = ev.get("at", 0)
                 t = cuts[k + 1] - 0.05 if at == "end" else cuts[k] + float(at)
                 sfx.append({"name": ev["name"], "t": round(t, 3), **({"gain": ev["gain"]} if "gain" in ev else {}), **({"dur": ev["dur"]} if "dur" in ev else {})})
+    max_shot = float(direction.get("max_shot") or profile.get("max_shot_cut") or 0)
+    if max_shot > 0:
+        shots = split_coverage(shots, words, max_shot)
     for sh in shots:
         f0, f1 = round(sh["start"] * FPS), round(sh["end"] * FPS)
         sh["frames"] = max(1, f1 - f0)
         sh["duration"] = sh["frames"] / FPS
+    for sh in shots:
+        if sh.get("parentId"):
+            sh["timeOffset"] = round(sh["timeOffset"], 4)
     total = round(dur_total * FPS)
     shots[-1]["frames"] += total - sum(s["frames"] for s in shots)
     shots[-1]["duration"] = shots[-1]["frames"] / FPS
     return {"cast": direction.get("cast", {}), "shots": shots, "sfx": sfx, "fps": FPS, "duration": dur_total, "total_frames": total,
             "profile": {k: profile.get(k) for k in ("source", "median_shot", "min_shot", "max_shot", "caption", "grade")}}
+
+
+COVER = {"closeup": ["medium", "low"], "medium": ["closeup", "low"], "wide": ["medium", "closeup"], "low": ["closeup", "medium"],
+         "two_shot": ["closeup", "ots"], "ots": ["closeup", "two_shot"], "xcu": ["closeup", "medium"], "crash_zoom": ["closeup", "low"],
+         "high": ["closeup", "medium"], "dutch": ["closeup", "low"], "orbit": ["closeup", "medium"], "truck": ["closeup", "low"], "follow": ["medium", "closeup"]}
+
+
+def cover_camera(cam, k):
+    """An alternative framing of the same action (coverage) for the k-th extra cut."""
+    cam = json.loads(json.dumps(cam))
+    if cam.get("type") == "path":
+        f, t, l = cam["from"], cam.get("to", cam["from"]), cam.get("look")
+        if k % 2 == 1:  # punch-in towards the subject
+            mix = lambda a: [a[i] + (l[i] - a[i]) * 0.22 for i in range(3)]
+            cam["from"], cam["to"] = mix(f), mix(t)
+            cam["fov"] = max(30, cam.get("fov", 50) - 4)
+        else:  # swing around the subject
+            import math
+            ang = 0.38 if (k // 2) % 2 else -0.38
+            def rot(a):
+                dx, dz = a[0] - l[0], a[2] - l[2]
+                return [l[0] + dx * math.cos(ang) - dz * math.sin(ang), a[1], l[2] + dx * math.sin(ang) + dz * math.cos(ang)]
+            cam["from"], cam["to"] = rot(f), rot(t)
+        return cam
+    alts = COVER.get(cam.get("type", "medium"), ["closeup", "medium"])
+    cam["type"] = alts[(k - 1) % len(alts)]
+    cam["angle"] = -(cam.get("angle", 12) or 12)
+    cam["dir"] = -(cam.get("dir", 1) or 1)
+    return cam
+
+
+def split_coverage(shots, words, max_shot):
+    """Keep the reference's nervous rhythm: split long shots into coverage angles of the same action.
+    Animations stay continuous across the cuts (timeOffset / parentDur)."""
+    out = []
+    starts = [w["start"] for w in words]
+    for sh in shots:
+        d = sh["end"] - sh["start"]
+        if d <= max_shot * 1.25 or sh.get("noSplit"):
+            out.append(sh)
+            continue
+        n = max(2, int(round(d / max_shot)))
+        cuts = [sh["start"]]
+        for k in range(1, n):
+            ideal = sh["start"] + d * k / n
+            cand = [t for t in starts if cuts[-1] + 0.45 < t < sh["end"] - 0.45]
+            t = min(cand, key=lambda x: abs(x - ideal)) if cand else ideal
+            if abs(t - ideal) > 0.35:
+                t = ideal
+            cuts.append(t)
+        cuts.append(sh["end"])
+        alts = sh.get("alts") or []
+        for k in range(n):
+            c = json.loads(json.dumps(sh))
+            c.pop("alts", None)
+            c["id"] = f'{sh["id"]}{chr(97 + k)}'
+            c["parentId"] = sh["id"]
+            c["start"], c["end"] = round(cuts[k], 3), round(cuts[k + 1], 3)
+            c["timeOffset"] = cuts[k] - sh["start"]
+            c["parentDur"] = round(d, 4)
+            if k > 0:
+                c["camera"] = json.loads(json.dumps(alts[(k - 1) % len(alts)])) if alts else cover_camera(sh["camera"], k)
+                c["fx"] = [f for f in c.get("fx", []) if f not in ("flash", "punch")]
+                c.pop("fadeIn", None)
+            if k < n - 1:
+                c.pop("fadeOut", None)
+            out.append(c)
+    return out

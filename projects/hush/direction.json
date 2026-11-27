@@ -1,19 +1,78 @@
 {
  "cast": {
+  "voisin": {
+   "name": "Voisin",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#d6a47a",
+    "shirt": "#8ec5ea",
+    "shirtDesign": "none",
+    "sleeves": "short",
+    "pants": "#e3d3a8",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "cap_green",
+     "color": "#2b1b10"
+    },
+    "hatColor": "#2bb39a",
+    "accessory": "none",
+    "scale": 1
+   }
+  },
   "facteur": {
    "name": "Facteur",
    "gender": "m",
    "appearance": {
     "gender": "m",
-    "skin": "#d6995f",
-    "shirt": "#5b8fd6",
+    "skin": "#c98a5a",
+    "shirt": "#8ec5ea",
     "shirtDesign": "none",
     "sleeves": "short",
-    "pants": "#1f3a68",
-    "shoes": "#222222",
+    "pants": "#2b3a55",
+    "shoes": "#1b1b1b",
     "hair": {
-     "style": "cap",
-     "color": "#2b1b10"
+     "style": "cap_green",
+     "color": "#1b1b1b"
+    },
+    "hatColor": "#2b3550",
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "vieux": {
+   "name": "Vieil homme",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#e8b98c",
+    "shirt": "#f08a5d",
+    "shirtDesign": "stripe",
+    "sleeves": "short",
+    "pants": "#2b4a8b",
+    "shoes": "#f2c94c",
+    "hair": {
+     "style": "fade",
+     "color": "#8d5a34"
+    },
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "jaune": {
+   "name": "Passant",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f0c49a",
+    "shirt": "#f2c94c",
+    "shirtDesign": "none",
+    "sleeves": "short",
+    "pants": "#e3d3a8",
+    "shoes": "#ffffff",
+    "hair": {
+     "style": "short",
+     "color": "#5d3a1a"
     },
     "accessory": "none",
     "scale": 1
@@ -25,10 +84,10 @@
    "appearance": {
     "gender": "m",
     "skin": "#f5cfa9",
-    "shirt": "#1a237e",
+    "shirt": "#2b3550",
     "shirtDesign": "sash",
     "sleeves": "long",
-    "pants": "#111111",
+    "pants": "#1b1b1b",
     "shoes": "#111111",
     "hair": {
      "style": "short",
@@ -38,124 +97,158 @@
     "accessory": "none",
     "scale": 1
    }
-  },
-  "voisin": {
-   "name": "Voisin",
-   "gender": "m",
-   "appearance": {
-    "gender": "m",
-    "skin": "#eab98f",
-    "shirt": "#ff8a65",
-    "shirtDesign": "stripe",
-    "sleeves": "short",
-    "pants": "#455a64",
-    "shoes": "#ffffff",
-    "hair": {
-     "style": "side",
-     "color": "#4a2c17"
-    },
-    "accessory": "none",
-    "scale": 1
-   }
   }
  },
  "defaults": {
   "time": "day"
  },
+ "max_shot": 1.25,
  "sentences": [
   [
    {
-    "env": "street",
-    "actors": [],
-    "camera": {
-     "type": "path",
-     "from": [
-      6,
-      12,
-      30
-     ],
-     "to": [
-      4,
-      9,
-      22
-     ],
-     "look": [
-      0,
-      5,
-      -30
-     ],
-     "fov": 52
-    },
-    "crowd": [
-     {
-      "n": 8,
-      "area": [
-       -10,
-       -14,
-       10,
-       8
-      ],
-      "action": [
-       "walk",
-       "idle",
-       "talk"
-      ],
-      "facing": 0,
-      "spread": 1.2,
-      "head": [
-       1.8,
-       3.2
-      ]
-     }
-    ],
-    "sfx": [
-     {
-      "name": "whoosh",
-      "at": 0,
-      "gain": -28
-     }
-    ]
-   },
-   {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "voisin",
       "action": "talk",
-      "head": [
-       1,
-       2
+      "pos": [
+       11.3,
+       -1
       ],
-      "animAt": [
-       0.15,
-       0.5
+      "facing": -2.0
+     },
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       9.5,
+       2.0
       ],
-      "animEase": "pop"
+      "facing": -0.9
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": 12
+     "type": "path",
+     "from": [
+      4,
+      46,
+      50
+     ],
+     "to": [
+      3.5,
+      5.5,
+      15
+     ],
+     "look": [
+      0,
+      0,
+      -40
+     ],
+     "fov": 55,
+     "lookTo": [
+      10.5,
+      3.6,
+      0
+     ]
     },
-    "cut": "chaque",
+    "crowd": [
+     {
+      "n": 10,
+      "area": [
+       -24,
+       -110,
+       24,
+       -40
+      ],
+      "action": [
+       "idle",
+       "wave"
+      ],
+      "facing": 0,
+      "spread": 3,
+      "head": [
+       3.5,
+       5.5
+      ],
+      "float": [
+       14,
+       30
+      ]
+     }
+    ],
+    "noSplit": true,
     "sfx": [
      {
-      "name": "pop",
-      "at": 0.35,
-      "gain": -24
+      "name": "whoosh",
+      "at": 0,
+      "gain": -27
      }
     ]
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "voisin",
-      "action": "talk",
+      "action": "shocked",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
       "head": [
-       2,
+       1.2,
+       1.9
+      ],
+      "animAt": [
+       0,
+       0.4
+      ],
+      "animEase": "pop"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.37,
+      2.93,
+      0.0
+     ],
+     "to": [
+      0.5,
+      3.12,
+      0.0
+     ],
+     "look": [
+      10.5,
+      5.242,
+      0
+     ],
+     "fov": 42
+    },
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.05,
+      "gain": -24
+     }
+    ]
+   },
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "voisin",
+      "action": "shocked",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
+      "head": [
+       1.9,
        2.6
       ],
       "animAt": [
@@ -166,8 +259,23 @@
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": -10
+     "type": "path",
+     "from": [
+      -2.41,
+      3.72,
+      6.02
+     ],
+     "to": [
+      -1.37,
+      3.88,
+      5.54
+     ],
+     "look": [
+      10.5,
+      5.718,
+      0
+     ],
+     "fov": 42
     },
     "sfx": [
      {
@@ -178,44 +286,19 @@
     ]
    },
    {
-    "env": "street",
-    "actors": [
-     {
-      "id": "voisin",
-      "action": "talk",
-      "head": [
-       2.6,
-       3.2
-      ],
-      "animAt": [
-       0,
-       0.4
-      ],
-      "animEase": "pop"
-     }
-    ],
-    "camera": {
-     "type": "medium",
-     "angle": 15
-    },
-    "w": 1,
-    "sfx": [
-     {
-      "name": "pop",
-      "at": 0.05,
-      "gain": -24
-     }
-    ]
-   },
-   {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "voisin",
       "action": "shocked",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
       "head": [
-       3.2,
-       4
+       2.6,
+       3.3
       ],
       "animAt": [
        0,
@@ -225,10 +308,24 @@
      }
     ],
     "camera": {
-     "type": "low",
-     "angle": 0
+     "type": "path",
+     "from": [
+      -5.44,
+      1.33,
+      -5.8
+     ],
+     "to": [
+      -4.17,
+      1.72,
+      -5.34
+     ],
+     "look": [
+      10.5,
+      6.194000000000001,
+      0
+     ],
+     "fov": 42
     },
-    "w": 1,
     "sfx": [
      {
       "name": "pop",
@@ -240,64 +337,89 @@
   ],
   [
    {
-    "env": "house_ext",
-    "actors": [
-     {
-      "id": "facteur",
-      "action": "walk",
-      "dir": 1.57,
-      "speed": 0.6,
-      "head": 2.4,
-      "prop": "letter"
-     }
-    ],
-    "camera": {
-     "type": "follow",
-     "side": 0.8
-    },
-    "worldProps": [
-     {
-      "kind": "mail_truck",
-      "pos": [
-       -10,
-       6
-      ],
-      "facing": 1.57
-     }
-    ]
-   },
-   {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "facteur",
       "action": "talk",
+      "pos": [
+       10.5,
+       36
+      ],
+      "facing": -1.35,
+      "head": 2.3,
+      "prop": "satchel"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -2.02,
+      5.26,
+      39.35
+     ],
+     "to": [
+      -0.14,
+      4.99,
+      38.85
+     ],
+     "look": [
+      10.5,
+      3.4375,
+      36
+     ],
+     "fov": 46
+    },
+    "w": 1.0
+   },
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "facteur",
+      "action": "talk",
+      "pos": [
+       10.5,
+       36
+      ],
+      "facing": -1.35,
       "head": [
-       2.4,
-       3
+       2.3,
+       2.8
       ],
       "animAt": [
        0.1,
        0.4
       ],
       "animEase": "pop",
-      "prop": "letter",
-      "pos": [
-       0,
-       -6
-      ],
-      "facing": 0.3
+      "emotion": "smug",
+      "prop": "satchel"
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": -15
+     "type": "path",
+     "from": [
+      -4.43,
+      7.99,
+      38.63
+     ],
+     "to": [
+      -3.24,
+      7.81,
+      38.42
+     ],
+     "look": [
+      10.5,
+      5.854,
+      36
+     ],
+     "fov": 42
     },
     "cut": "hush",
     "sfx": [
      {
       "name": "pop",
-      "at": 0.15,
+      "at": 0.1,
       "gain": -24
      }
     ]
@@ -305,125 +427,100 @@
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "facteur",
       "action": "push",
-      "head": 4.2,
       "pos": [
-       6.5,
-       3
+       7.2,
+       22
       ],
-      "facing": 3.14
+      "facing": 3.14,
+      "head": 4.4,
+      "prop": "satchel"
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      16,
-      6,
-      14
+      20.08,
+      10.47,
+      -6.39
      ],
      "to": [
-      14,
-      6,
-      12
+      18.95,
+      10.07,
+      -4.44
      ],
      "look": [
-      5,
-      5,
-      -2
+      6.0,
+      5.5,
+      18
      ],
-     "fov": 52
+     "fov": 50
     },
     "worldProps": [
      {
       "kind": "mail_truck",
       "pos": [
-       5,
-       -4
+       4.2,
+       14
       ],
       "facing": 0
      }
     ]
-   },
-   {
-    "env": "street",
-    "actors": [
-     {
-      "id": "facteur",
-      "action": "sad",
-      "head": 4.2,
-      "pos": [
-       6.5,
-       3
-      ],
-      "facing": 0.6
-     }
-    ],
-    "camera": {
-     "type": "path",
-     "from": [
-      24,
-      10,
-      30
-     ],
-     "to": [
-      22,
-      10,
-      27
-     ],
-     "look": [
-      6.5,
-      6.5,
-      3
-     ],
-     "fov": 46
-    },
-    "worldProps": [
-     {
-      "kind": "mail_truck",
-      "pos": [
-       5,
-       -4
-      ],
-      "facing": 0
-     }
-    ],
-    "cut": "dans"
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "mamie_rose",
       "action": "idle",
-      "head": 5.5,
+      "pos": [
+       10.5,
+       53
+      ],
+      "facing": -1.35,
+      "head": 5.2,
       "emotion": "happy"
      }
     ],
     "camera": {
-     "type": "low",
-     "angle": 10
+     "type": "path",
+     "from": [
+      -9.35,
+      6.78,
+      62.26
+     ],
+     "to": [
+      -7.76,
+      6.66,
+      61.52
+     ],
+     "look": [
+      10.5,
+      5.25,
+      53
+     ],
+     "fov": 46
     },
-    "sfx": [
-     {
-      "name": "whoosh",
-      "at": 0,
-      "gain": -28
-     }
-    ]
+    "w": 1.3
    },
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "mamie_rose",
       "action": "idle",
-      "head": 5.5,
+      "pos": [
+       10.5,
+       53
+      ],
+      "facing": -1.35,
+      "head": 5.2,
       "weather": true,
       "emotion": "tired"
      }
@@ -431,23 +528,24 @@
     "camera": {
      "type": "path",
      "from": [
-      3,
-      12,
-      26
+      -11.76,
+      15.55,
+      58.97
      ],
      "to": [
-      2,
-      13,
-      23
+      -9.98,
+      15.23,
+      58.49
      ],
      "look": [
-      0,
-      15,
-      0
+      10.5,
+      11.486,
+      53
      ],
-     "fov": 50
+     "fov": 46
     },
     "cut": "qu'elle",
+    "w": 0.8,
     "sfx": [
      {
       "name": "wind",
@@ -464,12 +562,27 @@
      {
       "id": "sam",
       "action": "talk",
-      "head": 1
+      "head": 1.0
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": 15
+     "type": "path",
+     "from": [
+      -0.0,
+      5.41,
+      14.39
+     ],
+     "to": [
+      -0.0,
+      5.33,
+      13.24
+     ],
+     "look": [
+      0,
+      4.4,
+      0
+     ],
+     "fov": 46
     }
    },
    {
@@ -477,21 +590,36 @@
     "actors": [
      {
       "id": "sam",
-      "action": "shocked",
+      "action": "sad",
       "head": [
-       1,
-       3.1
+       1.0,
+       3.2
       ],
       "animAt": [
        0.05,
-       0.4
+       0.35
       ],
       "animEase": "pop"
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": -10
+     "type": "path",
+     "from": [
+      -0.0,
+      6.74,
+      16.25
+     ],
+     "to": [
+      -0.0,
+      6.65,
+      14.95
+     ],
+     "look": [
+      0,
+      5.6,
+      0
+     ],
+     "fov": 46
     },
     "cut": "hush",
     "sfx": [
@@ -510,125 +638,256 @@
      {
       "id": "sam",
       "action": "cry",
-      "head": 3.1
+      "head": 3.2
      }
     ],
     "camera": {
-     "type": "wide",
-     "angle": 20
+     "type": "path",
+     "from": [
+      -0.0,
+      7.09,
+      16.2
+     ],
+     "to": [
+      -0.0,
+      7.05,
+      14.9
+     ],
+     "look": [
+      0,
+      6.526000000000001,
+      0
+     ],
+     "fov": 42
     }
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "walk",
-      "dir": 0,
+      "pos": [
+       10.5,
+       -6
+      ],
+      "dir": 3.14,
+      "speed": 0.5
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -8.83,
+      5.11,
+      -19.54
+     ],
+     "to": [
+      -7.29,
+      4.91,
+      -18.46
+     ],
+     "look": [
+      10.5,
+      2.625,
+      -6
+     ],
+     "fov": 46,
+     "follow": true
+    },
+    "w": 0.46
+   },
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       10.5,
+       -2
+      ],
+      "dir": 3.14,
+      "speed": 0.45,
       "emotion": "happy"
      }
     ],
     "camera": {
-     "type": "follow",
-     "side": 0.7
+     "type": "path",
+     "from": [
+      1.43,
+      3.45,
+      -9.61
+     ],
+     "to": [
+      2.16,
+      3.39,
+      -9.0
+     ],
+     "look": [
+      10.5,
+      2.625,
+      -2
+     ],
+     "fov": 46,
+     "follow": true
     },
-    "crowd": [
-     {
-      "n": 6,
-      "area": [
-       -10,
-       -20,
-       10,
-       -6
-      ],
-      "action": [
-       "walk",
-       "idle",
-       "talk"
-      ],
-      "facing": 0,
-      "spread": 1.2,
-      "head": [
-       1.8,
-       3.2
-      ]
-     }
-    ]
+    "cut": "ma",
+    "w": 1.24
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       10.5,
+       2
+      ],
+      "dir": -2.6,
+      "speed": 0.35,
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -1.79,
+      3.87,
+      -5.09
+     ],
+     "to": [
+      -0.8,
+      3.77,
+      -4.53
+     ],
+     "look": [
+      10.5,
+      2.625,
+      2
+     ],
+     "fov": 46,
+     "follow": true
+    }
+   }
+  ],
+  [
+   {
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "idle",
-      "emotion": "smug"
-     }
-    ],
-    "camera": {
-     "type": "closeup",
-     "angle": -12
-    }
-   }
-  ],
-  [
-   {
-    "env": "street",
-    "actors": [
-     {
-      "id": "nino",
-      "action": "wave",
-      "emotion": "smug"
-     }
-    ],
-    "camera": {
-     "type": "low",
-     "angle": 10
-    }
-   }
-  ],
-  [
-   {
-    "env": "street",
-    "actors": [
-     {
-      "id": "nino",
-      "action": "sad",
       "pos": [
-       0,
-       2
-      ]
+       10.5,
+       0
+      ],
+      "facing": -1.35,
+      "emotion": "smug"
+     },
+     {
+      "id": "voisin",
+      "action": "idle",
+      "pos": [
+       13.0,
+       -3
+      ],
+      "facing": -1.35,
+      "head": 2.4
      }
     ],
     "camera": {
-     "type": "wide",
-     "angle": 8
-    },
-    "crowd": [
+     "type": "path",
+     "from": [
+      1.39,
+      5.95,
+      2.44
+     ],
+     "to": [
+      2.12,
+      5.85,
+      2.24
+     ],
+     "look": [
+      10.5,
+      4.63,
+      0
+     ],
+     "fov": 42
+    }
+   }
+  ],
+  [
+   {
+    "env": "suburb",
+    "actors": [
      {
-      "n": 6,
-      "area": [
-       -8,
-       -6,
-       8,
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       9.0,
+       4
+      ],
+      "facing": 2.6
+     },
+     {
+      "id": "facteur",
+      "action": "laugh",
+      "pos": [
+       8.5,
        -2
       ],
-      "action": [
-       "laugh",
-       "point"
+      "facing": 0.4,
+      "head": 2.6,
+      "emotion": "joy"
+     },
+     {
+      "id": "voisin",
+      "action": "laugh",
+      "pos": [
+       11.9,
+       -2.6
       ],
-      "emotion": "joy",
-      "facing": 0,
-      "spread": 0.4,
-      "head": [
-       2.2,
-       3.4
-      ]
+      "facing": 0.2,
+      "head": 2.8,
+      "emotion": "joy"
+     },
+     {
+      "id": "jaune",
+      "action": "point",
+      "pos": [
+       5.5,
+       -2.8
+      ],
+      "facing": 0.6,
+      "head": 2.4,
+      "emotion": "joy"
      }
     ],
+    "camera": {
+     "type": "path",
+     "from": [
+      10.1,
+      5.6,
+      10.5
+     ],
+     "to": [
+      10.0,
+      5.6,
+      10.0
+     ],
+     "look": [
+      8.5,
+      6.2,
+      -2
+     ],
+     "fov": 48
+    },
     "sfx": [
      {
       "name": "cheer",
@@ -640,155 +899,213 @@
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
-      "id": "sam",
+      "id": "facteur",
       "action": "laugh",
       "pos": [
-       2,
+       10.5,
        0
       ],
-      "facing": -0.9,
-      "head": 2.4,
-      "emotion": "joy"
-     },
-     {
-      "id": "nino",
-      "action": "idle",
-      "pos": [
-       -2,
-       0
-      ],
-      "facing": 0.9
+      "facing": -1.35,
+      "head": 2.6,
+      "emotion": "joy",
+      "prop": "satchel"
      }
     ],
     "camera": {
-     "type": "ots",
-     "focus": 0
+     "type": "path",
+     "from": [
+      -3.25,
+      7.72,
+      -3.69
+     ],
+     "to": [
+      -2.15,
+      7.56,
+      -3.39
+     ],
+     "look": [
+      10.5,
+      5.718,
+      0
+     ],
+     "fov": 42
     }
-   },
-   {
-    "env": "street",
-    "actors": [
-     {
-      "id": "sam",
-      "action": "point",
-      "pos": [
-       2,
-       0
-      ],
-      "facing": -0.9,
-      "head": 2.4,
-      "emotion": "smug"
-     },
-     {
-      "id": "nino",
-      "action": "idle",
-      "pos": [
-       -2,
-       0
-      ],
-      "facing": 0.9
-     }
-    ],
-    "camera": {
-     "type": "two_shot",
-     "angle": -8
-    },
-    "cut": "ta"
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "idle",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
       "emotion": "happy"
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": 8
+     "type": "path",
+     "from": [
+      3.76,
+      5.59,
+      1.19
+     ],
+     "to": [
+      4.3,
+      5.51,
+      1.09
+     ],
+     "look": [
+      10.5,
+      4.63,
+      0
+     ],
+     "fov": 42
     }
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "walk",
       "pos": [
-       0,
-       -2.5
+       -11.5,
+       19
       ],
-      "dir": 3.14,
-      "speed": 0.5,
-      "emotion": "happy"
+      "dir": -1.57,
+      "speed": 0.5
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      4,
-      5,
-      8
+      12.75,
+      8.25,
+      34.44
      ],
      "to": [
-      3,
-      5,
-      6
+      10.61,
+      7.99,
+      33.21
      ],
      "look": [
-      0,
-      4,
-      -6
+      -14,
+      5.0,
+      19
      ],
-     "fov": 50
-    }
+     "fov": 48
+    },
+    "envOpts": {
+     "bakery": true
+    },
+    "w": 1.08
    },
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
-      "id": "voisin",
+      "id": "jaune",
       "action": "push",
       "pos": [
-       0,
-       -2.8
+       -13.6,
+       19
       ],
-      "facing": 3.14,
-      "head": 3.6
+      "facing": -1.57,
+      "head": 3.4
+     },
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       -9.8,
+       21.5
+      ],
+      "facing": -2.4
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      9,
-      6,
-      6
+      -0.12,
+      6.91,
+      28.44
      ],
      "to": [
-      8,
-      6,
-      5
+      -1.2,
+      6.82,
+      27.69
      ],
      "look": [
-      0,
-      6,
-      -4
+      -13.6,
+      5.7620000000000005,
+      19
      ],
-     "fov": 50
+     "fov": 44
+    },
+    "envOpts": {
+     "bakery": true
     },
     "cut": "passer",
+    "w": 0.67,
     "sfx": [
      {
       "name": "crack",
-      "at": 0.2,
+      "at": 0.1,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "vieux",
+      "action": "idle",
+      "pos": [
+       10.5,
+       36
+      ],
+      "facing": -1.35,
+      "head": 3.0,
+      "prop": "cane",
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -2.14,
+      2.46,
+      40.6
+     ],
+     "to": [
+      -1.13,
+      2.57,
+      40.23
+     ],
+     "look": [
+      10.5,
+      3.875,
+      36
+     ],
+     "fov": 46
+    },
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
       "gain": -29
      }
     ]
@@ -796,91 +1113,96 @@
   ],
   [
    {
-    "env": "street",
-    "actors": [],
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "vieux",
+      "action": "shocked",
+      "pos": [
+       10.5,
+       36
+      ],
+      "facing": -1.35,
+      "head": [
+       3.0,
+       4.6
+      ],
+      "animAt": [
+       0,
+       0.5
+      ],
+      "prop": "cane"
+     }
+    ],
     "camera": {
      "type": "path",
      "from": [
-      8,
-      6,
-      22
+      -8.91,
+      9.81,
+      36.0
      ],
      "to": [
-      5,
-      6,
-      20
+      -7.36,
+      9.59,
+      36.0
      ],
      "look": [
-      0,
-      6,
-      -4
+      10.5,
+      7.078,
+      36
      ],
-     "fov": 52,
-     "roll": 0.2
+     "fov": 42
     },
-    "crowd": [
-     {
-      "n": 10,
-      "area": [
-       -10,
-       -14,
-       10,
-       8
-      ],
-      "action": [
-       "walk",
-       "idle",
-       "talk"
-      ],
-      "facing": 0,
-      "spread": 1.2,
-      "head": [
-       3,
-       4.5
-      ]
-     }
-    ],
-    "fx": [
-     "dark"
-    ],
-    "sfx": [
-     {
-      "name": "riser",
-      "at": 0,
-      "gain": -28
-     }
-    ]
-   }
-  ],
-  [
+    "w": 0.8
+   },
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
-      "id": "voisin",
+      "id": "vieux",
       "action": "shocked",
-      "head": [
-       3,
-       5.5
+      "pos": [
+       10.5,
+       36
       ],
+      "facing": -1.35,
+      "head": 4.6,
       "float": [
        0,
-       7
+       9
       ],
       "animAt": [
-       0.2,
+       0,
        1
-      ]
+      ],
+      "prop": "cane"
      }
     ],
     "camera": {
-     "type": "wide",
-     "angle": 10
+     "type": "path",
+     "from": [
+      -14.53,
+      4.5,
+      53.53
+     ],
+     "to": [
+      -12.53,
+      5.02,
+      52.13
+     ],
+     "look": [
+      10.5,
+      11.0,
+      36
+     ],
+     "fov": 52
     },
+    "cut": "tu",
+    "w": 1.6,
     "sfx": [
      {
       "name": "whoosh",
-      "at": 0.6,
+      "at": 0.2,
       "gain": -27
      }
     ]
@@ -888,28 +1210,43 @@
   ],
   [
    {
-    "env": "town_plaza",
+    "env": "suburb",
     "actors": [
      {
       "id": "maire",
       "action": "talk",
       "pos": [
        0,
-       3
+       -40
       ],
       "float": 1.6
      }
     ],
     "camera": {
-     "type": "wide",
-     "angle": 0
+     "type": "path",
+     "from": [
+      2,
+      12,
+      -12
+     ],
+     "to": [
+      2,
+      12.5,
+      -14
+     ],
+     "look": [
+      0,
+      5,
+      -40
+     ],
+     "fov": 48
     },
     "worldProps": [
      {
       "kind": "stage",
       "pos": [
        0,
-       0
+       -43
       ],
       "label": "MAIRIE"
      }
@@ -918,79 +1255,117 @@
      {
       "n": 12,
       "area": [
-       -12,
-       10,
-       12,
-       20
+       -6,
+       -30,
+       6,
+       -20
       ],
       "action": "idle",
       "facing": 3.14,
-      "spread": 0.4
+      "spread": 0.4,
+      "head": [
+       1.4,
+       2.4
+      ]
      }
-    ]
+    ],
+    "w": 1.0
    },
    {
-    "env": "town_plaza",
+    "env": "suburb",
     "actors": [
      {
       "id": "maire",
       "action": "talk",
       "pos": [
        0,
-       3
+       -40
       ],
       "float": 1.6
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": 10
+     "type": "path",
+     "from": [
+      1.24,
+      4.72,
+      -25.82
+     ],
+     "to": [
+      1.14,
+      4.68,
+      -26.96
+     ],
+     "look": [
+      0,
+      4.225,
+      -40
+     ],
+     "fov": 46
     },
     "worldProps": [
      {
       "kind": "stage",
       "pos": [
        0,
-       0
+       -43
       ],
       "label": "MAIRIE"
      }
     ],
-    "cut": "en"
+    "cut": "en",
+    "w": 0.5
    }
   ],
   [
    {
-    "env": "town_plaza",
+    "env": "suburb",
     "actors": [
      {
       "id": "maire",
       "action": "shocked",
       "pos": [
        0,
-       3
+       -40
       ],
       "float": 1.6,
       "head": [
-       1,
-       3
+       1.0,
+       2.4
       ],
       "animAt": [
        0,
-       0.35
+       0.4
       ],
-      "animEase": "pop"
+      "animEase": "pop",
+      "emotion": "smug"
      }
     ],
     "camera": {
-     "type": "xcu"
+     "type": "path",
+     "from": [
+      0.47,
+      6.24,
+      -26.6
+     ],
+     "to": [
+      0.43,
+      6.32,
+      -27.67
+     ],
+     "look": [
+      0,
+      7.182,
+      -40
+     ],
+     "fov": 42
     },
     "worldProps": [
      {
       "kind": "stage",
       "pos": [
        0,
-       0
+       -43
       ],
       "label": "MAIRIE"
      }
@@ -1006,73 +1381,66 @@
   ],
   [
    {
-    "env": "town_plaza",
+    "env": "suburb",
     "actors": [
      {
       "id": "maire",
       "action": "wave",
       "pos": [
        0,
-       3
+       -40
       ],
-      "head": 3.2,
+      "head": 2.6,
       "float": [
        1.6,
-       24
+       22
       ],
       "animAt": [
-       0.1,
+       0.05,
        1
-      ]
+      ],
+      "emotion": "joy"
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      0,
-      2,
-      26
+      3,
+      2.5,
+      -20
      ],
      "to": [
-      0,
       3,
-      24
+      3,
+      -21
      ],
      "look": [
       0,
-      14,
-      0
+      9,
+      -40
      ],
-     "fov": 58
+     "fov": 58,
+     "lookTo": [
+      0,
+      21,
+      -40
+     ]
     },
     "worldProps": [
      {
       "kind": "stage",
       "pos": [
        0,
-       0
+       -43
       ],
       "label": "MAIRIE"
      }
     ],
-    "crowd": [
-     {
-      "n": 10,
-      "area": [
-       -12,
-       10,
-       12,
-       18
-      ],
-      "action": "shocked",
-      "facing": 3.14,
-      "spread": 0.3
-     }
-    ],
+    "noSplit": true,
     "sfx": [
      {
       "name": "whoosh",
-      "at": 0.2,
+      "at": 0.1,
       "gain": -25
      }
     ]
@@ -1080,35 +1448,35 @@
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [],
     "camera": {
      "type": "path",
      "from": [
       30,
-      70,
-      50
+      34,
+      30
      ],
      "to": [
-      26,
-      66,
-      40
+      27,
+      33,
+      24
      ],
      "look": [
-      0,
-      14,
-      -40
+      10,
+      18,
+      -20
      ],
-     "fov": 56
+     "fov": 55
     },
     "crowd": [
      {
       "n": 16,
       "area": [
-       -30,
-       -60,
+       -20,
+       -40,
        30,
-       10
+       20
       ],
       "action": [
        "idle",
@@ -1118,14 +1486,15 @@
       "spread": 3,
       "head": [
        3.5,
-       6
+       5.5
       ],
       "float": [
-       14,
+       20,
        34
       ]
      }
     ],
+    "w": 1.36,
     "sfx": [
      {
       "name": "wind",
@@ -1135,33 +1504,32 @@
     ]
    },
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [],
     "camera": {
      "type": "path",
      "from": [
-      2,
-      2,
-      14
+      -3,
+      2.4,
+      20
      ],
      "to": [
-      2,
-      2.4,
-      12
+      -3,
+      2.6,
+      18
      ],
      "look": [
-      0,
-      30,
-      -20
+      8,
+      16,
+      -10
      ],
-     "fov": 62
+     "fov": 58
     },
-    "cut": "au-dessus",
     "crowd": [
      {
-      "n": 12,
+      "n": 14,
       "area": [
-       -20,
+       -14,
        -40,
        20,
        0
@@ -1174,14 +1542,16 @@
       "spread": 3,
       "head": [
        3.5,
-       6
+       5.5
       ],
       "float": [
-       14,
-       34
+       16,
+       30
       ]
      }
-    ]
+    ],
+    "cut": "au-dessus",
+    "w": 1.0
    }
   ],
   [
@@ -1189,38 +1559,48 @@
     "env": "window_room",
     "actors": [
      {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       4,
+       13
+      ],
+      "facing": 3.4
+     },
+     {
       "id": "mamie_rose",
       "action": "walk",
-      "head": 5,
+      "head": 4.6,
       "float": 3,
       "pos": [
        0,
-       0
+       -2
       ],
       "dir": 1.57,
-      "facing": 1.57,
-      "speed": 1.4
+      "speed": 1.2,
+      "facing": 1.57
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      0,
+      -4,
       7.5,
       27
      ],
      "to": [
-      0,
+      -3.5,
       7.5,
-      26
+      26.5
      ],
      "look": [
-      0,
-      8.5,
+      1,
+      7.5,
       0
      ],
-     "fov": 46
-    }
+     "fov": 50
+    },
+    "noSplit": true
    }
   ],
   [
@@ -1230,7 +1610,7 @@
      {
       "id": "mamie_rose",
       "action": "wave",
-      "head": 5,
+      "head": 4.6,
       "float": 3,
       "pos": [
        0,
@@ -1243,13 +1623,13 @@
      "type": "path",
      "from": [
       0,
-      8,
-      22
+      9.5,
+      20
      ],
      "to": [
       0,
-      8.5,
-      20
+      9.7,
+      19
      ],
      "look": [
       0,
@@ -1269,167 +1649,254 @@
   ],
   [
    {
-    "env": "window_room",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
-      "action": "walk",
-      "head": 5.2,
-      "float": 3,
+      "action": "idle",
       "pos": [
-       0,
-       0
+       8.5,
+       -4
       ],
-      "facing": 1.57,
-      "speed": 1.4,
-      "dir": 1.57
+      "head": 4.6,
+      "float": 7,
+      "facing": -1.35
+     },
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       9.5,
+       4
+      ],
+      "facing": 2.6
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      0,
-      7.5,
-      27
+      -1.87,
+      2.14,
+      -32.5
      ],
      "to": [
-      0,
-      7.5,
-      26
+      -1.04,
+      2.93,
+      -30.22
      ],
      "look": [
-      0,
       8.5,
-      0
+      12.0,
+      -4
      ],
-     "fov": 46
-    }
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 6,
+      "area": [
+       -10,
+       -60,
+       20,
+       -20
+      ],
+      "action": [
+       "idle",
+       "wave"
+      ],
+      "facing": 0,
+      "spread": 3,
+      "head": [
+       3.5,
+       5.5
+      ],
+      "float": [
+       14,
+       30
+      ]
+     }
+    ],
+    "w": 1.5
    },
    {
-    "env": "window_room",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
       "action": "talk",
-      "head": 5.2,
-      "float": 3,
       "pos": [
-       0,
+       8.5,
+       -4
+      ],
+      "head": 4.6,
+      "float": 7,
+      "facing": -1.35,
+      "emotion": "smug"
+     },
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       8.9,
+       4.5
+      ],
+      "facing": 2.7
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6.59,
+      10.21,
+      -25.83
+     ],
+     "to": [
+      6.74,
+      10.52,
+      -24.08
+     ],
+     "look": [
+      8.5,
+      14.078,
+      -4
+     ],
+     "fov": 46
+    },
+    "cut": "mec",
+    "w": 0.8
+   }
+  ],
+  [
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "talk",
+      "pos": [
+       10.5,
        0
       ],
+      "facing": -1.35,
       "emotion": "smug"
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      0,
-      9,
-      21
+      3.76,
+      5.59,
+      -1.19
      ],
      "to": [
-      0,
-      9.5,
-      19
+      4.3,
+      5.51,
+      -1.09
      ],
      "look": [
-      0,
       10.5,
+      4.63,
       0
      ],
      "fov": 42
     },
-    "cut": "mec"
-   }
-  ],
-  [
+    "w": 0.9
+   },
    {
-    "env": "window_room",
+    "env": "suburb",
     "actors": [
-     {
-      "id": "nino",
-      "action": "talk",
-      "pos": [
-       0,
-       18
-      ],
-      "facing": 3.14
-     },
      {
       "id": "sam",
       "action": "idle",
-      "head": 5.2,
-      "float": 3,
       "pos": [
-       0,
-       0
-      ]
+       10.5,
+       -6
+      ],
+      "head": 5.0,
+      "float": 6,
+      "facing": -1.35,
+      "emotion": "shocked"
+     },
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       13.1,
+       1.5
+      ],
+      "facing": -2.4
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      3,
-      6,
-      30
+      -18.65,
+      9.03,
+      -0.86
      ],
      "to": [
-      3,
-      6,
-      29
+      -16.32,
+      8.95,
+      -1.27
      ],
      "look": [
-      0,
-      7,
-      10
+      10.5,
+      8.0,
+      -6
      ],
-     "fov": 46
-    }
-   },
-   {
-    "env": "street",
-    "actors": [
-     {
-      "id": "sam",
-      "action": "idle",
-      "head": 5.6,
-      "float": 6,
-      "emotion": "shocked"
-     }
-    ],
-    "camera": {
-     "type": "wide",
-     "angle": 10
+     "fov": 52
     },
-    "cut": "on"
+    "cut": "on",
+    "w": 1.0
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
       "action": "shocked",
+      "pos": [
+       10.5,
+       -6
+      ],
       "head": [
-       5.6,
-       1
+       5.0,
+       1.0
       ],
       "float": 6,
       "animAt": [
-       0.1,
+       0.05,
        0.6
-      ]
+      ],
+      "facing": -1.35
      }
     ],
     "camera": {
-     "type": "wide",
-     "angle": -10
+     "type": "path",
+     "from": [
+      -18.65,
+      8.53,
+      -0.86
+     ],
+     "to": [
+      -16.32,
+      8.45,
+      -1.27
+     ],
+     "look": [
+      10.5,
+      7.5,
+      -6
+     ],
+     "fov": 52
     },
+    "noSplit": true,
     "sfx": [
      {
       "name": "whoosh",
-      "at": 0.1,
+      "at": 0.05,
       "gain": -26
      }
     ]
@@ -1437,25 +1904,45 @@
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
       "action": "shocked",
-      "head": 1,
+      "pos": [
+       10.5,
+       -6
+      ],
+      "head": 1.0,
       "float": [
        6,
        0
       ],
       "animAt": [
        0,
-       0.35
-      ]
+       0.3
+      ],
+      "facing": -1.35
      }
     ],
     "camera": {
-     "type": "low",
-     "angle": 12
+     "type": "path",
+     "from": [
+      -5.88,
+      2.39,
+      -0.04
+     ],
+     "to": [
+      -4.57,
+      2.44,
+      -0.51
+     ],
+     "look": [
+      10.5,
+      3.0,
+      -6
+     ],
+     "fov": 54
     },
     "fx": [
      "shake"
@@ -1463,25 +1950,45 @@
     "sfx": [
      {
       "name": "boom",
-      "at": 0.4,
-      "gain": -28
+      "at": 0.3,
+      "gain": -29
      }
     ]
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "think",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
       "symbol": "idea"
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": -10
+     "type": "path",
+     "from": [
+      2.2,
+      5.82,
+      1.76
+     ],
+     "to": [
+      2.86,
+      5.73,
+      1.62
+     ],
+     "look": [
+      10.5,
+      4.63,
+      0
+     ],
+     "fov": 42
     },
     "sfx": [
      {
@@ -1494,59 +2001,100 @@
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
-      "action": "point_cam"
+      "action": "point_cam",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": 12
+     "type": "path",
+     "from": [
+      -0.85,
+      4.28,
+      -3.04
+     ],
+     "to": [
+      0.06,
+      4.14,
+      -2.8
+     ],
+     "look": [
+      10.5,
+      2.625,
+      0
+     ],
+     "fov": 46
     }
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "idle",
+      "pos": [
+       10.5,
+       0
+      ],
+      "facing": -1.35,
       "emotion": "smug"
      }
     ],
     "camera": {
-     "type": "xcu"
+     "type": "path",
+     "from": [
+      4.84,
+      5.42,
+      0.0
+     ],
+     "to": [
+      5.3,
+      5.36,
+      0.0
+     ],
+     "look": [
+      10.5,
+      4.63,
+      0
+     ],
+     "fov": 42
     },
     "fx": [
-     "punch",
-     "flash"
+     "punch"
     ],
     "sfx": [
      {
       "name": "boom",
       "at": 0,
-      "gain": -29
+      "gain": -30
      }
     ]
    }
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "hold_up",
       "pos": [
-       0,
-       -1.5
+       9.4,
+       27
       ],
+      "facing": 1.57,
       "float": [
        0,
-       26
+       14
       ],
       "animAt": [
        0,
@@ -1557,84 +2105,142 @@
     "camera": {
      "type": "path",
      "from": [
-      4,
-      2,
-      22
+      3.5,
+      1.2,
+      33
      ],
      "to": [
-      4,
-      8,
-      22
+      3.6,
+      1.4,
+      32.5
      ],
      "look": [
-      0,
-      20,
-      -4
+      9.6,
+      14,
+      27
      ],
-     "fov": 60
+     "fov": 58
     },
     "worldProps": [
      {
       "kind": "big_tree",
       "pos": [
-       0,
-       -4
+       12,
+       27
       ]
      }
-    ]
+    ],
+    "w": 0.6
+   },
+   {
+    "env": "suburb",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      -10,
+      3,
+      66
+     ],
+     "to": [
+      -10,
+      4,
+      64
+     ],
+     "look": [
+      12,
+      30,
+      27
+     ],
+     "fov": 56
+    },
+    "worldProps": [
+     {
+      "kind": "big_tree",
+      "pos": [
+       12,
+       27
+      ]
+     }
+    ],
+    "cut": "le",
+    "crowd": [
+     {
+      "n": 4,
+      "area": [
+       0,
+       10,
+       24,
+       30
+      ],
+      "action": "idle",
+      "facing": 0,
+      "spread": 3,
+      "head": [
+       4,
+       5
+      ],
+      "float": [
+       34,
+       44
+      ]
+     }
+    ],
+    "w": 1.1
    }
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "angry",
       "pos": [
-       0,
-       0
+       9.4,
+       27
       ],
-      "float": 30,
+      "facing": -0.8,
+      "float": 22,
       "emotion": "scream"
      },
      {
       "id": "maire",
       "action": "shocked",
-      "head": 3.2,
-      "float": 34,
       "pos": [
-       9,
-       -4
+       1,
+       18
       ],
-      "facing": -1.2
+      "head": 2.8,
+      "float": 23,
+      "facing": 0.9
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      -6,
-      34,
-      16
+      6.5,
+      28.5,
+      31
      ],
      "to": [
-      -5,
-      34,
-      14
+      6.4,
+      28.6,
+      30.6
      ],
      "look": [
-      4,
-      34,
-      -2
+      1,
+      27,
+      18
      ],
-     "fov": 52
+     "fov": 48
     },
     "worldProps": [
      {
       "kind": "big_tree",
       "pos": [
-       0,
-       -4
+       12,
+       27
       ]
      }
     ]
@@ -1642,17 +2248,21 @@
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "maire",
       "action": "shocked",
+      "pos": [
+       1,
+       18
+      ],
       "head": [
-       3.2,
-       1
+       2.8,
+       1.0
       ],
       "float": [
-       34,
+       23,
        0
       ],
       "animAt": [
@@ -1664,22 +2274,23 @@
     "camera": {
      "type": "path",
      "from": [
-      10,
-      20,
-      30
+      3,
+      70,
+      26
      ],
      "to": [
-      10,
-      10,
-      30
+      3,
+      66,
+      25
      ],
      "look": [
-      6,
-      14,
-      -4
+      1,
+      0,
+      18
      ],
-     "fov": 56
+     "fov": 50
     },
+    "noSplit": true,
     "sfx": [
      {
       "name": "whoosh",
@@ -1691,100 +2302,155 @@
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "angry",
       "pos": [
-       0,
-       0
+       9.4,
+       27
       ],
-      "float": 30,
+      "facing": -1.8,
+      "float": 22,
       "emotion": "scream"
      },
      {
       "id": "facteur",
-      "action": "shocked",
-      "head": 4,
-      "float": 33,
+      "action": "sad",
       "pos": [
-       -9,
-       -2
+       0,
+       32
       ],
-      "facing": 1.2
+      "head": 3.2,
+      "float": 23,
+      "facing": 1.8,
+      "prop": "satchel"
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      7,
-      34,
-      15
+      6,
+      28.5,
+      23.5
      ],
      "to": [
-      6,
-      34,
-      14
+      6.1,
+      28.6,
+      23.8
      ],
      "look": [
-      -4,
-      34,
-      -2
+      0,
+      27,
+      32
      ],
-     "fov": 52
+     "fov": 48
     },
     "worldProps": [
      {
       "kind": "big_tree",
       "pos": [
-       0,
-       -4
+       12,
+       27
       ]
      }
-    ]
+    ],
+    "w": 1.6
+   },
+   {
+    "env": "suburb",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "angry",
+      "pos": [
+       9.4,
+       27
+      ],
+      "facing": -1.4,
+      "float": 22,
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2.66,
+      27.59,
+      25.81
+     ],
+     "to": [
+      3.2,
+      27.51,
+      25.91
+     ],
+     "look": [
+      9.4,
+      26.63,
+      27
+     ],
+     "fov": 42
+    },
+    "worldProps": [
+     {
+      "kind": "big_tree",
+      "pos": [
+       12,
+       27
+      ]
+     }
+    ],
+    "cut": "deux",
+    "w": 0.4
    }
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "facteur",
       "action": "sad",
+      "pos": [
+       0,
+       32
+      ],
       "head": [
-       4,
-       1
+       3.2,
+       1.0
       ],
       "float": [
-       33,
+       23,
        0
       ],
       "animAt": [
        0,
        1
-      ]
+      ],
+      "prop": "satchel"
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      -10,
-      20,
-      30
+      -6,
+      66,
+      40
      ],
      "to": [
-      -10,
-      10,
-      30
+      -6,
+      62,
+      39
      ],
      "look": [
-      -6,
-      14,
-      -4
+      0,
+      0,
+      32
      ],
-     "fov": 56
+     "fov": 50
     },
+    "noSplit": true,
     "sfx": [
      {
       "name": "whoosh",
@@ -1796,55 +2462,56 @@
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "angry",
       "pos": [
-       0,
-       0
+       9.4,
+       27
       ],
-      "float": 30,
+      "facing": -0.4,
+      "float": 22,
       "emotion": "scream"
      },
      {
       "id": "mamie_rose",
-      "action": "shocked",
-      "head": 5,
-      "float": 33,
+      "action": "sad",
       "pos": [
-       8,
-       4
+       5,
+       14
       ],
-      "facing": -1.9
+      "head": 4.2,
+      "float": 21,
+      "facing": 0.4
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      -6,
-      34,
-      18
+      6.4,
+      28.5,
+      32
      ],
      "to": [
-      -5,
-      34,
-      16
+      6.5,
+      28.6,
+      31.6
      ],
      "look": [
-      4,
-      34,
-      0
+      5,
+      28,
+      14
      ],
-     "fov": 52
+     "fov": 48
     },
     "worldProps": [
      {
       "kind": "big_tree",
       "pos": [
-       0,
-       -4
+       12,
+       27
       ]
      }
     ]
@@ -1852,95 +2519,119 @@
   ],
   [
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "mamie_rose",
       "action": "shocked",
+      "pos": [
+       10.5,
+       53
+      ],
       "head": [
-       5,
-       1
+       4.2,
+       1.0
       ],
       "float": [
-       33,
+       22,
        0
       ],
       "animAt": [
        0,
-       0.35
-      ]
+       0.3
+      ],
+      "facing": -1.35
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      8,
-      6,
-      26
+      -7.89,
+      4.04,
+      61.58
      ],
      "to": [
-      8,
-      5,
-      24
+      -6.42,
+      3.93,
+      60.89
      ],
      "look": [
-      6,
-      8,
-      0
+      10.5,
+      2.625,
+      53
      ],
-     "fov": 58
+     "fov": 46
     },
     "fx": [
      "shake"
     ],
+    "w": 1.1,
+    "noSplit": true,
     "sfx": [
      {
       "name": "boom",
-      "at": 0.3,
+      "at": 0.25,
       "gain": -26
      }
     ]
    },
    {
-    "env": "park",
+    "env": "suburb",
     "actors": [
      {
       "id": "mamie_rose",
       "action": "angry",
       "pos": [
-       6,
-       0
+       10.5,
+       53
       ],
+      "facing": -1.35,
       "symbol": "anger"
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": -10
+     "type": "path",
+     "from": [
+      -1.07,
+      0.97,
+      55.04
+     ],
+     "to": [
+      -0.15,
+      1.11,
+      54.88
+     ],
+     "look": [
+      10.5,
+      2.625,
+      53
+     ],
+     "fov": 46
     },
-    "cut": "qu'elle"
+    "cut": "qu'elle",
+    "w": 0.8
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [],
     "camera": {
      "type": "path",
      "from": [
       0,
-      18,
+      40,
       40
      ],
      "to": [
       0,
-      14,
+      36,
       34
      ],
      "look": [
       0,
-      8,
-      -20
+      0,
+      -30
      ],
      "fov": 56
     },
@@ -1948,10 +2639,10 @@
      {
       "n": 16,
       "area": [
-       -14,
-       -40,
-       14,
-       6
+       -12,
+       -50,
+       12,
+       10
       ],
       "action": [
        "idle",
@@ -1965,11 +2656,13 @@
       ],
       "float": [
        10,
-       24
+       26
       ],
       "descend": true
      }
     ],
+    "w": 1.2,
+    "noSplit": true,
     "sfx": [
      {
       "name": "pop",
@@ -1980,204 +2673,299 @@
       "name": "pop",
       "at": 1.2,
       "gain": -27
-     },
-     {
-      "name": "pop",
-      "at": 1.8,
-      "gain": -27
      }
     ]
+   },
+   {
+    "env": "suburb",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      18,
+      22,
+      44
+     ],
+     "to": [
+      16,
+      21,
+      42
+     ],
+     "look": [
+      0,
+      2,
+      0
+     ],
+     "fov": 52
+    },
+    "crowd": [
+     {
+      "n": 12,
+      "area": [
+       -8,
+       -20,
+       12,
+       20
+      ],
+      "action": [
+       "idle",
+       "celebrate"
+      ],
+      "facing": 0,
+      "spread": 1.5
+     }
+    ],
+    "cut": "ont",
+    "w": 0.8
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "celebrate",
       "pos": [
-       0,
-       2
-      ]
+       -7,
+       -4
+      ],
+      "facing": 1.4
      }
     ],
     "camera": {
      "type": "path",
      "from": [
-      2,
-      3,
-      16
+      6,
+      5.5,
+      8
      ],
      "to": [
-      1,
-      3.5,
-      14
+      5,
+      5.5,
+      7
      ],
      "look": [
-      0,
-      5,
-      0
+      -14,
+      6,
+      -6
      ],
-     "fov": 54
+     "fov": 52
     },
-    "time": "night",
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "worldProps": [
      {
       "kind": "party",
       "pos": [
-       0,
-       -4
+       -12,
+       -6
       ]
      }
     ],
-    "fx": [
-     "confetti"
-    ],
     "crowd": [
      {
-      "n": 14,
+      "n": 12,
       "area": [
-       -12,
-       -6,
-       12,
-       1
+       -13,
+       -14,
+       -8,
+       2
       ],
       "action": [
        "celebrate",
        "dance",
        "jump"
       ],
-      "facing": 0,
+      "facing": 1.4,
       "spread": 1
      }
+    ],
+    "fx": [
+     "confetti"
     ],
     "sfx": [
      {
       "name": "cheer",
       "at": 0,
-      "gain": -25
+      "gain": -26
      }
-    ]
+    ],
+    "time": "night"
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
       "action": "talk",
       "pos": [
-       2,
-       2
+       -8,
+       -2
       ],
-      "facing": -0.9
+      "facing": 1.9
      },
      {
       "id": "nino",
       "action": "idle",
       "pos": [
-       -2,
-       2
+       -5,
+       -4
       ],
-      "facing": 0.9,
+      "facing": 1.6,
       "emotion": "happy"
      }
     ],
     "camera": {
-     "type": "two_shot",
-     "angle": 10
+     "type": "path",
+     "from": [
+      10.64,
+      5.2,
+      -1.5
+     ],
+     "to": [
+      9.27,
+      5.11,
+      -1.62
+     ],
+     "look": [
+      -6.5,
+      4.0,
+      -3
+     ],
+     "fov": 46
     },
-    "time": "night",
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "worldProps": [
      {
       "kind": "party",
       "pos": [
-       0,
-       -4
+       -12,
+       -6
       ]
      }
-    ]
+    ],
+    "w": 1.0,
+    "time": "night"
    },
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "sam",
-      "action": "point",
+      "action": "laugh",
       "pos": [
-       2,
-       2
+       -8,
+       -2
       ],
-      "facing": -0.9,
+      "facing": 1.6,
       "emotion": "joy"
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": -12
+     "type": "path",
+     "from": [
+      -1.31,
+      5.59,
+      -0.58
+     ],
+     "to": [
+      -1.84,
+      5.51,
+      -0.69
+     ],
+     "look": [
+      -8,
+      4.63,
+      -2
+     ],
+     "fov": 42
     },
-    "time": "night",
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "worldProps": [
      {
       "kind": "party",
       "pos": [
-       0,
-       -4
+       -12,
+       -6
       ]
      }
     ],
-    "cut": "mec"
+    "cut": "mec",
+    "w": 1.4,
+    "time": "night"
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "idle",
       "pos": [
-       0,
-       2
+       -5,
+       -4
       ],
+      "facing": 1.6,
       "emotion": "smug"
      }
     ],
     "camera": {
-     "type": "xcu"
+     "type": "path",
+     "from": [
+      1.74,
+      5.59,
+      -5.19
+     ],
+     "to": [
+      1.2,
+      5.51,
+      -5.09
+     ],
+     "look": [
+      -5,
+      4.63,
+      -4
+     ],
+     "fov": 42
     },
-    "time": "night",
-    "worldProps": [
-     {
-      "kind": "party",
-      "pos": [
-       0,
-       -4
-      ]
-     }
-    ],
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "sfx": [
      {
       "name": "riser",
       "at": 0,
       "gain": -28
      }
-    ]
+    ],
+    "time": "night"
    }
   ],
   [
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "shocked",
       "pos": [
-       0,
-       2
+       -5,
+       -4
       ],
+      "facing": 1.6,
       "head": [
        1,
        1.8
@@ -2190,37 +2978,48 @@
      }
     ],
     "camera": {
-     "type": "closeup",
-     "angle": 10
+     "type": "path",
+     "from": [
+      5.54,
+      6.66,
+      -4.0
+     ],
+     "to": [
+      4.7,
+      6.54,
+      -4.0
+     ],
+     "look": [
+      -5,
+      5.174,
+      -4
+     ],
+     "fov": 42
     },
-    "time": "night",
-    "worldProps": [
-     {
-      "kind": "party",
-      "pos": [
-       0,
-       -4
-      ]
-     }
-    ],
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "sfx": [
      {
       "name": "pop",
       "at": 0.05,
       "gain": -24
      }
-    ]
+    ],
+    "time": "night"
    },
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "shocked",
       "pos": [
-       0,
-       2
+       -5,
+       -4
       ],
+      "facing": 1.6,
       "head": [
        1.8,
        2.8
@@ -2233,19 +3032,28 @@
      }
     ],
     "camera": {
-     "type": "medium",
-     "angle": -10
+     "type": "path",
+     "from": [
+      8.8,
+      4.25,
+      -10.44
+     ],
+     "to": [
+      7.7,
+      4.38,
+      -9.92
+     ],
+     "look": [
+      -5,
+      5.854,
+      -4
+     ],
+     "fov": 42
     },
-    "time": "night",
-    "worldProps": [
-     {
-      "kind": "party",
-      "pos": [
-       0,
-       -4
-      ]
-     }
-    ],
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "w": 1,
     "sfx": [
      {
@@ -2253,18 +3061,20 @@
       "at": 0.05,
       "gain": -24
      }
-    ]
+    ],
+    "time": "night"
    },
    {
-    "env": "house_ext",
+    "env": "suburb",
     "actors": [
      {
       "id": "nino",
       "action": "shocked",
       "pos": [
-       0,
-       2
+       -5,
+       -4
       ],
+      "facing": 1.6,
       "head": [
        2.8,
        4.2
@@ -2277,19 +3087,28 @@
      }
     ],
     "camera": {
-     "type": "low",
-     "angle": 0
+     "type": "path",
+     "from": [
+      15.08,
+      2.26,
+      3.31
+     ],
+     "to": [
+      13.48,
+      2.63,
+      2.72
+     ],
+     "look": [
+      -5,
+      6.806000000000001,
+      -4
+     ],
+     "fov": 42
     },
-    "time": "night",
-    "worldProps": [
-     {
-      "kind": "party",
-      "pos": [
-       0,
-       -4
-      ]
-     }
-    ],
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
+    },
     "w": 1,
     "sfx": [
      {
@@ -2297,7 +3116,8 @@
       "at": 0.05,
       "gain": -24
      }
-    ]
+    ],
+    "time": "night"
    }
   ],
   [
@@ -2309,11 +3129,11 @@
       "action": "idle",
       "head": [
        5,
-       15
+       14
       ],
       "animAt": [
        0,
-       0.7
+       0.6
       ],
       "emotion": "shocked"
      }
@@ -2323,12 +3143,12 @@
      "from": [
       0,
       22,
-      40
+      46
      ],
      "to": [
       0,
       22,
-      36
+      42
      ],
      "look": [
       0,
@@ -2337,6 +3157,7 @@
      ],
      "fov": 55
     },
+    "noSplit": true,
     "sfx": [
      {
       "name": "whoosh",
@@ -2346,52 +3167,59 @@
      {
       "name": "boom",
       "at": 0.5,
-      "gain": -28
+      "gain": -29
      }
-    ]
+    ],
+    "time": "night"
    }
   ],
   [
    {
-    "env": "street",
+    "env": "suburb",
     "actors": [],
     "camera": {
      "type": "path",
      "from": [
-      0,
-      2,
-      16
+      -6,
+      34,
+      3
      ],
      "to": [
-      0,
-      2.4,
-      14
+      -6,
+      32,
+      2
      ],
      "look": [
+      -6,
       0,
-      16,
-      -10
+      -4
      ],
-     "fov": 60
+     "fov": 46
+    },
+    "envOpts": {
+     "partyHouse": true,
+     "noCars": true
     },
     "crowd": [
      {
-      "n": 10,
+      "n": 12,
       "area": [
-       -10,
-       -8,
-       10,
-       4
+       -11,
+       -9,
+       -1,
+       1
       ],
       "action": "idle",
       "emotion": [
        "shocked",
        "scared"
       ],
-      "facing": 0,
-      "spread": 0.4
+      "facing": 0.2,
+      "spread": 0.5
      }
-    ]
+    ],
+    "w": 1.0,
+    "time": "night"
    },
    {
     "env": "cloud_sky",
@@ -2399,7 +3227,7 @@
      {
       "id": "nino",
       "action": "idle",
-      "head": 15,
+      "head": 14,
       "emotion": "smug"
      }
     ],
@@ -2407,13 +3235,13 @@
      "type": "path",
      "from": [
       0,
-      26,
-      34
+      28,
+      60
      ],
      "to": [
       0,
-      24,
-      30
+      26,
+      52
      ],
      "look": [
       0,
@@ -2424,13 +3252,15 @@
     },
     "cut": "n'ose",
     "fadeOut": 0.5,
+    "w": 1.0,
     "sfx": [
      {
       "name": "sparkle",
       "at": 0.5,
       "gain": -28
      }
-    ]
+    ],
+    "time": "night"
    }
   ]
  ]

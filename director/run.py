@@ -93,9 +93,16 @@ def main():
         log(f"    duration={timing['duration']:.2f}s words={len(timing['words'])} pauses={len(timing['pauses'])} method={timing['method']}")
     prof = json.load(open(prof_p))
     style_p = os.path.join(proj, "style.json")  # director's manual corrections of the measured style
-    if os.path.exists(style_p):
-        st = json.load(open(style_p))
+    brand_style_p = os.path.join(ROOT, "assets", "brand", "style.json")  # channel-wide defaults (captions, rhythm)
+    for sp in (brand_style_p, style_p):
+        if not os.path.exists(sp):
+            continue
+        st = json.load(open(sp))
+        if sp == style_p and st.get("brand_style") is False:
+            continue
         for k, v in st.items():
+            if k.startswith("_"):
+                continue
             if isinstance(v, dict) and isinstance(prof.get(k), dict):
                 prof[k].update(v)
             else:

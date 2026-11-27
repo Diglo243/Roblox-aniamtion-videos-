@@ -57,6 +57,8 @@ function makeProp(kind) {
     case 'needle': box(g, 0.08, 1.6, 0.08, M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffc107', ei: 1.2 }), 0, 0.2, 0.55); break;
     case 'straw': for (let i = 0; i < 1; i++) box(g, 0.1, 2.2, 0.1, '#f3c75a', 0, 0.3, 0.55, { rz: 0.2 }); break;
     case 'armful': for (let i = 0; i < 26; i++) box(g, 0.1, 0.1, 2.4, ['#f3c75a', '#e0a92e', '#ffd977'][i % 3], -1.3 + (i % 9) * 0.32, -0.2 + Math.floor(i / 9) * 0.25, 1.0 + ((i * 7) % 5) * 0.05, { ry: Math.PI / 2 + ((i * 13) % 7 - 3) * 0.08, cast: false }); break;
+    case 'cane': box(g, 0.16, 2.6, 0.16, '#3e2723', 0, -2.2, 0.35); box(g, 0.7, 0.16, 0.16, '#3e2723', 0.25, 0.35, 0.35); break;
+    case 'satchel': box(g, 1.2, 1.1, 0.4, '#6d4c41', 0.2, -1.9, -0.1, { round: 0.1 }); break;
     case 'boot': box(g, 0.9, 1.6, 0.9, '#2e7d32', 0, -1.0, 0.6, { round: 0.15 }); box(g, 0.9, 0.6, 1.6, '#2e7d32', 0, -1.8, 0.95, { round: 0.2 }); box(g, 0.95, 0.15, 1.65, '#1b5e20', 0, -2.1, 0.95); break;
     case 'keys': box(g, 0.5, 0.25, 0.1, '#222', 0, -0.4, 0.5); box(g, 0.12, 0.6, 0.05, '#bdbdbd', 0.2, -0.75, 0.5); break;
     case 'check': {
@@ -224,7 +226,7 @@ function placeActors(spec, info) {
 window.setupShot = async function setupShot(spec, cast) {
   await document.fonts.ready;
   spec = JSON.parse(JSON.stringify(spec)); cast = JSON.parse(JSON.stringify(cast || {}));
-  const r = rng('shot|' + spec.id + '|' + (spec.seed ?? 0));
+  const r = rng('shot|' + (spec.parentId || spec.id) + '|' + (spec.seed ?? 0));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(48, W / H, 0.1, 2000);
   scene.add(camera);
@@ -238,7 +240,7 @@ window.setupShot = async function setupShot(spec, cast) {
   const S_movers = [];
   spec.actors = (spec.actors || []).slice();
   for (const [ci, cr] of (spec.crowd || []).entries()) {
-    const cr_r = rng('crowd|' + spec.id + '|' + ci + '|' + (cr.seed ?? 0));
+    const cr_r = rng('crowd|' + (spec.parentId || spec.id) + '|' + ci + '|' + (cr.seed ?? 0));
     const [x0, z0, x1, z1] = cr.area || [-12, -6, 12, 6];
     for (let i = 0; i < (cr.n || 10); i++) {
       const id = `crowd${cr.seed ?? ci}_${i}`;
@@ -301,7 +303,7 @@ window.setupShot = async function setupShot(spec, cast) {
     let glint = null;
     if ((a.glint || app.needle) && !a.shadowOnly && av.head.userData.needle) { glint = makeSprite('star', a.glint ? 1.2 : 0.55); glint.material.depthTest = !a.glint; scene.add(glint); }
     if (sym) scene.add(sym);
-    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + spec.id), double, glint, cloud, castOn: !(a.noShadow || a.shadow) });
+    actors.push({ av, spec: a, action, seat, base: av.root.position.clone(), ry: av.root.rotation.y, phase: r() * 6.28, sym, r: rng('act' + a.id + (spec.parentId || spec.id)), double, glint, cloud, castOn: !(a.noShadow || a.shadow) });
   });
   // pets & extra props in world
   for (const pet of spec.pets || []) { const pg = makePet(pet.kind, pet.color); const st = info.stage; pg.position.set(st.x + (pet.pos?.[0] ?? 3.2), 0, st.z + (pet.pos?.[1] ?? 1.5)); pg.rotation.y = pet.facing ?? -0.5; if (pet.scale) pg.scale.setScalar(pet.scale); if (pet.y) pg.position.y = pet.y; scene.add(pg); actors.push({ pet: pg, petSpec: pet, phase: r() * 6 });
@@ -332,7 +334,7 @@ window.setupShot = async function setupShot(spec, cast) {
       for (const x of [-8.5, 8.5]) box(g, 0.5, 11, 0.5, '#3b3b3b', x, 0, -3);
       box(g, 17, 2.6, 0.3, M('#ffffff', { map: textTex(wp.label || 'MAIRIE', { bg: '#1e3a8a', color: '#ffffff', size: 140, w: 1200, h: 200 }) }), 0, 9.5, -3, { cast: false });
       for (let i = 0; i < 12; i++) box(g, 0.9, 0.9, 0.05, ['#e53935', '#fdd835', '#1e88e5', '#43a047'][i % 4], -7.2 + i * 1.3, 8.4 - Math.sin(i / 11 * Math.PI) * 0.8, -2.8, { cast: false, rz: Math.PI / 4 }); }
-    else if (wp.kind === 'big_tree') { const tg = new THREE.Group(); tg.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -4)); world.add(tg); cyl(tg, 2.2, 3.2, 40, '#7a4b2a', 0, 0, 0, { seg: 10 }); for (const [x, y, z, s0] of [[0, 44, -2, 16], [-10, 36, -3, 10], [10, 37, -4, 11]]) box(tg, s0, s0 * 0.8, s0, '#3f9b3a', x, y - s0 * 0.4, z, { round: 2 }); }
+    else if (wp.kind === 'big_tree') { const tg = new THREE.Group(); tg.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -4)); world.add(tg); cyl(tg, 2.2, 3.2, 40, '#7a4b2a', 0, 0, 0, { seg: 10 }); for (const [x, y, z, s0] of [[0, 48, -3, 16], [-10, 42, -4, 10], [10, 43, -5, 11]]) box(tg, s0, s0 * 0.8, s0, '#3f9b3a', x, y - s0 * 0.4, z, { round: 2 }); }
     else if (wp.kind === 'party') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), 0, st.z + (wp.pos?.[1] ?? -8)); world.add(g); for (let k = 0; k < 3; k++) for (let i = 0; i < 16; i++) box(g, 0.8, 0.8, 0.05, ['#e53935', '#fdd835', '#1e88e5', '#43a047', '#ff7a1a', '#7b3fe4'][i % 6], -12 + i * 1.6, 9 - Math.sin(i / 15 * Math.PI) * 1.4, k * 5, { cast: false, rz: Math.PI / 4 }); for (let i = 0; i < 14; i++) sphere(g, 0.25, M(['#ffd23f', '#ff7a1a', '#7b3fe4'][i % 3], { emissive: ['#ffd23f', '#ff7a1a', '#7b3fe4'][i % 3], ei: 1.6 }), -11 + i * 1.7, 7.4 - Math.sin(i / 13 * Math.PI) * 1.2, 2.5, { cast: false }); box(g, 9, 2, 0.3, M('#ffffff', { map: textTex('FÊTE !', { bg: '#7b3fe4', color: '#ffd23f', size: 150, w: 800, h: 220 }) }), 0, 10.5, -1, { cast: false }); }
     else if (wp.kind === 'piano') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 0, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(wp.rx ?? 0.2, wp.facing ?? 0.4, wp.rz ?? 0.15); world.add(g); box(g, 6, 3.6, 2.4, '#111'); box(g, 6, 0.6, 1.2, '#f5f5f5', 0, 2.2, 1.6); for (let i = 0; i < 10; i++) box(g, 0.25, 0.3, 0.7, '#111', -2.6 + i * 0.6, 2.8, 1.6, { cast: false }); for (const x of [-2.6, 2.6]) box(g, 0.3, 2.2, 0.3, '#111', x, -2.2, 1.6); }
     else if (wp.kind === 'needle_big') { const g = new THREE.Group(); g.position.set(st.x + (wp.pos?.[0] ?? 0), wp.y ?? 4, st.z + (wp.pos?.[1] ?? 0)); g.rotation.set(0, 0, wp.rz ?? 0.5); world.add(g); const gm = M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffb300', ei: 1.4 }); const n = cyl(g, 0.12, 0.02, 7, gm, 0, -3.5, 0, { seg: 10 }); const eye = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.12, 8, 16), gm); eye.position.y = 3.7; g.add(eye); g.userData.spin = true; S_movers.push(g); }
@@ -352,7 +354,7 @@ window.setupShot = async function setupShot(spec, cast) {
 
   // particles / fx
   const parts = [];
-  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + spec.id)));
+  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + (spec.parentId || spec.id))));
   const ov = {
     vignette: addOverlay(camera, spec.fx?.includes('red') ? 'red' : (spec.fx?.includes('dark') ? 'dark' : 'vignette'), 1),
     speed: addOverlay(camera, 'speed', 2),
@@ -370,14 +372,14 @@ window.setupShot = async function setupShot(spec, cast) {
     if (o.geometry.boundingSphere.radius * Math.max(sc.x, sc.y, sc.z) > 45 && !info.interior) return;
     occluders.push(o);
   });
-  S = { movers: S_movers, spec, scene, camera, actors, info, focusActor, fpos, parts, ov, r, dur: spec.duration, camSeed: hash(spec.id), occluders, ray: new THREE.Raycaster() };
+  S = { movers: S_movers, spec, scene, camera, actors, info, focusActor, fpos, parts, ov, r, dur: spec.duration, adur: spec.parentDur || spec.duration, toff: spec.timeOffset || 0, camSeed: hash(spec.parentId || spec.id), occluders, ray: new THREE.Raycaster() };
   // choose one yaw offset for the whole shot that keeps the subject unobstructed
   S.yawFix = 0;
   const cands = (spec.camera?.type === 'path' || spec.camera?.noCollide) ? [0] : [0, 0.45, -0.45, 0.85, -0.85, 1.25, -1.25];
   let best = 0, bestHits = 99;
   for (const c of cands) {
     S.yawFix = c; S.probe = true; let hits = 0;
-    for (const u of [0.02, 0.5, 0.98]) { updateActors(u * S.dur); scene.updateMatrixWorld(true); if (camPose(u * S.dur).hit) hits++; }
+    for (const u of [0.02, 0.5, 0.98]) { updateActors(u * S.dur + S.toff); scene.updateMatrixWorld(true); if (camPose(u * S.dur).hit) hits++; }
     S.probe = false;
     if (hits < bestHits) { bestHits = hits; best = c; }
     if (hits === 0) break;
@@ -534,7 +536,7 @@ function updateActors(t) {
     if ((act === 'walk' || act === 'run' || act === 'sneak') && mv !== 'none') {
       const speed = (A.spec.speed ?? 1) * (act === 'run' ? 9 : act === 'walk' ? 3.6 : 2) * (S.info.interior && S.spec.env !== 'hallway' ? 0.35 : 1);
       const dir = A.spec.dir ?? A.ry ?? 0; // heading
-      const d = speed * at - speed * S.dur * slow * 0.5;
+      const d = speed * at - speed * S.adur * slow * 0.5;
       av.root.position.set(A.base.x + Math.sin(dir) * d, 0, A.base.z + Math.cos(dir) * d);
       av.root.rotation.y = dir;
     } else if (A.spec.lookAt !== undefined) {
@@ -548,7 +550,7 @@ function updateActors(t) {
     if (expr === 'shocked' || expr === 'scream') open = 0.6;
     const blink = ((t + A.phase) % 3.7) < 0.12;
     av.setFace(expr, open, blink);
-    const lerpSpec = (v, dflt) => { if (v === undefined) return dflt; if (!Array.isArray(v)) return v; const [a, b] = v; const w = A.spec.animAt || [0, 1]; const k = smooth(clamp((t / S.dur - w[0]) / Math.max(0.01, w[1] - w[0]), 0, 1)); return lerp(a, b, A.spec.animEase === 'pop' ? easeOutBack(k) : k); };
+    const lerpSpec = (v, dflt) => { if (v === undefined) return dflt; if (!Array.isArray(v)) return v; const [a, b] = v; const w = A.spec.animAt || [0, 1]; const k = smooth(clamp((t / S.adur - w[0]) / Math.max(0.01, w[1] - w[0]), 0, 1)); return lerp(a, b, A.spec.animEase === 'pop' ? easeOutBack(k) : k); };
     const hs = lerpSpec(A.spec.head, 1); av.neck.scale.setScalar(hs); A.hs = hs;
     const fl = lerpSpec(A.spec.float, 0); if (fl || A.spec.float !== undefined) { av.root.position.y = fl + (fl > 0.5 ? Math.sin(t * 1.3 + A.phase) * 0.4 : 0); }
     if (A.cloud) { av.headWorld(tmp); A.cloud.position.set(tmp.x, tmp.y + 0.75 * hs * (av.app.scale || 1) + 1.6 + hs * 0.35, tmp.z); A.cloud.scale.setScalar(Math.max(1, hs * 0.45)); A.cloud.userData.rain.forEach((d, i) => { d.position.y = -((t * 6 + i * 0.37) % 1) * 3; }); }
@@ -565,11 +567,12 @@ function updateActors(t) {
 
 window.renderAt = function renderAt(t) {
   const { spec, camera, scene, parts, ov } = S;
-  updateActors(t);
-  const u = clamp(t / Math.max(0.01, S.dur), 0, 1);
-  for (const g of S.movers) if (g.userData.spin) { g.rotation.y = t * 1.2; g.position.y += Math.sin(t * 2) * 0.005; }
+  const ta = t + S.toff;
+  updateActors(ta);
+  const u = clamp(ta / Math.max(0.01, S.adur), 0, 1);
+  for (const g of S.movers) if (g.userData.spin) { g.rotation.y = ta * 1.2; g.position.y += Math.sin(t * 2) * 0.005; }
   for (const g of S.movers) if (g.userData.move) { const [dx, dz] = g.userData.move; g.position.set(g.userData.base.x + dx * (u - 0.5), 0, g.userData.base.z + dz * (u - 0.5)); }
-  if (S.info.update) S.info.update(t, u, spec);
+  if (S.info.update) S.info.update(ta, u, spec);
   scene.updateMatrixWorld(true);
   // camera
   const p = camPose(t);
@@ -585,7 +588,7 @@ window.renderAt = function renderAt(t) {
   camera.fov = fov; camera.updateProjectionMatrix();
   for (const o of Object.values(ov)) { const k = Math.tan(THREE.MathUtils.degToRad(fov) / 2) / Math.tan(THREE.MathUtils.degToRad(o.userData.baseFov) / 2); o.scale.set(k * 1.25, k * 1.25, 1); }
   // particles
-  for (const pa of parts) pa.update(t);
+  for (const pa of parts) pa.update(ta);
   // overlays
   ov.vignette.material.opacity = spec.fx?.includes('red') || spec.fx?.includes('dark') ? 0.9 : 0; // soft vignette is added in post (ffmpeg)
   ov.speed.material.opacity = spec.fx?.includes('speed') ? 0.55 + 0.25 * Math.sin(t * 40) : 0;
