@@ -1,0 +1,27 @@
+{
+  "_info": "Épisode 2 — EGO vs PATIENCE. Sans musique : effets sonores seuls (ascend/sfx.py), volume bas.",
+  "duration": 18,
+  "steps": 20,
+  "summitAt": 15.0,
+  "music": false,
+  "sfx_peak_db": -9,
+  "title": {"text": "PRIDE OR\n*PATIENCE*?", "from": 0.0, "to": 2.8},
+  "outro": {"text": "*PATIENCE* ALWAYS ARRIVES.", "from": 16.0},
+  "labelPx": 36,
+  "camera": {"dist": [[0, 17], [6, 19], [11, 21], [18, 24]], "focusWeights": {"PATIENCE": 1.4}},
+  "lanes": [
+    {"concept": "EGO",
+     "keys": [[0, 0], [0.4, 0.8], [4.2, 11], [6.0, 11], [8.6, 17], [10.6, 17], [11.9, 7], [18, 7]],
+     "acts": [[4.2, "look_back", {"dir": 1}], [6.0, "climb"], [8.6, "celebrate"], [10.6, "fall", {"blend": 0.15}], [11.9, "lie", {"blend": 0.3}]]},
+    {"concept": "PATIENCE",
+     "keys": [[0, 0], [1.2, 0.6], [15.0, 21], [16.2, 23], [18, 23]],
+     "acts": [[16.2, "stand", {"blend": 0.5}]]}
+  ],
+  "fx": [
+    {"t": 4.5, "type": "pop", "lane": "EGO", "text": "TOO SLOW!", "pitch": 600},
+    {"t": 8.8, "type": "pop", "lane": "EGO", "text": "EASY.", "pitch": 520},
+    {"t": 10.6, "type": "pop", "lane": "EGO", "text": "!!", "size": 70, "color": "#FFFFFF", "pitch": 760, "dur": 0.7},
+    {"t": 12.6, "type": "pop", "lane": "PATIENCE", "text": "...", "size": 60, "pitch": 420},
+    {"t": 10.65, "type": "shake", "amp": 0.06}
+  ]
+}

@@ -73,5 +73,14 @@ Au niveau de l'épisode :
 * `camera.focusWeights` : qui la caméra suit en priorité ;
 * `crowd` : spectateurs.
 
+### Effets et son
+* `"music": false` → pas de musique, **effets sonores seuls** (`ascend/sfx.py`) : pas à chaque marche, souffle et chocs
+  quand quelqu'un tombe, « pop » des bulles de texte, et au sommet un petit impact, des scintillements et le logo sonore.
+  Le volume est bas : les crêtes sont réglées par `sfx_peak_db` (−9 dB par défaut, environ −26 LUFS).
+* `fx` : `[{t, type, …}]`, avec les types `pop` (texte BD au-dessus d'un personnage : `lane`, `text`, `size`, `color`),
+  `puff` (nuage de poussière), `burst` (étincelles dorées), `shake` (tremblement caméra, `amp`), `whoosh` (son seul).
+  La poussière et le tremblement aux chutes, ainsi que les étincelles au sommet, sont ajoutés automatiquement (`"autoFx": false` pour les couper).
+* La taille des personnages à l'écran se règle par `camera.dist` : plus la distance est grande, plus ils sont petits.
+
 Pour tester rapidement avant le rendu complet :
 `node ascend/render.js <episode.json> <dossier> --stills 1,6,12,16` (images fixes).

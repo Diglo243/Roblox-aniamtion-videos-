@@ -86,7 +86,7 @@ export class Arena {
     const P = BRAND.palette, N = this.N = ep.steps || 20;
     const scene = this.scene = new THREE.Scene();
     scene.background = new THREE.Color(P.void);
-    scene.fog = new THREE.Fog(P.void, 24, 55);
+    scene.fog = new THREE.Fog(P.void, ep.fogNear ?? 30, ep.fogFar ?? 70);
     const cam = this.camera = new THREE.PerspectiveCamera(ep.camera?.fov || 36, this.W / this.H, 0.1, 120);
     this.composer.passes.length = 0;
     this.composer.addPass(new RenderPass(scene, cam));
@@ -209,6 +209,7 @@ export class Arena {
       }
     }
     this.focusCache = new Map();
+    this.buildFx();
   }
 
   addNumber(i, x0, h, z) {
@@ -242,6 +243,89 @@ export class Arena {
         m.visible = false; this.scene.add(m);
         l.marks.push({ m, t: tc + 0.15 });
       }
+    }
+  }
+
+
+  // ---------------------------------------------------------------- effects
+  // ep.fx: [{t, type: 'puff'|'burst'|'shake'|'pop', lane: 'EGO', text, size, amp}]
+  // plus automatic ones: dust + shake on collapse / lie, sparkles at the summit.
+  buildFx() {
+    const ep = this.ep, fx = (ep.fx || []).map(f => ({ ...f }));
+    if (ep.autoFx !== false) {
+      for (const l of this.lanes) for (const a of l.acts) {
+        if (a.kind === 'collapse' || a.kind === 'lie') { fx.push({ t: a.t, type: 'puff', lane: l.concept, size: a.kind === 'lie' ? 1.3 : 1 }); fx.push({ t: a.t, type: 'shake', amp: a.kind === 'lie' ? 0.14 : 0.08 }); }
+        if (a.kind === 'fall') fx.push({ t: a.t + 0.05, type: 'puff', lane: l.concept, size: 0.7 });
+      }
+      fx.push({ t: (ep.summitAt ?? ep.duration - 3) + 0.1, type: 'burst' });
+    }
+    this.fx = fx;
+    const mk = (draw) => { const c = document.createElement('canvas'); c.width = c.height = 64; draw(c.getContext('2d')); return new THREE.CanvasTexture(c); };
+    const dustT = mk(x => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(230,220,205,0.9)'); g.addColorStop(1, 'rgba(230,220,205,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); });
+    const sparkT = mk(x => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,230,160,0.8)'); g.addColorStop(1, 'rgba(255,200,80,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); });
+    this.particles = [];
+    let seed = 1;
+    for (const f of fx) {
+      const r = rng(seed++ * 977);
+      if (f.type === 'puff') {
+        const l = this.lanes.find(q => q.concept === f.lane) || this.lanes[0];
+        const p = this.laneAt(l, f.t), sz = f.size || 1;
+        for (let i = 0; i < 14; i++) {
+          const m = new THREE.Sprite(new THREE.SpriteMaterial({ map: dustT, transparent: true, depthWrite: false, opacity: 0 }));
+          const a = r() * Math.PI * 2, sp = (0.5 + r() * 0.9) * sz;
+          m.userData = { t0: f.t, life: 0.9 + r() * 0.5, o: [p.x + (r() - 0.5) * 0.4, this.noseY(p.x) + 0.1, l.z + (r() - 0.5) * 0.5], v: [Math.cos(a) * sp, 0.25 + r() * 0.5 * sz, Math.sin(a) * sp], s0: 0.25 * sz, s1: (0.7 + r() * 0.5) * sz, op: 0.55 };
+          m.visible = false; this.scene.add(m); this.particles.push(m);
+        }
+      } else if (f.type === 'burst') {
+        const cx = this.N * RUN + this.SUMMIT * 0.45, cy = (this.N + 1) * RISE + 0.6;
+        for (let i = 0; i < 40; i++) {
+          const m = new THREE.Sprite(new THREE.SpriteMaterial({ map: sparkT, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: new THREE.Color(BRAND.palette.gold).multiplyScalar(2.2), toneMapped: false, opacity: 0 }));
+          const a = r() * Math.PI * 2, el = r() * 1.2, sp = 1.5 + r() * 2.5;
+          m.userData = { t0: f.t + r() * 0.15, life: 1.0 + r() * 0.8, o: [cx, cy, (r() - 0.5) * 1.5], v: [Math.cos(a) * Math.cos(el) * sp, Math.sin(el) * sp + 1.2, Math.sin(a) * Math.cos(el) * sp], g: -3.5, s0: 0.12, s1: 0.04, op: 1 };
+          m.visible = false; this.scene.add(m); this.particles.push(m);
+        }
+      }
+    }
+  }
+
+  updateFx(t) {
+    for (const m of this.particles) {
+      const u = m.userData, a = (t - u.t0) / u.life;
+      if (a < 0 || a > 1) { m.visible = false; continue; }
+      m.visible = true;
+      const dt = t - u.t0, k = 1 - Math.exp(-dt * 3);
+      m.position.set(u.o[0] + u.v[0] * (u.g ? dt : k / 3), u.o[1] + u.v[1] * (u.g ? dt : k / 3) + (u.g ? 0.5 * u.g * dt * dt : 0), u.o[2] + u.v[2] * (u.g ? dt : k / 3));
+      m.scale.setScalar(lerp(u.s0, u.s1, Math.sqrt(a)));
+      m.material.opacity = u.op * (1 - a) * Math.min(1, a * 8);
+    }
+  }
+
+  shakeAt(t) {
+    let x = 0, y = 0;
+    for (const f of this.fx) if (f.type === 'shake' && t >= f.t && t < f.t + 0.5) {
+      const e = 1 - (t - f.t) / 0.5, A = (f.amp || 0.1) * e * e;
+      x += Math.sin((t - f.t) * 70) * A; y += Math.cos((t - f.t) * 55) * A;
+    }
+    return [x, y];
+  }
+
+  drawPops(ctx, t) {
+    const v = new THREE.Vector3();
+    for (const f of this.fx) {
+      if (f.type !== 'pop' || t < f.t || t > f.t + (f.dur || 1.1)) continue;
+      const l = this.lanes.find(q => q.concept === f.lane) || this.lanes[0];
+      l.mind.headWorld(v); v.y += 1.05; v.project(this.camera);
+      const dt = t - f.t, d = f.dur || 1.1;
+      const sc = dt < 0.25 ? (() => { const q = dt / 0.25, c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(q - 1, 3) + c1 * Math.pow(q - 1, 2); })() : 1;
+      const a = 1 - smooth((dt - (d - 0.25)) / 0.25);
+      const x = clamp((v.x + 1) / 2 * this.W, 140, this.W - 140), y = clamp((1 - v.y) / 2 * this.H - dt * 18, this.H * 0.1, this.H * 0.8);
+      const px = f.size || 54;
+      ctx.save(); ctx.globalAlpha = a; ctx.translate(x, y); ctx.rotate(f.rot ?? -0.08); ctx.scale(sc, sc);
+      ctx.font = `900 ${px}px Poppins`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(5,6,10,0.95)'; ctx.lineWidth = px * 0.24; ctx.strokeText(f.text, 0, 0);
+      const col = f.color || (l.labelColor || '#fff');
+      ctx.shadowColor = col; ctx.shadowBlur = px * 0.4; ctx.fillStyle = col; ctx.fillText(f.text, 0, 0);
+      ctx.restore();
     }
   }
 
@@ -391,6 +475,8 @@ export class Arena {
     const hand = 0.05;
     this.camera.position.copy(tgt).addScaledVector(dir, dist).add(new THREE.Vector3(Math.sin(t * 0.7) * hand, Math.sin(t * 0.9 + 1) * hand, Math.cos(t * 0.6) * hand));
     this.camera.lookAt(tgt);
+    const [sx, sy] = this.shakeAt(t);
+    if (sx || sy) { this.camera.translateX(sx); this.camera.translateY(sy); }
   }
 
   renderAt(t) {
@@ -421,6 +507,7 @@ export class Arena {
       a.array[i * 3 + 1] = (b[i * 3 + 1] + t * 0.12 + Math.sin(t * 0.5 + i * 1.7) * 0.1) % 9;
     }
     a.needsUpdate = true;
+    this.updateFx(t);
     this.updateCamera(t);
     this.composer.render();
     this.drawOverlay(t);
@@ -468,6 +555,7 @@ export class Arena {
       const a = smooth((t - ep.outro.from) / 0.4);
       drawTitle(ctx, W, H, ep.outro.text, a, { y: ep.outro.y ?? 0.16, px: Math.round(W * 0.058) });
     }
+    this.drawPops(ctx, t);
     if (ep.watermark !== false) drawWatermark(ctx, W, H);
   }
 }
