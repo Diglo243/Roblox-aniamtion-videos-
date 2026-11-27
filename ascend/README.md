@@ -18,7 +18,7 @@ Elle est définie dans `ascend/brand.json`, que lisent le moteur, le kit et la m
 | Nom / pseudo | **ASCEND.MIND** — `@Ascend.Mind` — « One step. Every day. » |
 | Logo | Un « A » dont la jambe gauche est un escalier, surmonté d'un point lumineux (l'esprit) |
 | Couleurs | Fond `#07080D`, or `#FFC24A`, pierre graphite, blanc cassé `#F4F1EA` |
-| Personnages | **Les Minds** : corps mat d'une couleur fixe par concept, contour encre, **yeux lumineux**, emblème Λ doré sur la poitrine |
+| Personnages | **Les Minds** : **bonshommes allumettes** blancs à contour encre, différenciés uniquement par un **bandeau de ninja** (masque sur les yeux + deux pans qui flottent quand ils courent) à la couleur du concept (`"style": "stick"` dans `brand.json` ; `"style": "mind"` remet les anciens personnages colorés) |
 | Décor | Escaliers en pierre, **nez de marche éclairés en or**, numéros dorés, sommet gravé du logo qui s'allume avec un faisceau |
 | Textes | Étiquette du concept au-dessus de la tête (Poppins 900, couleur du personnage, petit soulignement), titre d'accroche en haut avec les mots-clés en or |
 | Filigrane | Emblème + `@Ascend.Mind` en bas au centre |
@@ -26,7 +26,7 @@ Elle est définie dans `ascend/brand.json`, que lisent le moteur, le kit et la m
 
 ### Les Minds (couleurs fixes, ne jamais les changer)
 
-| Concept | Couleur | Signe | Rôle type |
+| Concept | Couleur du bandeau | Signe (ancien style) | Rôle type |
 |---|---|---|---|
 | DISCIPLINE | bleu `#3FA9FF` | bandeau | lent mais constant, gagne |
 | OBSESSION | rouge `#FF2E43` | — | fonce, se brûle (fissures rouges) |
@@ -53,6 +53,18 @@ Elle est définie dans `ascend/brand.json`, que lisent le moteur, le kit et la m
 | `cards/<concept>.png` (1080×1920) | fiche verticale de chaque personnage (post communauté, story) |
 | `cover.png` | modèle de miniature « A vs B » |
 | `guide.png` | charte : palette, typographie, règles |
+
+## Épisodes calés sur les vidéos de référence
+
+| Épisode | Référence | Histoire |
+|---|---|---|
+| `04_ref_obsession_vs_ego` | 7709475948738989345 | EGO fait le show pour le public ; quand le public part, il redescend et s'assoit. OBSESSION rampe jusqu'au sommet |
+| `03_obsession_vs_discipline` | 7705397806344834337 | OBSESSION s'effondre près du but, DISCIPLINE gagne |
+| `05_ref_obsession_discipline_motivation` | 7710612422582619425 | MOTIVATION trébuche et s'assoit, OBSESSION s'effondre, DISCIPLINE gagne |
+
+Poses ajoutées pour ces épisodes : `wave` (salue le public, `{"both": true}` pour les deux bras) et
+`climb` avec `{"facing": "down"}` (redescend face à la pente). Le public (`crowd`) accepte `at`, `leaveAt` et `leaveYaw` :
+il part en marchant à l'instant voulu.
 
 ## Écrire un nouvel épisode
 

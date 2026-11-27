@@ -1,0 +1,27 @@
+{
+  "_info": "Référence 7709475948738989345 — OBSESSION vs EGO + public. EGO fait le show pour le public ; quand le public s'en va, il redescend et s'assoit. OBSESSION, en lambeaux, rampe jusqu'au sommet.",
+  "duration": 18,
+  "steps": 24,
+  "summitAt": 12.3,
+  "title": {"text": "WHO ARE YOU\nCLIMBING *FOR*?", "from": 0.0, "to": 2.8},
+  "outro": {"text": "NO AUDIENCE.\n*NO EGO*.", "from": 14.6},
+  "camera": {"dist": [[0, 18], [8, 21], [12, 27], [18, 32]], "focusWeights": {"OBSESSION": 1.0, "EGO": 1.0}},
+  "crowd": {"n": 5, "at": [-1.6, 1.4], "leaveAt": 8.4, "leaveYaw": 2.54},
+  "lanes": [
+    {"concept": "OBSESSION",
+     "keys": [[0, 1], [2, 4], [4, 8], [6, 12], [7.5, 15], [8.5, 17], [9.3, 17], [12, 24], [12.8, 25.4], [18, 25.4]],
+     "damage": [[1, 0], [4, 0.5], [8, 1]],
+     "fatigue": [[5, 0], [8.5, 0.6]],
+     "acts": [[8.5, "collapse"], [9.3, "crawl", {"blend": 0.5}], [12.8, "collapse"]]},
+    {"concept": "EGO",
+     "keys": [[0, 1], [1.4, 3], [2.6, 3], [4.6, 6], [5.4, 7], [6.8, 7], [8.6, 9], [9.8, 9], [12.4, 6], [18, 6]],
+     "acts": [[1.4, "wave", {"dir": -1}], [2.6, "climb"], [5.4, "wave", {"dir": -1, "both": true}], [6.8, "climb"],
+              [8.6, "look_back", {"dir": -1}], [9.8, "climb", {"facing": "down", "blend": 0.5}], [12.4, "sit", {"blend": 0.6}]]}
+  ],
+  "fx": [
+    {"t": 1.6, "type": "pop", "lane": "EGO", "text": "LOOK AT ME!", "size": 46, "pitch": 620},
+    {"t": 8.9, "type": "pop", "lane": "EGO", "text": "?", "size": 72, "color": "#FFFFFF", "pitch": 440, "dur": 0.9},
+    {"t": 8.6, "type": "pop", "lane": "OBSESSION", "text": "!!", "size": 66, "color": "#FFFFFF", "pitch": 760, "dur": 0.7},
+    {"t": 13.0, "type": "pop", "lane": "EGO", "text": "...", "size": 60, "pitch": 380}
+  ]
+}

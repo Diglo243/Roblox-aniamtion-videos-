@@ -3,6 +3,7 @@
   "name": "ASCEND.MIND",
   "handle": "@Ascend.Mind",
   "tagline": "One step. Every day.",
+  "style": "stick",
   "palette": {
     "void": "#07080D",
     "night": "#0E1220",
@@ -18,7 +19,7 @@
     "body": "Poppins 700 (filigrane, sous-titres)"
   },
   "signature": [
-    "Les Minds : corps de couleur mate, contour encre, yeux lumineux, emblème Λ doré sur la poitrine",
+    "Les Minds : bonshommes allumettes blancs à contour encre ; chaque concept porte un bandeau de ninja (masque sur les yeux + deux pans flottants) à sa couleur — c'est la seule chose qui les différencie",
     "Escaliers en pierre graphite, nez de marche éclairés en or, numéros dorés sur les contremarches",
     "Sommet : plateau gravé du logo Λ qui s'allume en or + faisceau de lumière quand le gagnant arrive",
     "Étiquette du concept au-dessus de chaque personnage, à sa couleur",
@@ -26,15 +27,65 @@
     "Logo sonore : trois notes montantes (cloche dorée) à l'arrivée au sommet"
   ],
   "cast": {
-    "DISCIPLINE":  {"color": "#3FA9FF", "eyes": "#D9F1FF", "trait": "Lent mais constant. Ne s'arrête jamais.", "accessory": "headband"},
-    "OBSESSION":   {"color": "#FF2E43", "eyes": "#FFE0E0", "trait": "Fonce sans regarder. Se brûle en chemin.", "accessory": "none"},
-    "MOTIVATION":  {"color": "#FFB21E", "eyes": "#FFF6D6", "trait": "Démarre en trombe… et s'essouffle.", "accessory": "cape"},
-    "EGO":         {"color": "#A35CFF", "eyes": "#F0E2FF", "trait": "Trop fier pour regarder où il marche.", "accessory": "crown"},
-    "CONSISTENCY": {"color": "#22E39A", "eyes": "#E0FFF2", "trait": "Une marche par jour. Toujours la même.", "accessory": "none"},
-    "TALENT":      {"color": "#FF5FCB", "eyes": "#FFE6F7", "trait": "Saute les marches… puis se repose trop.", "accessory": "star"},
-    "LAZINESS":    {"color": "#8E94A3", "eyes": "#F0F2F5", "trait": "Reste assis en bas. Regarde les autres.", "accessory": "none"},
-    "FEAR":        {"color": "#2FD3E0", "eyes": "#E2FCFF", "trait": "Recule à chaque bruit.", "accessory": "none"},
-    "PATIENCE":    {"color": "#F2E6C9", "eyes": "#FFFFFF", "trait": "Ne court jamais. Arrive toujours.", "accessory": "none"},
-    "DOUBT":       {"color": "#6C7BFF", "eyes": "#E6E9FF", "trait": "S'arrête pour se retourner.", "accessory": "none"}
+    "DISCIPLINE": {
+      "color": "#3FA9FF",
+      "eyes": "#D9F1FF",
+      "trait": "Lent mais constant. Ne s'arrête jamais.",
+      "accessory": "headband"
+    },
+    "OBSESSION": {
+      "color": "#FF2E43",
+      "eyes": "#FFE0E0",
+      "trait": "Fonce sans regarder. Se brûle en chemin.",
+      "accessory": "none"
+    },
+    "MOTIVATION": {
+      "color": "#FFB21E",
+      "eyes": "#FFF6D6",
+      "trait": "Démarre en trombe… et s'essouffle.",
+      "accessory": "cape"
+    },
+    "EGO": {
+      "color": "#A35CFF",
+      "eyes": "#F0E2FF",
+      "trait": "Trop fier pour regarder où il marche.",
+      "accessory": "crown"
+    },
+    "CONSISTENCY": {
+      "color": "#22E39A",
+      "eyes": "#E0FFF2",
+      "trait": "Une marche par jour. Toujours la même.",
+      "accessory": "none"
+    },
+    "TALENT": {
+      "color": "#FF5FCB",
+      "eyes": "#FFE6F7",
+      "trait": "Saute les marches… puis se repose trop.",
+      "accessory": "star"
+    },
+    "LAZINESS": {
+      "color": "#8E94A3",
+      "eyes": "#F0F2F5",
+      "trait": "Reste assis en bas. Regarde les autres.",
+      "accessory": "none"
+    },
+    "FEAR": {
+      "color": "#2FD3E0",
+      "eyes": "#E2FCFF",
+      "trait": "Recule à chaque bruit.",
+      "accessory": "none"
+    },
+    "PATIENCE": {
+      "color": "#F2E6C9",
+      "eyes": "#FFFFFF",
+      "trait": "Ne court jamais. Arrive toujours.",
+      "accessory": "none"
+    },
+    "DOUBT": {
+      "color": "#6C7BFF",
+      "eyes": "#E6E9FF",
+      "trait": "S'arrête pour se retourner.",
+      "accessory": "none"
+    }
   }
 }

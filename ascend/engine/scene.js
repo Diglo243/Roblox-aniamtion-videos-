@@ -188,7 +188,7 @@ export class Arena {
     for (const l of lanes) {
       const cfg = BRAND.cast[l.concept] || { color: l.color || '#ffffff', eyes: '#ffffff' };
       l.cfg = cfg;
-      l.mind = new Mind(l.concept, { ...cfg, accessory: l.accessory ?? cfg.accessory }, P.gold);
+      l.mind = new Mind(l.concept, { ...cfg, accessory: l.accessory ?? cfg.accessory, style: ep.style || BRAND.style }, P.gold);
       scene.add(l.mind.root);
       l.S = pchip(l.keys || [[0, 0]]);
       l.D = l.damage ? pchip(l.damage) : () => 0;
@@ -201,10 +201,11 @@ export class Arena {
     // spectators
     this.crowd = [];
     if (ep.crowd) {
-      const rc = rng(9), cfg = { color: ep.crowd.color || '#8E94A3', eyes: '#ffffff' };
+      const rc = rng(9), cfg = { color: ep.crowd.color || '#5B6070', eyes: '#ffffff', style: ep.style || BRAND.style };
       for (let i = 0; i < ep.crowd.n; i++) {
         const m = new Mind('crowd' + i, cfg, P.gold);
-        m.cx = -1.2 - rc() * 2.5; m.cz = this.laneZ(nL - 1) + 0.6 + rc() * 2.2; m.ph = rc() * 6;
+        const c0 = ep.crowd.at || [-1.2, this.laneZ(nL - 1) + 0.6];
+        m.cx = c0[0] - rc() * 2.0; m.cz = c0[1] + rc() * 2.0; m.ph = rc() * 6; m.leave = (ep.crowd.leaveAt ?? 1e9) + rc() * 0.5;
         scene.add(m.root); this.crowd.push(m);
       }
     }
@@ -339,6 +340,7 @@ export class Arena {
     const s = l.S(t), v = (l.S(t + 0.04) - l.S(t - 0.04)) / 0.08;
     const fat = l.F(t), dmg = l.D(t);
     const p = { x: 0, y: 0, z: l.z, yaw: 0, pitch: 0, roll: 0, speed: v };
+    const down = (o.facing === 'down');
     const climb = (still = false) => {
       const sp = still ? 0 : Math.min(1, Math.abs(v) / 1.6);
       const k = Math.floor(s + 1e-6), f = still ? 0 : s - k;
@@ -352,14 +354,16 @@ export class Arena {
       const gy = this.ground(sc - 0.55);
       p.y = gy + 0.86 - fat * 0.08 - (still ? 0 : 0.035 * Math.sin(Math.PI * f) * sp) + (still ? Math.sin(t * 2.2) * 0.008 : 0);
       const feet = { [stanceSide]: st, [swingSide]: sw };
+      if (down) { p.yaw = Math.PI; p.x = (sc - 0.25) * RUN; }
+      const fwd = (fx) => down ? p.x - (fx - p.x) : fx;   // mirror the sagittal plane when facing downhill
       for (const side of ['A', 'B']) {
-        const ik = legIK(p.x, p.y, feet[side][0] + 0.02, feet[side][1] + ANKLE_H);
+        const ik = legIK(p.x, p.y, fwd(feet[side][0]) + 0.02, feet[side][1] + ANKLE_H);
         p['hip' + side] = ik.hip; p['knee' + side] = ik.knee; p['ankle' + side] = -(ik.hip + ik.knee);
       }
       p.spine = 0.1 + 0.22 * sp + fat * 0.5 + dmg * 0.18;
       p.neck = -p.spine * 0.55 + fat * 0.55;
       for (const side of ['A', 'B']) {
-        const rel = clamp((feet[side][0] - p.x) / 0.6, -1, 1);
+        const rel = clamp((fwd(feet[side][0]) - p.x) / 0.6, -1, 1);
         p['sh' + side] = -rel * (0.25 + 0.6 * sp) * (1 - fat * 0.6) + fat * 0.15;
         p['el' + side] = 0.3 + 0.6 * sp;
       }
@@ -367,6 +371,14 @@ export class Arena {
     };
     switch (kind) {
       case 'climb': return climb(Math.abs(v) < 0.05);
+      case 'wave': {   // shows off: one arm up waving, head turned to the audience / camera
+        climb(true); p.spine = -0.05; p.neck = -0.15;
+        const w = smooth((t - tAct) / 0.4);
+        p.headYaw = (o.dir ?? -1) * 1.2 * w; p.twist = (o.dir ?? -1) * 0.35 * w;
+        p.shB = 2.7; p.shAbdB = 0.55 + 0.35 * Math.sin((t - tAct) * 11); p.elB = 0.35 + 0.25 * Math.sin((t - tAct) * 11);
+        if (o.both) { p.shA = 2.7; p.shAbdA = 0.55 + 0.35 * Math.sin((t - tAct) * 11 + 1); p.elA = 0.3; } else { p.shA = 0.1; p.elA = 0.3; }
+        return p;
+      }
       case 'stand': { climb(true); p.spine = 0.04 + fat * 0.4; p.neck = fat * 0.4; p.shA = p.shB = 0.05; p.elA = p.elB = 0.15; return p; }
       case 'look_back': {
         climb(true); p.spine = 0.0; p.neck = -0.05;
@@ -488,6 +500,14 @@ export class Arena {
       for (const mk of l.marks) mk.m.visible = t >= mk.t;
     }
     for (const m of this.crowd) {
+      if (t > m.leave) {   // the audience gets bored and walks away (screen left)
+        const dt = t - m.leave, w = Math.min(1, dt / 0.5), ph = dt * 9 + m.ph;
+        const yaw = lerp(0.35, (this.ep.crowd.leaveYaw ?? Math.PI * 0.9), w), sp = 1.5 * Math.max(0, dt - 0.3);
+        const p = { x: m.cx + Math.cos(yaw) * sp, y: 0.88 + Math.abs(Math.sin(ph)) * 0.03, z: m.cz - Math.sin(yaw) * sp, yaw,
+          hipA: 0.5 * Math.sin(ph), hipB: -0.5 * Math.sin(ph), kneeA: -0.5 * Math.max(0, -Math.sin(ph)), kneeB: -0.5 * Math.max(0, Math.sin(ph)),
+          shA: -0.4 * Math.sin(ph), shB: 0.4 * Math.sin(ph), elA: 0.3, elB: 0.3, spine: 0.1, neck: 0.1, speed: 1.5 };
+        m.apply(p, t + m.ph); continue;
+      }
       const cheer = Math.sin(t * 6 + m.ph) > -0.2;
       const p = { x: m.cx, y: 0.86 + Math.max(0, Math.sin(t * 7 + m.ph)) * 0.08, z: m.cz, yaw: 0.35, hipA: 0.05, hipB: -0.05, kneeA: -0.05, kneeB: -0.05,
         shA: cheer ? 2.7 : 0.2, shB: cheer ? 2.6 : 0.1, shAbdA: 0.4, shAbdB: 0.4, elA: 0.3, elB: 0.3, neck: -0.2 };

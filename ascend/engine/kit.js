@@ -65,7 +65,7 @@ function floor(scene) {
 
 function placeMind(scene, concept, x, y, z, yaw, poseName, t = 0.4) {
   const cfg = BRAND.cast[concept];
-  const m = new Mind(concept, cfg, BRAND.palette.gold);
+  const m = new Mind(concept, { ...cfg, style: BRAND.style }, BRAND.palette.gold);
   const p = { ...POSES[poseName || PREF[concept] || 'stand'] };
   m.apply({ x, y: y + 0.93 + (p.yoff || 0), z, yaw, ...p }, t);
   scene.add(m.root);
