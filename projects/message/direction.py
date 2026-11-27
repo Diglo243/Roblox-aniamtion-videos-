@@ -66,8 +66,8 @@ PL = "town_plaza"
 
 sentences = [
     # 0 Dans cette ville, tout ce que tu écris dans un message devient réalité.      ref #0 shopping street, messages popping
-    [S("town_street", [A("jaune", "text", pos=[2, 6], facing=0.4, prop="phone", bubble="🤯", bubbleAt=0.3, bubbleSize=2.4)], P([-4, 3, 26], [-2, 4, 18], [2, 4, -6], 54),
-       crowd=[TEXTERS], worldProps=[{"kind": "bunting", "pos": [0, 0], "w": 30, "y": 13}, {"kind": "bunting", "pos": [0, -14], "w": 30, "y": 13}], fx=["confetti"], sfx=[POP(1.0)])],
+    [S("town_street", [A("jaune", "text", pos=[2, 6], facing=0.4, prop="phone", bubble="🤯", bubbleAt=0.3, bubbleSize=2.4)], P([0, 9, 36], [0, 6, 22], [1, 4, -10], 54), noSplit=True,
+       crowd=[dict(TEXTERS, area=[-8, -30, 8, 4])], worldProps=[{"kind": "bunting", "pos": [0, 0], "w": 30, "y": 13}, {"kind": "bunting", "pos": [0, -14], "w": 30, "y": 13}], fx=["confetti"], sfx=[POP(1.0)])],
     # 1 Tu vois cet homme ?                                                            ref #1 park, man on the bench
     [S("park2", [A("homme", "text", pos=[0, -1.2], prop="phone")], FR([0, 3.2, -1.2], 14, az=60, pitch=10, ratio=0.9), envOpts={"sign": False})],
     # 2 Son ami vient de lui envoyer une vidéo drôle et il a répondu : Je suis mort.  ref #2 close-up, then skeleton + bubble
