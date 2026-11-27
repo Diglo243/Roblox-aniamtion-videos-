@@ -1,5 +1,8 @@
 # 🎬 Roblox 3D TikTok Director
 
+> **Nouveau : format ASCEND.MIND** (course de concepts sur un escalier, identité visuelle de la chaîne,
+> kit de marque) → voir [`ascend/README.md`](ascend/README.md).
+
 Pipeline automatique qui transforme **un script + une voix off + une vidéo de référence** en une
 vidéo narrative 3D de style Roblox, verticale 9:16, prête pour TikTok / Shorts / Reels.
 
