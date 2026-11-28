@@ -7,6 +7,17 @@
 - Effets sobres : un seul flash (sur la grande révélation), bruitages légers et peu nombreux
   (transitions et gros chiffres seulement, volume bas).
 
+## Style de montage de référence (vidéos virales)
+- **Avant chaque vidéo**, lire et appliquer `.claude/skills/kaz-map-animation/references/viral-style.md`
+  (analyse de 3 Shorts de cartes à millions de vues) :
+  - question à l'écran dès la 1ʳᵉ image ;
+  - sous-titres de 1 à 3 mots au rythme de la voix (`scripts/captions.py`) ;
+  - vols de caméra plutôt que coupes ;
+  - gros chiffres jaunes, pilules, annotations, icônes, infographies blueprint ;
+  - appel « NE BOUGE PAS… S'abonner » vers 65 % ;
+  - fin « tu savais… ? » ;
+  - musique douce continue.
+
 ## Son : agréable, jamais agaçant
 - La voix off est toujours au premier plan et parfaitement intelligible.
 - Volume final normalisé pour les réseaux : `loudnorm` à **-14 LUFS**, crête max **-1 dBTP**.
