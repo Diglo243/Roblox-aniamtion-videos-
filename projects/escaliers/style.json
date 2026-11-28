@@ -1,0 +1,10 @@
+{
+ "brand": true,
+ "mascot": true,
+ "grade": {
+  "saturation": 1.08,
+  "contrast": 1.05,
+  "brightness": 0.0
+ },
+ "sfx_gain_db": -26
+}

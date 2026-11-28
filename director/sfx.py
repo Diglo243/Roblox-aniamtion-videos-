@@ -174,7 +174,63 @@ def cheer(d=2.5, seed=15):
     return _norm(x * _env(n, 0.2, 0.6, 1.0))
 
 
-LIBRARY = {"whoosh": whoosh, "boom": boom, "rumble": rumble, "crack": crack, "ding": ding, "cash": cash, "pop": pop,
+def pad(d=8.0, seed=16, chord=(220.0, 277.18, 329.63, 440.0)):
+    """soft warm ambient pad (slow attack, gentle chorus) - the background bed"""
+    t = _t(d)
+    x = np.zeros(len(t))
+    for k, f in enumerate(chord):
+        for det in (-0.6, 0.6):
+            x += np.sin(2 * np.pi * (f + det) * t + k) * (0.5 if f > 300 else 0.8)
+    x = _lp(x, 0.05) * (0.75 + 0.25 * np.sin(2 * np.pi * 0.15 * t))
+    return _norm(x * _env(len(t), 1.5, 1.5, 1.0))
+
+
+def hum(d=6.0, seed=17):
+    t = _t(d)
+    x = np.sin(2 * np.pi * 55 * t) + 0.5 * np.sin(2 * np.pi * 110 * t) + _lp(_noise(len(t), seed), 0.01) * 2
+    return _norm(_lp(x, 0.02) * _env(len(t), 1.0, 1.0, 1.0))
+
+
+def steps(d=1.6, seed=18):
+    x = np.zeros(int(SR * d))
+    for k in range(int(d / 0.32)):
+        o = int(k * 0.32 * SR); L = int(0.09 * SR)
+        x[o:o + L] += _lp(_noise(L, seed + k), 0.08) * np.exp(-np.arange(L) / (0.02 * SR))
+    return _norm(x)
+
+
+def creak(d=1.4, seed=19):
+    t = _t(d)
+    f = 180 + 60 * np.sin(2 * np.pi * 1.3 * t) + 30 * np.sin(2 * np.pi * 7 * t)
+    x = np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * _lp(_noise(len(t), seed), 0.3)
+    return _norm(_lp(x, 0.15) * _env(len(t), 0.1, 0.3, 1.0))
+
+
+def birds(d=3.0, seed=20):
+    rng = np.random.default_rng(seed)
+    x = np.zeros(int(SR * d))
+    for k in range(10):
+        o = int(rng.uniform(0, d - 0.3) * SR); L = int(0.12 * SR); tt = np.arange(L) / SR
+        f = rng.uniform(2500, 4200) + 900 * np.sin(2 * np.pi * rng.uniform(15, 30) * tt)
+        x[o:o + L] += np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.linspace(0, np.pi, L)) * rng.uniform(0.4, 1)
+    return _norm(x)
+
+
+def waves(d=4.0, seed=21):
+    n = int(SR * d)
+    x = _lp(_noise(n, seed), 0.06) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.25 * _t(d)) ** 2)
+    return _norm(x * _env(n, 0.8, 0.8, 1.0))
+
+
+def knock(d=1.2, seed=22):
+    x = np.zeros(int(SR * d))
+    for o in (0.0, 0.25, 0.5):
+        i = int(o * SR); L = int(0.12 * SR); tt = np.arange(L) / SR
+        x[i:i + L] += (np.sin(2 * np.pi * 120 * tt) + _lp(_noise(L, seed + i), 0.2)) * np.exp(-tt * 40)
+    return _norm(x)
+
+
+LIBRARY = {"pad": pad, "hum": hum, "steps": steps, "creak": creak, "birds": birds, "waves": waves, "knock": knock,"whoosh": whoosh, "boom": boom, "rumble": rumble, "crack": crack, "ding": ding, "cash": cash, "pop": pop,
            "sparkle": sparkle, "alarm": alarm, "engine": engine, "wind": wind, "shutter": shutter, "heartbeat": heartbeat,
            "riser": riser, "cheer": cheer}
 
@@ -198,10 +254,11 @@ def render_bed(events, duration, out_path, default_gain_db=-24.0):
         name = ev["name"]
         if name not in LIBRARY:
             continue
-        key = (name, ev.get("dur"))
+        key = (name, ev.get("dur"), tuple(ev.get("chord", ())))
         if key not in cache:
             fn = LIBRARY[name]
-            cache[key] = fn(ev["dur"]) if ev.get("dur") else fn()
+            kw = {"chord": tuple(ev["chord"])} if ev.get("chord") else {}
+            cache[key] = fn(ev["dur"], **kw) if ev.get("dur") else fn(**kw)
         snd = cache[key] * 10 ** (ev.get("gain", default_gain_db) / 20)
         o = int(max(0, ev["t"]) * SR)
         L = min(len(snd), n - o)

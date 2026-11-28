@@ -6,7 +6,8 @@ import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js'
 import { TOWN_ENVIRONMENTS } from './env_town.js';
 import { FARM_ENVIRONMENTS, looseStraw, haystack } from './env_farm.js';
 import { MSG_ENVIRONMENTS, msgProp, updateMsgMovers } from './env_msg.js';
-const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS, ...FARM_ENVIRONMENTS, ...MSG_ENVIRONMENTS };
+import { SILO_ENVIRONMENTS, siloProp, updateSiloMovers } from './env_silo.js';
+const ENVIRONMENTS = { ...BASE_ENV, ...TOWN_ENVIRONMENTS, ...FARM_ENVIRONMENTS, ...MSG_ENVIRONMENTS, ...SILO_ENVIRONMENTS };
 const EMOJI_FONT = '"Poppins", "Noto Color Emoji", sans-serif';
 function bubbleTex(text) {
   return canvasTex('bubble|' + text, 1024, 256, (g, w, h) => {
@@ -67,6 +68,9 @@ function makeProp(kind) {
     case 'needle': box(g, 0.08, 1.6, 0.08, M('#ffe082', { metal: 0.9, rough: 0.1, emissive: '#ffc107', ei: 1.2 }), 0, 0.2, 0.55); break;
     case 'straw': for (let i = 0; i < 1; i++) box(g, 0.1, 2.2, 0.1, '#f3c75a', 0, 0.3, 0.55, { rz: 0.2 }); break;
     case 'armful': for (let i = 0; i < 26; i++) box(g, 0.1, 0.1, 2.4, ['#f3c75a', '#e0a92e', '#ffd977'][i % 3], -1.3 + (i % 9) * 0.32, -0.2 + Math.floor(i / 9) * 0.25, 1.0 + ((i * 7) % 5) * 0.05, { ry: Math.PI / 2 + ((i * 13) % 7 - 3) * 0.08, cast: false }); break;
+    case 'binoculars': for (const x of [-0.35, 0.35]) cyl(g, 0.3, 0.3, 0.9, '#1b1b1b', x, -0.6, 0.6, { rx: Math.PI / 2 }); for (const x of [-0.35, 0.35]) { const l = cyl(g, 0.24, 0.24, 0.05, M('#4fc3f7', { emissive: '#4fc3f7', ei: 0.6 }), x, -0.6, 1.08, { rx: Math.PI / 2 }); } break;
+    case 'flashlight': { cyl(g, 0.22, 0.3, 1.4, '#2b2b2b', 0, -0.9, 0.6, { rx: Math.PI / 2 }); const lens = sphere(g, 0.26, M('#fff8d0', { emissive: '#fff8d0', ei: 3 }), 0, -0.9, 1.35, { cast: false }); const sp = new THREE.SpotLight('#fff3c8', 400, 40, 0.45, 0.5, 1.2); sp.position.set(0, -0.9, 1.3); const tg = new THREE.Object3D(); tg.position.set(0, -0.9, 10); g.add(tg); sp.target = tg; g.add(sp); break; }
+    case 'clock': box(g, 1.0, 1.0, 0.5, '#c62828', 0, -0.6, 0.6, { round: 0.2 }); box(g, 0.8, 0.8, 0.1, '#ffffff', 0, -0.6, 0.88, { cast: false }); break;
     case 'cane': box(g, 0.16, 2.6, 0.16, '#3e2723', 0, -2.2, 0.35); box(g, 0.7, 0.16, 0.16, '#3e2723', 0.25, 0.35, 0.35); break;
     case 'satchel': box(g, 1.2, 1.1, 0.4, '#6d4c41', 0.2, -1.9, -0.1, { round: 0.1 }); break;
     case 'boot': box(g, 0.9, 1.6, 0.9, '#2e7d32', 0, -1.0, 0.6, { round: 0.15 }); box(g, 0.9, 0.6, 1.6, '#2e7d32', 0, -1.8, 0.95, { round: 0.2 }); box(g, 0.95, 0.15, 1.65, '#1b5e20', 0, -2.1, 0.95); break;
@@ -150,7 +154,7 @@ function makeSprite(kind, size = 1.6) {
 class Particles {
   constructor(kind, scene, focus, camera, r) {
     this.kind = kind; this.items = []; this.r = r; this.focus = focus; this.camera = camera;
-    const n = { pizza: 70, fire: 60, steam: 40, straw: 140, coins: 50, rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
+    const n = { dust: 160, pizza: 70, fire: 60, steam: 40, straw: 140, coins: 50, rain: 500, confetti: 160, money: 90, snow: 300, tears: 0, hearts: 14, sparkles: 40, stars: 5, smoke: 30 }[kind] ?? 50;
     this.group = new THREE.Group(); scene.add(this.group);
     if (kind === 'rain') {
       const geo = new THREE.BufferGeometry(); const pos = new Float32Array(n * 6); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -163,6 +167,7 @@ class Particles {
       if (kind === 'confetti') m = new THREE.Mesh(new THREE.PlaneGeometry(0.35, 0.6), M(r.pick(['#ff3b30', '#ffcc00', '#34c759', '#007aff', '#af52de', '#ff2d55']), { side: THREE.DoubleSide, basic: true }));
       else if (kind === 'money') m = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.5), M('#4caf50', { side: THREE.DoubleSide, map: moneyTex() }));
       else if (kind === 'snow') m = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), M('#ffffff', { basic: true }));
+      else if (kind === 'dust') m = new THREE.Mesh(new THREE.SphereGeometry(0.06, 4, 3), M('#fff6e0', { basic: true, transparent: true, opacity: 0.8 }));
       else if (kind === 'pizza') { m = new THREE.Sprite(new THREE.SpriteMaterial({ map: canvasTex('emoji_pizza', 128, 128, (c) => { c.font = '100px ' + EMOJI_FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('🍕', 64, 70); }), transparent: true })); m.scale.set(1.8, 1.8, 1); }
       else if (kind === 'fire') m = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 0.9), M(r.pick(['#ff4a1a', '#ffb21a', '#ff7a1a']), { basic: true, transparent: true, opacity: 0.9 }));
       else if (kind === 'steam') m = new THREE.Mesh(new THREE.SphereGeometry(0.7, 8, 6), M('#ffffff', { transparent: true, opacity: 0.5, basic: true }));
@@ -189,6 +194,7 @@ class Particles {
       if (this.kind === 'stars') { const a = t * 4 + ph * 6.28; m.position.set(f.x + Math.cos(a) * 1.3, f.y + 0.9, f.z + Math.sin(a) * 1.3); continue; }
       if (this.kind === 'sparkles') { const k = (t * sp + ph) % 1; m.position.set(f.x + x * 0.35, f.y - 2 + y0 * 0.3, f.z + z * 0.3); m.scale.setScalar(Math.sin(k * Math.PI) * 0.7 + 0.01); continue; }
       if (this.kind === 'smoke') { const k = (t * 0.6 * sp + ph) % 1; m.position.set(f.x + x * 0.4, k * 10, f.z + z * 0.4); m.scale.setScalar(0.5 + k * 3); m.material.opacity = 0.6 * (1 - k); continue; }
+      if (this.kind === 'dust') { m.position.set(f.x + x * 0.9 + Math.sin(t * 0.3 + ph * 9) * 1.2, f.y - 4 + ((y0 * 0.5 - t * 0.25 * sp) % 11 + 11) % 11, f.z + z * 0.9 + Math.cos(t * 0.25 + ph * 7) * 1.2); continue; }
       if (this.kind === 'fire') { const k = (t * 1.6 * sp + ph) % 1; m.position.set(f.x + x * 0.35, f.y - 3 + k * 12, f.z + z * 0.35); m.scale.setScalar(1.6 * (1 - k) + 0.1); continue; }
       if (this.kind === 'steam') { const k = (t * 0.7 * sp + ph) % 1; m.position.set(f.x + x * 1.1, k * 9, f.z + z * 1.1); m.scale.setScalar(0.5 + k * 2); m.material.opacity = 0.5 * (1 - k); continue; }
       if (this.kind === 'straw') { const k = (t * 0.25 * sp + ph) % 1; m.position.set(f.x + x * 1.2 + Math.sin(t + ph * 9) * 2, 1 + y0 * 0.6 + Math.sin(t * 1.3 + ph * 5) * 1.5, f.z + z * 1.2); m.rotation.set(t * 2 * sp + ph * 6, t * 1.5 + ph * 3, t * sp); continue; }
@@ -336,6 +342,7 @@ window.setupShot = async function setupShot(spec, cast) {
   for (const wp of spec.worldProps || []) {
     const st = info.stage;
     if (msgProp(world, wp, st, r, S_movers, {})) continue;
+    if (siloProp(world, wp, st, r, S_movers)) continue;
     if (wp.kind === 'car') car(world, st.x + (wp.pos?.[0] ?? 6), st.z + (wp.pos?.[1] ?? -4), wp.facing ?? 0, r, wp.color);
     else if (wp.kind === 'police_car') { const c = car(world, st.x + (wp.pos?.[0] ?? 7), st.z + (wp.pos?.[1] ?? -5), wp.facing ?? 0.3, r, '#ffffff'); box(c, 3, 0.6, 1.2, M('#ff1744', { emissive: '#ff1744', ei: 1.4 }), -0.8, 3.4, -0.6); box(c, 1.4, 0.6, 1.2, M('#2979ff', { emissive: '#2979ff', ei: 1.4 }), 0.8, 3.4, -0.6); }
     else if (wp.kind === 'bus') {
@@ -380,7 +387,7 @@ window.setupShot = async function setupShot(spec, cast) {
 
   // particles / fx
   const parts = [];
-  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins', 'pizza', 'fire', 'steam'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + (spec.parentId || spec.id))));
+  for (const k of spec.fx || []) if (['rain', 'confetti', 'money', 'snow', 'hearts', 'sparkles', 'stars', 'smoke', 'straw', 'coins', 'pizza', 'fire', 'steam', 'dust'].includes(k)) parts.push(new Particles(k, scene, fpos.clone().setY(4.5), camera, rng(k + (spec.parentId || spec.id))));
   const ov = {
     vignette: addOverlay(camera, spec.fx?.includes('red') ? 'red' : (spec.fx?.includes('dark') ? 'dark' : 'vignette'), 1),
     speed: addOverlay(camera, 'speed', 2),
@@ -607,7 +614,7 @@ window.renderAt = function renderAt(t) {
   const u = clamp(ta / Math.max(0.01, S.adur), 0, 1);
   for (const g of S.movers) if (g.userData.spin) { g.rotation.y = ta * 1.2; g.position.y += Math.sin(t * 2) * 0.005; }
   for (const g of S.movers) if (g.userData.move) { const [dx, dz] = g.userData.move; g.position.set(g.userData.base.x + dx * (u - 0.5), 0, g.userData.base.z + dz * (u - 0.5)); }
-  updateMsgMovers(S.movers, ta, u);
+  updateMsgMovers(S.movers, ta, u); updateSiloMovers(S.movers, ta, u);
   if (S.info.update) S.info.update(ta, u, spec);
   scene.updateMatrixWorld(true);
   // camera

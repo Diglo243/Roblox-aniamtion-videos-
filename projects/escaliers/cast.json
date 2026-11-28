@@ -1,0 +1,62 @@
+{
+ "barbu": {
+  "name": "Le type au canapé",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#e0a878",
+   "shirt": "#c0541f",
+   "shirtDesign": "plaid",
+   "sleeves": "long",
+   "pants": "#4a3b2a",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "short",
+    "color": "#5d3a1a"
+   },
+   "beard": true,
+   "accessory": "none",
+   "scale": 1.05
+  }
+ },
+ "vieux": {
+  "name": "Vieil homme",
+  "gender": "m",
+  "appearance": {
+   "gender": "m",
+   "skin": "#f0c49a",
+   "shirt": "#f2a51a",
+   "shirtDesign": "suspenders",
+   "trim": "#6d4c41",
+   "sleeves": "long",
+   "pants": "#6d4c41",
+   "shoes": "#3e2723",
+   "hair": {
+    "style": "cap",
+    "color": "#f2f2f2"
+   },
+   "beard": true,
+   "accessory": "none",
+   "scale": 1
+  }
+ },
+ "eleve": {
+  "name": "Élève",
+  "gender": "f",
+  "appearance": {
+   "gender": "f",
+   "skin": "#c98a5a",
+   "shirt": "#2bb39a",
+   "shirtDesign": "none",
+   "sleeves": "short",
+   "pants": "#3b2f6a",
+   "shoes": "#ffffff",
+   "hair": {
+    "style": "ponytail",
+    "color": "#3b2314"
+   },
+   "accessory": "none",
+   "scale": 0.85
+  }
+ }
+}

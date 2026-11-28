@@ -701,7 +701,7 @@ def cover_camera(cam, k):
             cam["fov"] = max(30, cam.get("fov", 50) - 4)
         else:  # swing around the subject
             import math
-            ang = 0.38 if (k // 2) % 2 else -0.38
+            ang = 0.22 if (k // 2) % 2 else -0.22
             def rot(a):
                 dx, dz = a[0] - l[0], a[2] - l[2]
                 return [l[0] + dx * math.cos(ang) - dz * math.sin(ang), a[1], l[2] + dx * math.sin(ang) + dz * math.cos(ang)]

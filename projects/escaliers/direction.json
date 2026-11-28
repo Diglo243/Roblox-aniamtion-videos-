@@ -1,0 +1,3618 @@
+{
+ "cast": {
+  "barbu": {
+   "name": "Le type au canapé",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#e0a878",
+    "shirt": "#c0541f",
+    "shirtDesign": "plaid",
+    "sleeves": "long",
+    "pants": "#4a3b2a",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "short",
+     "color": "#5d3a1a"
+    },
+    "beard": true,
+    "accessory": "none",
+    "scale": 1.05
+   }
+  },
+  "vieux": {
+   "name": "Vieil homme",
+   "gender": "m",
+   "appearance": {
+    "gender": "m",
+    "skin": "#f0c49a",
+    "shirt": "#f2a51a",
+    "shirtDesign": "suspenders",
+    "trim": "#6d4c41",
+    "sleeves": "long",
+    "pants": "#6d4c41",
+    "shoes": "#3e2723",
+    "hair": {
+     "style": "cap",
+     "color": "#f2f2f2"
+    },
+    "beard": true,
+    "accessory": "none",
+    "scale": 1
+   }
+  },
+  "eleve": {
+   "name": "Élève",
+   "gender": "f",
+   "appearance": {
+    "gender": "f",
+    "skin": "#c98a5a",
+    "shirt": "#2bb39a",
+    "shirtDesign": "none",
+    "sleeves": "short",
+    "pants": "#3b2f6a",
+    "shoes": "#ffffff",
+    "hair": {
+     "style": "ponytail",
+     "color": "#3b2314"
+    },
+    "accessory": "none",
+    "scale": 0.85
+   }
+  }
+ },
+ "defaults": {
+  "time": "day"
+ },
+ "max_shot": 1.9,
+ "sentences": [
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.4,
+      70,
+      1.5
+     ],
+     "to": [
+      0.4,
+      40,
+      1.5
+     ],
+     "look": [
+      0,
+      -60,
+      0
+     ],
+     "fov": 68,
+     "roll": 0.0
+    },
+    "noSplit": true,
+    "sfx": [
+     {
+      "name": "pad",
+      "at": 0,
+      "gain": -31,
+      "dur": 28,
+      "chord": [
+       220.0,
+       277.18,
+       329.63,
+       440.0
+      ]
+     },
+     {
+      "name": "hum",
+      "at": 0,
+      "gain": -36,
+      "dur": 30
+     },
+     {
+      "name": "whoosh",
+      "at": 0.1,
+      "gain": -30
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       -16.444620863753396,
+       -5.985352508199202
+      ],
+      "float": 5.0,
+      "facing": 2.7925268031909276,
+      "speed": 0,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.88,
+      9.84,
+      -4.62
+     ],
+     "to": [
+      -2.13,
+      9.71,
+      -4.73
+     ],
+     "look": [
+      -16.44,
+      8.2,
+      -5.99
+     ],
+     "fov": 46
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      6,
+      9
+     ],
+     "to": [
+      0,
+      4,
+      8
+     ],
+     "look": [
+      0,
+      -80,
+      -5
+     ],
+     "fov": 66
+    },
+    "noSplit": true,
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      24,
+      4,
+      6
+     ],
+     "to": [
+      23,
+      4.5,
+      3
+     ],
+     "look": [
+      0,
+      -6,
+      -10
+     ],
+     "fov": 58
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      9,
+      15
+     ],
+     "to": [
+      0,
+      8.5,
+      12
+     ],
+     "look": [
+      0,
+      6,
+      -17
+     ],
+     "fov": 56
+    },
+    "crowd": [
+     {
+      "n": 16,
+      "area": [
+       -17,
+       -9,
+       17,
+       9
+      ],
+      "action": [
+       "sit",
+       "eat",
+       "talk"
+      ],
+      "facing": 1.57,
+      "spread": 0.2
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "barbu",
+      "action": "carry",
+      "pos": [
+       -13.405777754582113,
+       11.248783169514441
+      ],
+      "float": 3.5,
+      "facing": -2.443460952792061,
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      7.38,
+      11.86,
+      5.68
+     ],
+     "to": [
+      5.71,
+      11.43,
+      6.13
+     ],
+     "look": [
+      -13.41,
+      6.5,
+      11.25
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "couch",
+      "pos": [
+       -13.405777754582113,
+       11.248783169514441
+      ],
+      "y": 8.1,
+      "facing": -0.8734609527920612
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "barbu",
+      "action": "carry",
+      "pos": [
+       -13.405777754582113,
+       11.248783169514441
+      ],
+      "float": 3.5,
+      "facing": -2.443460952792061,
+      "emotion": "tired",
+      "bubble": "90 ↑",
+      "bubbleAt": 0.3,
+      "bubbleSize": 2.4
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -6.19,
+      5.1,
+      -4.23
+     ],
+     "to": [
+      -6.77,
+      5.29,
+      -2.99
+     ],
+     "look": [
+      -13.41,
+      7.5,
+      11.25
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "couch",
+      "pos": [
+       -13.405777754582113,
+       11.248783169514441
+      ],
+      "y": 8.1,
+      "facing": -0.8734609527920612
+     }
+    ],
+    "sfx": [
+     {
+      "name": "steps",
+      "at": 0.2,
+      "gain": -30
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "barbu",
+      "action": "sit_work",
+      "pos": [
+       21.65063509461097,
+       12.499999999999998
+      ],
+      "facing": -2.0943951023931953,
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      13.49,
+      5.95,
+      7.79
+     ],
+     "to": [
+      14.14,
+      5.85,
+      8.16
+     ],
+     "look": [
+      21.65,
+      4.63,
+      12.5
+     ],
+     "fov": 42
+    },
+    "worldProps": [
+     {
+      "kind": "couch",
+      "pos": [
+       22.170250336881633,
+       12.799999999999999
+      ],
+      "facing": -2.0943951023931953
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "wave",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793,
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.0,
+      4.08,
+      14.63
+     ],
+     "to": [
+      0.0,
+      3.97,
+      15.46
+     ],
+     "look": [
+      0.0,
+      2.62,
+      25.0
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.2,
+      "gain": -27
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "point",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -4.89,
+      8.14,
+      2.01
+     ],
+     "to": [
+      -4.5,
+      8.01,
+      3.85
+     ],
+     "look": [
+      0.0,
+      6.5,
+      25.0
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "classroom2",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "wave",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 0,
+      "emotion": "happy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      3.95,
+      11.4
+     ],
+     "to": [
+      -0.0,
+      3.84,
+      10.65
+     ],
+     "look": [
+      0,
+      2.62,
+      2
+     ],
+     "fov": 46
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cozy_room",
+    "actors": [
+     {
+      "id": "mamie_rose",
+      "action": "sit",
+      "pos": [
+       0,
+       -1
+      ]
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      6,
+      10
+     ],
+     "to": [
+      0,
+      6,
+      8.5
+     ],
+     "look": [
+      0,
+      5.5,
+      -1
+     ],
+     "fov": 46
+    },
+    "envOpts": {
+     "sign": "100"
+    },
+    "sfx": [
+     {
+      "name": "creak",
+      "at": 0.3,
+      "gain": -31
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "vieux",
+      "action": "look_down",
+      "pos": [
+       -23.49231551964771,
+       -8.550503583141717
+      ],
+      "facing": 1.2217304763960308
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -7.94,
+      7.19,
+      -8.55
+     ],
+     "to": [
+      -9.18,
+      7.01,
+      -8.55
+     ],
+     "look": [
+      -23.49,
+      5,
+      -8.55
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "99",
+      "pos": [
+       -25.935516333691073,
+       -9.439755955788456
+      ],
+      "y": -9,
+      "facing": 1.2217304763960308
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cozy_room",
+    "actors": [
+     {
+      "id": "mamie_rose",
+      "action": "sit",
+      "pos": [
+       0,
+       -1
+      ],
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5.4,
+      5
+     ],
+     "to": [
+      0,
+      5.4,
+      4.4
+     ],
+     "look": [
+      0,
+      5.2,
+      -1
+     ],
+     "fov": 44
+    },
+    "envOpts": {
+     "sign": "100"
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "vieux",
+      "action": "idle",
+      "pos": [
+       -8.208483439816046,
+       -22.552622898861802
+      ],
+      "facing": 0.8490658503988657,
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -1.77,
+      6.69,
+      -4.86
+     ],
+     "to": [
+      -2.34,
+      6.51,
+      -6.43
+     ],
+     "look": [
+      -8.89,
+      4.5,
+      -24.43
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "elevator",
+      "pos": [
+       -10.055392213774654,
+       -27.626963051105708
+      ],
+      "facing": 0.34906585039886573
+     }
+    ],
+    "w": 1.6,
+    "fx": [
+     "dust"
+    ]
+   },
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "vieux",
+      "action": "idle",
+      "pos": [
+       -8.208483439816046,
+       -22.552622898861802
+      ],
+      "facing": 0.8490658503988657,
+      "emotion": "sleep",
+      "symbol": "zzz"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -1.71,
+      5.82,
+      -17.1
+     ],
+     "to": [
+      -2.23,
+      5.73,
+      -17.54
+     ],
+     "look": [
+      -8.21,
+      4.63,
+      -22.55
+     ],
+     "fov": 42
+    },
+    "worldProps": [
+     {
+      "kind": "elevator",
+      "pos": [
+       -10.055392213774654,
+       -27.626963051105708
+      ],
+      "facing": 0.34906585039886573
+     }
+    ],
+    "cut": "depuis",
+    "w": 1.0,
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      13.5,
+      15
+     ],
+     "to": [
+      0,
+      13,
+      12
+     ],
+     "look": [
+      0,
+      2,
+      -8
+     ],
+     "fov": 62
+    },
+    "crowd": [
+     {
+      "n": 22,
+      "area": [
+       -17,
+       -9,
+       17,
+       9
+      ],
+      "action": [
+       "sit",
+       "eat",
+       "talk"
+      ],
+      "facing": 1.57,
+      "spread": 0.2
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "eleve",
+      "action": "sit",
+      "pos": [
+       -3,
+       2
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -3,
+      6,
+      8
+     ],
+     "to": [
+      -3,
+      6,
+      6
+     ],
+     "look": [
+      0,
+      7,
+      -17
+     ],
+     "fov": 54
+    },
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -33
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      7,
+      -10
+     ],
+     "to": [
+      0,
+      7,
+      -12
+     ],
+     "look": [
+      0,
+      10,
+      -80
+     ],
+     "fov": 52
+    },
+    "noSplit": true,
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      6,
+      -12
+     ],
+     "to": [
+      6,
+      6,
+      -13
+     ],
+     "look": [
+      10,
+      6,
+      -90
+     ],
+     "fov": 48
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      -6,
+      8,
+      -12
+     ],
+     "to": [
+      -6,
+      8,
+      -12.5
+     ],
+     "look": [
+      -12,
+      4,
+      -90
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "classroom2",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      7,
+      2
+     ],
+     "to": [
+      0,
+      7,
+      -2
+     ],
+     "look": [
+      0,
+      7,
+      -16
+     ],
+     "fov": 50
+    },
+    "crowd": [
+     {
+      "n": 6,
+      "area": [
+       -10,
+       0,
+       10,
+       12
+      ],
+      "action": "sit",
+      "facing": 3.14,
+      "spread": 0.2
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   },
+   {
+    "env": "classroom2",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      7.5,
+      -5
+     ],
+     "to": [
+      2.4,
+      7.5,
+      -7
+     ],
+     "look": [
+      3,
+      7,
+      -16
+     ],
+     "fov": 46
+    },
+    "cut": "l'air",
+    "fx": [
+     "dust",
+     "punch"
+    ],
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0.1,
+      "gain": -33
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "classroom2",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "sit",
+      "pos": [
+       3,
+       6
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      6,
+      -2
+     ],
+     "to": [
+      3,
+      6,
+      -3
+     ],
+     "look": [
+      3,
+      5,
+      6
+     ],
+     "fov": 46
+    },
+    "crowd": [
+     {
+      "n": 5,
+      "area": [
+       -10,
+       0,
+       10,
+       12
+      ],
+      "action": "sit",
+      "facing": 3.14,
+      "spread": 0.2
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       4,
+       -12
+      ],
+      "facing": 0.3,
+      "emotion": "think"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.94,
+      5.1,
+      5.36
+     ],
+     "to": [
+      1.18,
+      4.9,
+      3.97
+     ],
+     "look": [
+      4,
+      2.62,
+      -12
+     ],
+     "fov": 46
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "think",
+      "pos": [
+       4,
+       -12
+      ],
+      "facing": 0.2,
+      "symbol": "?"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3.26,
+      5.82,
+      -3.55
+     ],
+     "to": [
+      3.32,
+      5.73,
+      -4.22
+     ],
+     "look": [
+      4,
+      4.63,
+      -12
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "point",
+      "pos": [
+       4,
+       -12
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      6,
+      6,
+      -4
+     ],
+     "to": [
+      6,
+      6,
+      -5
+     ],
+     "look": [
+      0,
+      6,
+      -40
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      1,
+      40,
+      2
+     ],
+     "to": [
+      1,
+      14,
+      2
+     ],
+     "look": [
+      0,
+      -30,
+      0
+     ],
+     "fov": 64
+    },
+    "worldProps": [
+     {
+      "kind": "butterfly",
+      "pos": [
+       0,
+       0
+      ],
+      "y": 30,
+      "fall": [
+       60,
+       4
+      ],
+      "scale": 3
+     }
+    ],
+    "noSplit": true,
+    "sfx": [
+     {
+      "name": "whoosh",
+      "at": 0.3,
+      "gain": -30
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.5,
+      4,
+      2
+     ],
+     "to": [
+      0.5,
+      3,
+      2
+     ],
+     "look": [
+      0,
+      90,
+      0.3
+     ],
+     "fov": 72
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "shocked",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.0,
+      3.65,
+      13.48
+     ],
+     "to": [
+      0.0,
+      3.45,
+      14.4
+     ],
+     "look": [
+      0.0,
+      1.2,
+      25.0
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     },
+     {
+      "kind": "butterfly",
+      "pos": [
+       0.5000000000000016,
+       23.8
+      ],
+      "y": 0.6,
+      "fall": [
+       6,
+       0.6
+      ],
+      "scale": 1.6
+     }
+    ],
+    "sfx": [
+     {
+      "name": "pop",
+      "at": 0.5,
+      "gain": -28
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "give",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793,
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.0,
+      5.82,
+      16.52
+     ],
+     "to": [
+      0.0,
+      5.73,
+      17.19
+     ],
+     "look": [
+      0.0,
+      4.63,
+      25.0
+     ],
+     "fov": 42
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     },
+     {
+      "kind": "butterfly",
+      "pos": [
+       1.5308084989341915e-15,
+       23.4
+      ],
+      "y": 3.2,
+      "scale": 1.2
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "give",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793,
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.0,
+      4.01,
+      14.7
+     ],
+     "to": [
+      0.0,
+      3.96,
+      15.39
+     ],
+     "look": [
+      0.0,
+      3.4,
+      23.4
+     ],
+     "fov": 46
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     },
+     {
+      "kind": "butterfly",
+      "pos": [
+       1.5308084989341915e-15,
+       23.4
+      ],
+      "y": 3.2,
+      "scale": 1.2
+     }
+    ],
+    "fx": [
+     "dust",
+     "sparkles"
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.2,
+      "gain": -29
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cozy_room",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "think",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 0,
+      "prop": "book"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      4.61,
+      16.1
+     ],
+     "to": [
+      -0.0,
+      4.45,
+      14.97
+     ],
+     "look": [
+      0,
+      2.62,
+      2
+     ],
+     "fov": 46
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "cozy_room",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 0,
+      "prop": "book",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.74,
+      5.82,
+      10.45
+     ],
+     "to": [
+      0.68,
+      5.73,
+      9.78
+     ],
+     "look": [
+      0,
+      4.63,
+      2
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       2,
+       -12
+      ],
+      "facing": 0.2,
+      "prop": "binoculars"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2.0,
+      3.73,
+      -3.48
+     ],
+     "to": [
+      2.0,
+      3.81,
+      -4.16
+     ],
+     "look": [
+      2,
+      4.63,
+      -12
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       2,
+       -14
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      6,
+      -8
+     ],
+     "to": [
+      3,
+      6,
+      -9
+     ],
+     "look": [
+      0,
+      8,
+      -60
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      8,
+      -15
+     ],
+     "to": [
+      3,
+      8.4,
+      -16
+     ],
+     "look": [
+      14,
+      26,
+      -130
+     ],
+     "fov": 46
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "point",
+      "pos": [
+       2,
+       -12
+      ],
+      "facing": 0.2,
+      "prop": "clock",
+      "bubble": "40 min",
+      "bubbleAt": 0.4,
+      "bubbleSize": 2.2
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -2.82,
+      4.61,
+      1.25
+     ],
+     "to": [
+      -2.44,
+      4.45,
+      0.19
+     ],
+     "look": [
+      2,
+      2.62,
+      -12
+     ],
+     "fov": 46
+    },
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0.5,
+      "gain": -29
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "think",
+      "pos": [
+       2,
+       -12
+      ],
+      "facing": 0.2,
+      "prop": "book",
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3.64,
+      5.95,
+      -2.72
+     ],
+     "to": [
+      3.51,
+      5.85,
+      -3.46
+     ],
+     "look": [
+      2,
+      4.63,
+      -12
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "hall",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      8,
+      -15
+     ],
+     "to": [
+      3,
+      8.6,
+      -16.5
+     ],
+     "look": [
+      14,
+      22,
+      -130
+     ],
+     "fov": 40
+    },
+    "fx": [
+     "punch"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       1.5308084989341915e-15,
+       25.0
+      ],
+      "facing": -3.141592653589793,
+      "prop": "flashlight",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.0,
+      4.61,
+      10.9
+     ],
+     "to": [
+      0.0,
+      4.45,
+      12.03
+     ],
+     "look": [
+      0.0,
+      2.62,
+      25.0
+     ],
+     "fov": 46
+    },
+    "envOpts": {
+     "dark": true
+    },
+    "worldProps": [
+     {
+      "kind": "floor_sign",
+      "text": "60",
+      "pos": [
+       1.6900125828233475e-15,
+       27.6
+      ],
+      "facing": -3.141592653589793
+     }
+    ],
+    "w": 2.2,
+    "sfx": [
+     {
+      "name": "pad",
+      "at": 0,
+      "gain": -32,
+      "dur": 18,
+      "chord": [
+       196.0,
+       233.08,
+       293.66,
+       369.99
+      ]
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   },
+   {
+    "env": "silo",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       8.750000000000002,
+       -15.155444566227676
+      ],
+      "float": 7.5,
+      "facing": 1.0471975511965976,
+      "speed": 0,
+      "prop": "flashlight",
+      "emotion": "smug"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      5.73,
+      12.22,
+      1.99
+     ],
+     "to": [
+      5.97,
+      12.12,
+      0.62
+     ],
+     "look": [
+      8.75,
+      11.0,
+      -15.16
+     ],
+     "fov": 46
+    },
+    "envOpts": {
+     "dark": true
+    },
+    "cut": "et",
+    "w": 2.0,
+    "sfx": [
+     {
+      "name": "steps",
+      "at": 0.1,
+      "gain": -31
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       0,
+       2
+      ],
+      "dir": 3.14,
+      "speed": 0.5,
+      "prop": "flashlight"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5.5,
+      17
+     ],
+     "to": [
+      0,
+      5.5,
+      14
+     ],
+     "look": [
+      0,
+      4.5,
+      -20
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "dark": true
+    },
+    "noSplit": true,
+    "fx": [
+     "dust"
+    ]
+   },
+   {
+    "env": "vault",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      8.8,
+      -12
+     ],
+     "to": [
+      0,
+      8.9,
+      -13.5
+     ],
+     "look": [
+      0,
+      9,
+      -20
+     ],
+     "fov": 44
+    },
+    "envOpts": {
+     "dark": true
+    },
+    "cut": "ne",
+    "fx": [
+     "dust",
+     "punch"
+    ],
+    "sfx": [
+     {
+      "name": "boom",
+      "at": 0.05,
+      "gain": -34
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      2,
+      9.4,
+      -15
+     ],
+     "to": [
+      1.6,
+      9.4,
+      -15.6
+     ],
+     "look": [
+      0,
+      9,
+      -20
+     ],
+     "fov": 40
+    },
+    "envOpts": {
+     "dark": true
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      2.2,
+      -13
+     ],
+     "to": [
+      2.6,
+      2.0,
+      -14
+     ],
+     "look": [
+      0.4,
+      0.5,
+      -19
+     ],
+     "fov": 48
+    },
+    "envOpts": {
+     "dark": true,
+     "sprout": true
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.8,
+      1.8,
+      -15.5
+     ],
+     "to": [
+      0.7,
+      1.6,
+      -16.2
+     ],
+     "look": [
+      0.4,
+      0.6,
+      -19
+     ],
+     "fov": 44
+    },
+    "envOpts": {
+     "dark": true,
+     "sprout": true
+    },
+    "fx": [
+     "dust",
+     "sparkles"
+    ],
+    "sfx": [
+     {
+      "name": "sparkle",
+      "at": 0.1,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       -15
+      ],
+      "facing": 0,
+      "emotion": "think"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      1.74,
+      -7.13
+     ],
+     "to": [
+      -0.0,
+      1.96,
+      -7.76
+     ],
+     "look": [
+      0,
+      4.6,
+      -15
+     ],
+     "fov": 46
+    },
+    "envOpts": {
+     "dark": true,
+     "sprout": true
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "point",
+      "pos": [
+       -3,
+       -12
+      ],
+      "facing": -1.57
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      -6
+     ],
+     "to": [
+      -0.5,
+      5,
+      -7
+     ],
+     "look": [
+      -6.6,
+      4.5,
+      -14
+     ],
+     "fov": 48
+    },
+    "envOpts": {
+     "dark": true,
+     "sprout": true
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "push",
+      "pos": [
+       0,
+       -16
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -3,
+      5,
+      -6
+     ],
+     "to": [
+      -2.5,
+      5,
+      -8
+     ],
+     "look": [
+      0,
+      4.4,
+      -20
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "dark": true,
+     "open": [
+      0.15,
+      1.0
+     ]
+    },
+    "noSplit": true,
+    "sfx": [
+     {
+      "name": "creak",
+      "at": 0.1,
+      "gain": -27
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "vault",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "shocked",
+      "pos": [
+       0,
+       -16
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      -9
+     ],
+     "to": [
+      0,
+      5,
+      -11
+     ],
+     "look": [
+      0,
+      4.4,
+      -20
+     ],
+     "fov": 50
+    },
+    "envOpts": {
+     "open": [
+      0,
+      0
+     ]
+    },
+    "fx": [
+     "flash"
+    ],
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0,
+      "gain": -30
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       -2
+      ],
+      "facing": 0,
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4.5,
+      6
+     ],
+     "to": [
+      0,
+      4.5,
+      5
+     ],
+     "look": [
+      0,
+      4.5,
+      -4
+     ],
+     "fov": 50
+    },
+    "fx": [
+     "flash"
+    ],
+    "sfx": [
+     {
+      "name": "pad",
+      "at": 0,
+      "gain": -31,
+      "dur": 30,
+      "chord": [
+       261.63,
+       329.63,
+       392.0,
+       523.25
+      ]
+     },
+     {
+      "name": "birds",
+      "at": 0.4,
+      "gain": -31
+     }
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      18,
+      14,
+      30
+     ],
+     "to": [
+      14,
+      10,
+      24
+     ],
+     "look": [
+      0,
+      3,
+      0
+     ],
+     "fov": 56
+    },
+    "envOpts": {
+     "rig": false
+    },
+    "fx": [
+     "sparkles"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       6
+      ],
+      "facing": 3.14,
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      5.71,
+      -1.71
+     ],
+     "to": [
+      -0.0,
+      5.63,
+      -1.1
+     ],
+     "look": [
+      0,
+      4.63,
+      6
+     ],
+     "fov": 42
+    },
+    "sfx": [
+     {
+      "name": "heartbeat",
+      "at": 0.1,
+      "gain": -30
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       6
+      ],
+      "facing": 3.14,
+      "emotion": "tired",
+      "symbol": "txt:8"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.62,
+      5.62,
+      -1.04
+     ],
+     "to": [
+      0.57,
+      5.54,
+      -0.48
+     ],
+     "look": [
+      0,
+      4.63,
+      6
+     ],
+     "fov": 42
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       6
+      ],
+      "facing": 3.14,
+      "emotion": "tired",
+      "symbol": "txt:9"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.57,
+      5.55,
+      -0.5
+     ],
+     "to": [
+      -0.52,
+      5.47,
+      0.02
+     ],
+     "look": [
+      0,
+      4.63,
+      6
+     ],
+     "fov": 42
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       6
+      ],
+      "facing": 3.14,
+      "emotion": "scared",
+      "symbol": "txt:10"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      5.48,
+      -0.06
+     ],
+     "to": [
+      -0.0,
+      5.41,
+      0.42
+     ],
+     "look": [
+      0,
+      4.63,
+      6
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "punch"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       6
+      ],
+      "facing": 3.14,
+      "emotion": "joy",
+      "symbol": "txt:11"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      5.42,
+      0.34
+     ],
+     "to": [
+      -0.0,
+      5.36,
+      0.8
+     ],
+     "look": [
+      0,
+      4.63,
+      6
+     ],
+     "fov": 42
+    },
+    "sfx": [
+     {
+      "name": "ding",
+      "at": 0.1,
+      "gain": -28
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      5,
+      14
+     ],
+     "to": [
+      2.5,
+      5,
+      12
+     ],
+     "look": [
+      0,
+      5,
+      -4
+     ],
+     "fov": 52
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      9,
+      10,
+      8
+     ],
+     "to": [
+      8.4,
+      10,
+      7
+     ],
+     "look": [
+      3.4,
+      8.8,
+      -3.6
+     ],
+     "fov": 40
+    },
+    "worldProps": [
+     {
+      "kind": "butterfly",
+      "pos": [
+       3.4,
+       -3.6
+      ],
+      "y": 8.8,
+      "scale": 1.0
+     }
+    ],
+    "sfx": [
+     {
+      "name": "birds",
+      "at": 0,
+      "gain": -30
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "run",
+      "pos": [
+       0,
+       4
+      ],
+      "dir": 0,
+      "speed": 0.6,
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -6.03,
+      5.1,
+      20.56
+     ],
+     "to": [
+      -5.55,
+      4.9,
+      19.24
+     ],
+     "look": [
+      0,
+      2.62,
+      4
+     ],
+     "fov": 46,
+     "follow": true
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "laugh",
+      "pos": [
+       2,
+       10
+      ],
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      1.26,
+      5.82,
+      18.45
+     ],
+     "to": [
+      1.32,
+      5.73,
+      17.78
+     ],
+     "look": [
+      2,
+      4.63,
+      10
+     ],
+     "fov": 42
+    },
+    "fx": [
+     "sparkles"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "fall",
+      "pos": [
+       2,
+       10
+      ],
+      "emotion": "joy"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2,
+      9,
+      16
+     ],
+     "to": [
+      2,
+      8,
+      15
+     ],
+     "look": [
+      2,
+      0.6,
+      9
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "sparkles"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "lie",
+      "pos": [
+       2,
+       10
+      ],
+      "emotion": "neutral"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2.5,
+      6.5,
+      12
+     ],
+     "to": [
+      2.4,
+      6.2,
+      11.8
+     ],
+     "look": [
+      2,
+      0.7,
+      10.4
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "rig": true
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      9,
+      24
+     ],
+     "to": [
+      0,
+      9,
+      23
+     ],
+     "look": [
+      20,
+      92,
+      -120
+     ],
+     "fov": 58,
+     "lookTo": [
+      20,
+      130,
+      -120
+     ]
+    },
+    "envOpts": {
+     "rig": true
+    },
+    "noSplit": true,
+    "sfx": [
+     {
+      "name": "riser",
+      "at": 0.2,
+      "gain": -31
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      9,
+      24
+     ],
+     "to": [
+      0,
+      10,
+      22
+     ],
+     "look": [
+      -40,
+      95,
+      -160
+     ],
+     "fov": 62
+    },
+    "envOpts": {
+     "rig": true
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "shocked",
+      "pos": [
+       0,
+       4
+      ],
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      0.36,
+      13.09
+     ],
+     "to": [
+      -0.0,
+      0.7,
+      12.36
+     ],
+     "look": [
+      0,
+      4.6,
+      4
+     ],
+     "fov": 56
+    },
+    "envOpts": {
+     "rig": true
+    },
+    "fx": [
+     "punch"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "outside",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       0,
+       0
+      ],
+      "dir": 3.14,
+      "speed": 0.6
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      3,
+      12
+     ],
+     "to": [
+      0,
+      4,
+      9
+     ],
+     "look": [
+      0,
+      5,
+      -5
+     ],
+     "fov": 52
+    },
+    "envOpts": {
+     "rig": true
+    },
+    "sfx": [
+     {
+      "name": "steps",
+      "at": 0,
+      "gain": -31
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "island",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      12,
+      46
+     ],
+     "to": [
+      0,
+      10,
+      40
+     ],
+     "look": [
+      0,
+      3,
+      -8
+     ],
+     "fov": 52
+    },
+    "sfx": [
+     {
+      "name": "waves",
+      "at": 0,
+      "gain": -30
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "island",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      4,
+      3,
+      12
+     ],
+     "to": [
+      4,
+      3,
+      11
+     ],
+     "look": [
+      -20,
+      40,
+      -60
+     ],
+     "fov": 60
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "island",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "walk",
+      "pos": [
+       0,
+       -2
+      ],
+      "dir": 3.14,
+      "speed": 0.4
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      3,
+      5,
+      8
+     ],
+     "to": [
+      2.5,
+      5,
+      6
+     ],
+     "look": [
+      0,
+      4,
+      -8
+     ],
+     "fov": 50
+    },
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "rooftop",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       2
+      ],
+      "facing": 3.14
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      6,
+      16
+     ],
+     "to": [
+      0,
+      5.5,
+      13
+     ],
+     "look": [
+      0,
+      6,
+      -20
+     ],
+     "fov": 56
+    },
+    "time": "sunset",
+    "sfx": [
+     {
+      "name": "wind",
+      "at": 0,
+      "gain": -33
+     }
+    ],
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "rooftop",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4,
+      10
+     ],
+     "to": [
+      0,
+      4,
+      9
+     ],
+     "look": [
+      10,
+      50,
+      -90
+     ],
+     "fov": 60
+    },
+    "time": "sunset",
+    "fx": []
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       1
+      ],
+      "facing": 0,
+      "emotion": "smug",
+      "symbol": "txt:6"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      5,
+      5.2
+     ],
+     "to": [
+      0,
+      5,
+      4.8
+     ],
+     "look": [
+      0,
+      4,
+      0
+     ],
+     "fov": 56
+    },
+    "sfx": [
+     {
+      "name": "pad",
+      "at": 0,
+      "gain": -32,
+      "dur": 22,
+      "chord": [
+       196.0,
+       233.08,
+       293.66,
+       369.99
+      ]
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       1
+      ],
+      "facing": 0,
+      "emotion": "think"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      4.6,
+      4
+     ],
+     "to": [
+      0,
+      4.6,
+      3.6
+     ],
+     "look": [
+      0,
+      4.6,
+      0.6
+     ],
+     "fov": 50
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      2.2,
+      4.5
+     ],
+     "to": [
+      0,
+      2.2,
+      4.2
+     ],
+     "look": [
+      0,
+      6,
+      0
+     ],
+     "fov": 62
+    },
+    "sfx": [
+     {
+      "name": "knock",
+      "at": 0.3,
+      "gain": -29
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "think"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      2.45,
+      2.19,
+      7.23
+     ],
+     "to": [
+      2.25,
+      2.4,
+      6.69
+     ],
+     "look": [
+      0,
+      4.8,
+      0.5
+     ],
+     "fov": 50
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -2.35,
+      3.59,
+      6.97
+     ],
+     "to": [
+      -2.17,
+      3.68,
+      6.45
+     ],
+     "look": [
+      0,
+      4.8,
+      0.5
+     ],
+     "fov": 50
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "shocked"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.88,
+      2.43,
+      5.51
+     ],
+     "to": [
+      0.81,
+      2.62,
+      5.1
+     ],
+     "look": [
+      0,
+      4.8,
+      0.5
+     ],
+     "fov": 52
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "scared"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      4.18,
+      6.45
+     ],
+     "to": [
+      -0.0,
+      4.22,
+      5.97
+     ],
+     "look": [
+      0,
+      4.7,
+      0.5
+     ],
+     "fov": 44
+    },
+    "fx": [
+     "dust",
+     "punch"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "silo",
+    "actors": [],
+    "camera": {
+     "type": "path",
+     "from": [
+      0.4,
+      40,
+      1.5
+     ],
+     "to": [
+      0.4,
+      70,
+      1.5
+     ],
+     "look": [
+      0,
+      -60,
+      0
+     ],
+     "fov": 68
+    },
+    "noSplit": true,
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "neutral"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      4.7,
+      7.47
+     ],
+     "to": [
+      -0.0,
+      4.7,
+      6.91
+     ],
+     "look": [
+      0,
+      4.7,
+      0.5
+     ],
+     "fov": 44
+    },
+    "sfx": [
+     {
+      "name": "knock",
+      "at": 0.6,
+      "gain": -27
+     }
+    ],
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "hold_up",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "sad"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      0,
+      2.4,
+      4.4
+     ],
+     "to": [
+      0,
+      2.4,
+      4.1
+     ],
+     "look": [
+      0,
+      6,
+      0
+     ],
+     "fov": 62
+    },
+    "fx": [
+     "dust"
+    ]
+   }
+  ],
+  [
+   {
+    "env": "attic",
+    "actors": [
+     {
+      "id": "nino",
+      "action": "idle",
+      "pos": [
+       0,
+       0.5
+      ],
+      "facing": 0,
+      "emotion": "tired"
+     }
+    ],
+    "camera": {
+     "type": "path",
+     "from": [
+      -0.0,
+      5.23,
+      8.08
+     ],
+     "to": [
+      -0.0,
+      5.19,
+      7.48
+     ],
+     "look": [
+      0,
+      4.7,
+      0.5
+     ],
+     "fov": 44
+    },
+    "fadeOut": 0.8,
+    "fx": [
+     "dust"
+    ]
+   }
+  ]
+ ]
+}

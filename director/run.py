@@ -172,7 +172,10 @@ def main():
               f"vignette=angle=0.55,ass=captions.ass:fontsdir={os.path.join(ROOT, 'assets', 'fonts')},format=yuv420p")
         dur = timing["duration"]
         inputs = ["-i", raw, "-i", audio_in] + (["-i", amix] if amix else [])
-        afc = ";[1:a]aresample=48000,aformat=channel_layouts=stereo[vo];[2:a]aresample=48000[fx];[vo][fx]amix=inputs=2:duration=first:normalize=0[a]" if amix else ""
+        # sound effects are ducked under the voice (sidechain) so they never cover it
+        afc = (";[1:a]aresample=48000,aformat=channel_layouts=stereo,asplit=2[vo][vsc];[2:a]aresample=48000,aformat=channel_layouts=stereo[fx];"
+               "[fx][vsc]sidechaincompress=threshold=0.015:ratio=5:attack=15:release=350:makeup=1[fxd];"
+               "[vo][fxd]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]") if amix else ""
         cmd = ["ffmpeg", "-y", "-v", "error"] + inputs + ["-filter_complex", f"[0:v]{vf}[v]{afc}",
                "-map", "[v]", "-map", "[a]" if amix else "1:a:0", "-c:v", "libx264", "-preset", "slow", "-crf", "17", "-profile:v", "high", "-level", "4.2",
                "-r", "30", "-g", "60", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",

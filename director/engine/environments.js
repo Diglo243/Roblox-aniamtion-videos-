@@ -111,7 +111,7 @@ export function setupLighting(scene, tod, interior, info, focus) {
   sun.position.set(sf[0] + dir.x, dir.y, sf[1] + dir.z); sun.target.position.set(sf[0], 0, sf[1]);
   if (info.sunIntensity) sun.intensity = info.sunIntensity;
   if (info.hemi) hemi.intensity = info.hemi;
-  sun.castShadow = true; sun.shadow.mapSize.set(window.SHADOW_SIZE || 2048, window.SHADOW_SIZE || 2048);
+  sun.castShadow = info.sunCast ?? true; sun.shadow.mapSize.set(window.SHADOW_SIZE || 2048, window.SHADOW_SIZE || 2048);
   const ss = info.shadowSize || 38;
   const sc = sun.shadow.camera; sc.left = -ss; sc.right = ss; sc.top = ss; sc.bottom = -ss; sc.near = 1; sc.far = 260;
   sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.04; sun.shadow.radius = 3;
