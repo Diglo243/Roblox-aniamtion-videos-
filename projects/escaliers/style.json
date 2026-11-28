@@ -2,9 +2,9 @@
  "brand": true,
  "mascot": true,
  "grade": {
-  "saturation": 1.08,
-  "contrast": 1.05,
-  "brightness": 0.0
+  "saturation": 1.14,
+  "contrast": 1.09,
+  "brightness": -0.01
  },
  "sfx_gain_db": -26
 }

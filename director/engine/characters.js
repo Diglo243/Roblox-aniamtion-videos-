@@ -12,7 +12,7 @@ function drawEye(g, x, y, kind, s = 1) {
     case 'happy':
       g.strokeStyle = '#1b1b1b'; g.lineWidth = 10; g.lineCap = 'round';
       g.beginPath(); g.arc(0, 10, 16 * s, 1.15 * Math.PI, 1.85 * Math.PI); g.stroke(); break;
-    case 'wide':
+    case 'wide_old':
       g.fillStyle = '#fff'; g.beginPath(); g.ellipse(0, 0, 25 * s, 29 * s, 0, 0, 7); g.fill();
       g.lineWidth = 5; g.strokeStyle = '#1b1b1b'; g.stroke();
       g.fillStyle = '#1b1b1b'; g.beginPath(); g.ellipse(0, 2, 9 * s, 11 * s, 0, 0, 7); g.fill(); break;
@@ -26,9 +26,18 @@ function drawEye(g, x, y, kind, s = 1) {
       g.fillStyle = '#1b1b1b'; g.beginPath(); g.ellipse(0, 4, 22 * s, 26 * s, 0, 0, 7); g.fill(); break;
     case 'dollar':
       g.fillStyle = '#18a84a'; g.font = 'bold 54px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$', 0, 2); break;
-    default: // classic oval eye with highlight
+    case 'oval_old':
       g.fillStyle = '#1b1b1b'; g.beginPath(); g.ellipse(0, 0, 13 * s, 21 * s, 0, 0, 7); g.fill();
-      g.fillStyle = '#fff'; g.beginPath(); g.ellipse(-4 * s, -8 * s, 4.5 * s, 6 * s, 0, 0, 7); g.fill();
+      g.fillStyle = '#fff'; g.beginPath(); g.ellipse(-4 * s, -8 * s, 4.5 * s, 6 * s, 0, 0, 7); g.fill(); break;
+    default: { // big expressive cartoon eye: sclera + brown iris + pupil + two highlights
+      const big = kind === 'wide' ? 1.25 : 1;
+      g.fillStyle = '#ffffff'; g.beginPath(); g.ellipse(0, 0, 19 * s * big, 24 * s * big, 0, 0, 7); g.fill();
+      g.lineWidth = 3.5; g.strokeStyle = '#2a1a12'; g.stroke();
+      g.fillStyle = '#4a2c17'; g.beginPath(); g.ellipse(1, 4, 12 * s, 15 * s, 0, 0, 7); g.fill();
+      g.fillStyle = '#120a06'; g.beginPath(); g.ellipse(1, 5, 7 * s, 9 * s, 0, 0, 7); g.fill();
+      g.fillStyle = '#ffffff'; g.beginPath(); g.arc(-4, -3, 4.6, 0, 7); g.fill(); g.beginPath(); g.arc(5, 10, 2.2, 0, 7); g.fill();
+      g.lineWidth = 5; g.strokeStyle = '#2a1a12'; g.lineCap = 'round'; g.beginPath(); g.ellipse(0, 0, 19 * s * big, 24 * s * big, 0, 1.15 * Math.PI, 1.85 * Math.PI); g.stroke();
+    }
   }
   g.restore();
 }
@@ -39,6 +48,7 @@ function brows(g, kind) {
   else if (kind === 'sad') { L(64, 80, 106, 64); L(192, 80, 150, 64); }
   else if (kind === 'up') { L(66, 52, 106, 48); L(150, 48, 190, 52); }
   else if (kind === 'skeptic') { L(66, 66, 106, 66); L(150, 52, 190, 60); }
+  else if (kind === 'soft') { g.strokeStyle = '#3b2314'; g.lineWidth = 8; g.beginPath(); g.arc(86, 98, 30, 1.25 * Math.PI, 1.75 * Math.PI); g.stroke(); g.beginPath(); g.arc(170, 98, 30, 1.25 * Math.PI, 1.75 * Math.PI); g.stroke(); }
 }
 function mouth(g, kind, open) {
   g.lineCap = 'round'; g.lineJoin = 'round';
@@ -54,7 +64,9 @@ function mouth(g, kind, open) {
   }
   g.strokeStyle = '#1b1b1b'; g.lineWidth = 9;
   switch (kind) {
-    case 'smile': g.beginPath(); g.arc(cx, cy - 30, 36, 0.2 * Math.PI, 0.8 * Math.PI); g.stroke(); break;
+    case 'smile': g.fillStyle = '#5a1418'; g.beginPath(); g.moveTo(cx - 32, cy - 8); g.quadraticCurveTo(cx, cy - 2, cx + 32, cy - 8); g.quadraticCurveTo(cx, cy + 34, cx - 32, cy - 8); g.fill();
+      g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(cx - 28, cy - 6); g.quadraticCurveTo(cx, cy - 1, cx + 28, cy - 6); g.lineTo(cx + 22, cy + 3); g.quadraticCurveTo(cx, cy + 6, cx - 22, cy + 3); g.fill();
+      g.fillStyle = '#e0626b'; g.beginPath(); g.ellipse(cx, cy + 16, 12, 5, 0, 0, 7); g.fill(); break;
     case 'sad': g.beginPath(); g.arc(cx, cy + 30, 30, 1.2 * Math.PI, 1.8 * Math.PI); g.stroke(); break;
     case 'angry': g.beginPath(); g.moveTo(cx - 30, cy + 6); g.lineTo(cx - 10, cy); g.lineTo(cx + 10, cy); g.lineTo(cx + 30, cy + 6); g.stroke(); break;
     case 'flat': g.beginPath(); g.moveTo(cx - 22, cy); g.lineTo(cx + 22, cy); g.stroke(); break;
@@ -69,7 +81,7 @@ function mouth(g, kind, open) {
       g.fillStyle = '#fff'; g.fillRect(cx - 32, cy - 12, 64, 10);
       if (kind === 'laugh') { g.fillStyle = '#e0626b'; g.beginPath(); g.ellipse(cx, cy + 16, 16, 7, 0, 0, 7); g.fill(); }
       break;
-    default: g.beginPath(); g.arc(cx, cy - 22, 26, 0.25 * Math.PI, 0.75 * Math.PI); g.stroke();
+    default: g.lineWidth = 7; g.strokeStyle = '#3b1a12'; g.beginPath(); g.arc(cx, cy - 22, 24, 0.27 * Math.PI, 0.73 * Math.PI); g.stroke();
   }
 }
 
@@ -96,8 +108,11 @@ export const EXPRESSIONS = Object.keys(FACE_DEF);
 
 function faceTexture(expr, open, blink) {
   const q = Math.round(open * 3) / 3;
-  return canvasTex(`face|${expr}|${q}|${blink}`, 256, 256, (g) => {
+  return canvasTex(`face2|${expr}|${q}|${blink}`, 512, 512, (g) => {
+    g.scale(2, 2);
     const d = FACE_DEF[expr] || FACE_DEF.neutral;
+    g.fillStyle = 'rgba(255,120,120,0.20)'; g.beginPath(); g.ellipse(58, 152, 22, 12, 0, 0, 7); g.ellipse(198, 152, 22, 12, 0, 0, 7); g.fill();
+    if (!d.brow && !['closed', 'socket'].includes(d.eye)) brows(g, 'soft');
     if (d.blush) { g.fillStyle = d.blush + '55'; g.beginPath(); g.ellipse(58, 150, 24, 13, 0, 0, 7); g.ellipse(198, 150, 24, 13, 0, 0, 7); g.fill(); }
     const ek = blink && !['closed', 'happy', 'heart', 'dollar'].includes(d.eye) ? 'closed' : d.eye;
     drawEye(g, 86, 112, ek); drawEye(g, 170, 112, ek);
@@ -173,8 +188,8 @@ function shirtTex(a) {
 
 function addHair(head, a) {
   const c = a.hair.color, s = a.hair.style;
-  const hm = M(c, { rough: 0.8 });
-  const H = (w, h, d, x, y, z, o = {}) => { const m = new THREE.Mesh(boxGeo(w, h, d, o.round ?? 0.08), o.mat || hm); m.position.set(x, y, z); m.castShadow = true; if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; head.add(m); return m; };
+  const hm = M(c, { rough: 0.42 });
+  const H = (w, h, d, x, y, z, o = {}) => { const m = new THREE.Mesh(boxGeo(w, h, d, o.round ?? 0.15), o.mat || hm); m.position.set(x, y, z); m.castShadow = true; if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; head.add(m); return m; };
   // head is 1.25 cube centred at 0 (local)
   switch (s) {
     case 'bald': break;
@@ -184,7 +199,14 @@ function addHair(head, a) {
     case 'short': H(1.36, 0.36, 1.36, 0, 0.62, -0.02); H(1.36, 0.5, 0.3, 0, 0.3, -0.56); H(0.18, 0.5, 1.1, 0.64, 0.33, -0.1); H(0.18, 0.5, 1.1, -0.64, 0.33, -0.1); H(1.0, 0.18, 0.2, 0.1, 0.48, 0.6); break;
     case 'fade': H(1.32, 0.3, 1.32, 0, 0.6, 0); break;
     case 'side': H(1.38, 0.4, 1.38, 0, 0.64, 0); H(1.38, 0.5, 0.3, 0, 0.3, -0.56); H(0.9, 0.3, 0.3, 0.25, 0.5, 0.6, { rz: -0.25 }); H(0.18, 0.4, 1.1, 0.64, 0.33, -0.1); H(0.18, 0.4, 1.1, -0.64, 0.33, -0.1); break;
-    case 'spiky': H(1.36, 0.3, 1.36, 0, 0.6, 0); for (let i = 0; i < 5; i++) H(0.36, 0.55, 0.36, -0.48 + i * 0.24, 0.85 + (i % 2) * 0.1, (i % 2 ? -0.2 : 0.2), { rz: (i - 2) * 0.22 }); H(1.36, 0.5, 0.3, 0, 0.3, -0.56); break;
+    case 'spiky': {
+      // sculpted tousled hair: rounded cap + a crown of tilted tufts + fringe locks (like the reference avatars)
+      H(1.42, 0.42, 1.42, 0, 0.62, -0.02, { round: 0.2 }); H(1.42, 0.62, 0.34, 0, 0.32, -0.58, { round: 0.16 });
+      for (const sx of [-1, 1]) H(0.22, 0.6, 1.12, sx * 0.67, 0.36, -0.1, { round: 0.1 });
+      const tufts = [[-0.45, 0.95, 0.35, 0.5, -0.5], [0, 1.02, 0.42, 0.55, 0], [0.45, 0.95, 0.35, 0.5, 0.5], [-0.5, 0.98, -0.15, 0.25, -0.6], [0.05, 1.08, -0.05, 0.1, 0.1], [0.55, 0.98, -0.15, 0.25, 0.6], [-0.3, 0.92, -0.55, -0.4, -0.3], [0.35, 0.92, -0.55, -0.4, 0.35]];
+      for (const [x, y, z, rx, rz] of tufts) H(0.42, 0.62, 0.42, x, y, z, { rx: -rx, rz: -rz, round: 0.17 });
+      for (const [x, rz] of [[-0.42, 0.5], [-0.12, 0.15], [0.2, -0.2], [0.46, -0.45]]) H(0.34, 0.42, 0.26, x, 0.5, 0.6, { rz, rx: -0.5, round: 0.12 });
+      break; }
     case 'cap': H(1.4, 0.42, 1.4, 0, 0.66, 0, { mat: M(a.shirt === '#ffffff' ? '#e53935' : a.shirt, { rough: 0.6 }) }); H(1.2, 0.1, 0.7, 0, 0.47, 0.9, { mat: M(a.shirt === '#ffffff' ? '#e53935' : a.shirt) }); break;
     case 'policecap': H(1.44, 0.4, 1.44, 0, 0.7, 0, { mat: M('#0d1442') }); H(1.3, 0.1, 0.6, 0, 0.5, 0.85, { mat: M('#111') }); H(0.3, 0.3, 0.05, 0, 0.72, 0.73, { mat: M('#ffd54f', { metal: 0.4 }) }); break;
     case 'long': H(1.42, 0.4, 1.42, 0, 0.64, 0); H(1.46, 1.9, 0.4, 0, -0.25, -0.56); H(0.24, 1.6, 1.0, 0.7, -0.1, -0.1); H(0.24, 1.6, 1.0, -0.7, -0.1, -0.1); H(1.0, 0.24, 0.2, -0.12, 0.5, 0.62, { rz: 0.12 }); break;
@@ -232,12 +254,13 @@ export class Avatar {
     const root = this.root = new THREE.Group();
     const inner = this.inner = new THREE.Group(); root.add(inner);
     inner.scale.setScalar(a.scale || 1);
-    const R = 0.1;
-    const skin = M(a.skin, { rough: 0.55 });
+    const R = 0.17;
+    const skin = M(a.skin, { rough: 0.5 });
+    const fab = canvasTex('fabric', 128, 128, (g) => { const rr = rng('fab'); g.fillStyle = '#ffffff'; g.fillRect(0, 0, 128, 128); for (let i = 0; i < 1400; i++) { const v = 225 + Math.floor(rr() * 30); g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(rr() * 128, rr() * 128, 2, 2); } for (let y = 0; y < 128; y += 4) { g.fillStyle = 'rgba(0,0,0,0.03)'; g.fillRect(0, y, 128, 1); } });
     const shirtMap = shirtTex(a);
     const shirtFront = shirtMap ? M('#ffffff', { map: shirtMap, rough: 0.7 }) : M(a.shirt, { rough: 0.7 });
-    const shirt = M(a.shirt, { rough: 0.7 });
-    const pants = M(a.pants, { rough: 0.75 });
+    const shirt = M(a.shirt, { rough: 0.75, map: fab });
+    const pants = M(a.pants, { rough: 0.8, map: fab });
     const shoes = M(a.shoes, { rough: 0.6 });
 
     // legs
@@ -245,7 +268,7 @@ export class Avatar {
     for (const sx of [-0.5, 0.5]) {
       const p = new THREE.Group(); p.position.set(sx, 2, 0); inner.add(p);
       const leg = new THREE.Mesh(boxGeo(0.98, 1.7, 0.98, R), pants); leg.position.y = -0.85; leg.castShadow = true; p.add(leg);
-      const sh = new THREE.Mesh(boxGeo(1.0, 0.34, 1.08, R), shoes); sh.position.set(0, -1.83, 0.04); sh.castShadow = true; p.add(sh);
+      const sh = new THREE.Mesh(boxGeo(1.04, 0.36, 1.16, 0.14), shoes); sh.position.set(0, -1.78, 0.07); sh.castShadow = true; p.add(sh); const so = new THREE.Mesh(boxGeo(1.08, 0.14, 1.22, 0.06), M(a.sole || '#f4f4f4', { rough: 0.6 })); so.position.set(0, -1.95, 0.08); p.add(so);
       this.legs.push(p);
     }
     if (a.dress) { const sk = new THREE.Mesh(boxGeo(2.3, 1.3, 1.35, 0.15), shirt); sk.position.set(0, 1.45, 0); sk.castShadow = true; inner.add(sk); }
@@ -265,8 +288,8 @@ export class Avatar {
     }
     // head
     const neck = this.neck = new THREE.Group(); neck.position.y = 2.0; body.add(neck);
-    const head = this.head = new THREE.Group(); head.position.y = 0.68; neck.add(head);
-    const hm = new THREE.Mesh(boxGeo(1.25, 1.25, 1.25, 0.22), skin); hm.castShadow = true; head.add(hm);
+    const head = this.head = new THREE.Group(); head.position.y = 0.76; head.scale.setScalar(1.14); neck.add(head);
+    const hm = new THREE.Mesh(boxGeo(1.25, 1.25, 1.25, 0.32), skin); hm.castShadow = true; head.add(hm);
     this.faceMat = new THREE.MeshStandardMaterial({ transparent: true, roughness: 0.7, map: faceTexture('neutral', 0, false), polygonOffset: true, polygonOffsetFactor: -2 });
     const face = new THREE.Mesh(new THREE.PlaneGeometry(1.12, 1.12), this.faceMat); face.position.z = 0.627; head.add(face);
     addHair(head, a);

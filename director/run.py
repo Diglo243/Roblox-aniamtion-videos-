@@ -169,7 +169,7 @@ def main():
             log(f"    {len(sb['sfx'])} sound effects mixed at low level ({prof.get('sfx_gain_db', -24.0)} dB)")
         g = prof.get("grade", {})
         vf = (f"eq=saturation={g.get('saturation', 1.12)}:contrast={g.get('contrast', 1.04)}:brightness={g.get('brightness', 0.0)},"
-              f"vignette=angle=0.55,ass=captions.ass:fontsdir={os.path.join(ROOT, 'assets', 'fonts')},format=yuv420p")
+              f"unsharp=5:5:0.55:5:5:0.0,vignette=angle=0.55,ass=captions.ass:fontsdir={os.path.join(ROOT, 'assets', 'fonts')},format=yuv420p")
         dur = timing["duration"]
         inputs = ["-i", raw, "-i", audio_in] + (["-i", amix] if amix else [])
         # sound effects are ducked under the voice (sidechain) so they never cover it

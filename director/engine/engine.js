@@ -1,5 +1,11 @@
 // Shot renderer: builds one shot from a JSON spec and renders deterministic frames.
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { M, box, boxGeo, cyl, sphere, canvasTex, textTex, rng, hash, clamp, lerp, smooth, easeInOut, easeOutExpo, easeOutBack, shade } from './core.js';
 import { Avatar, ACTIONS, ACTION_FACE, TALKING_ACTIONS, defaultAppearance } from './characters.js';
 import { ENVIRONMENTS as BASE_ENV, setupLighting, car } from './environments.js';
@@ -32,6 +38,27 @@ renderer.shadowMap.type = Q.get('soft') === '0' ? THREE.PCFShadowMap : THREE.PCF
 window.SHADOW_SIZE = +(Q.get('sm') || 2048);
 renderer.toneMapping = THREE.NeutralToneMapping;
 renderer.toneMappingExposure = 1.0;
+// ---- HQ pipeline (image-based light + ambient occlusion + bloom), toggle with ?hq=0
+const HQ = Q.get('hq') === '1';
+const POST = Q.get('post') === '1';
+if (Q.get('tm') === 'aces') renderer.toneMapping = THREE.ACESFilmicToneMapping; else if (Q.get('tm') === 'agx') renderer.toneMapping = THREE.AgXToneMapping;
+const PMREM = new THREE.PMREMGenerator(renderer);
+const ENV_TEX = PMREM.fromScene(new RoomEnvironment(), 0.04).texture;
+let composer = null, gtao = null, bloom = null;
+function buildComposer(scene, camera) {
+  composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: +(Q.get('msaa') ?? 4) }));
+  composer.setPixelRatio(1); composer.setSize(W, H);
+  composer.addPass(new RenderPass(scene, camera));
+  if (Q.get('ao') !== '0') {
+    const aoDiv = +(Q.get('aodiv') || 2); gtao = new GTAOPass(scene, camera, W / aoDiv, H / aoDiv);
+    gtao.output = GTAOPass.OUTPUT.Default; gtao.blendIntensity = 1.0;
+    gtao.updateGtaoMaterial({ radius: 1.4, distanceExponent: 1.6, thickness: 2.0, scale: 1.2, samples: +(Q.get('aos') || 8), distanceFallOff: 1.0 });
+    gtao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 4, rings: 2, samples: +(Q.get('pds') || 6) });
+    composer.addPass(gtao);
+  }
+  if (Q.get('bloom') !== '0') { bloom = new UnrealBloomPass(new THREE.Vector2(W / 4, H / 4), 0.45, 0.45, 1.0); composer.addPass(bloom); }
+  composer.addPass(new OutputPass());
+}
 
 let S = null; // current shot state
 
@@ -384,6 +411,16 @@ window.setupShot = async function setupShot(spec, cast) {
   const focusActor = actors[focusIdx]?.av ? actors[focusIdx] : null;
   const fpos = focusActor ? focusActor.base.clone() : new THREE.Vector3(info.stage.x, 0, info.stage.z);
   setupLighting(scene, tod, info.interior, info, fpos);
+  if (HQ) {
+    scene.environment = ENV_TEX; scene.environmentIntensity = info.envIntensity ?? 0.35;
+    // image-based light replaces part of the flat hemisphere fill -> more depth / contrast
+    scene.traverse(o => { if (o.isHemisphereLight) o.intensity *= 0.5; });
+    renderer.toneMappingExposure = info.exposure ?? 0.92;
+    if (POST) buildComposer(scene, camera);
+    if (Q.get('exp')) renderer.toneMappingExposure = +Q.get('exp');
+    if (Q.get('hemi')) scene.traverse(o => { if (o.isHemisphereLight) o.intensity *= +Q.get('hemi'); });
+    if (Q.get('env')) scene.environmentIntensity = +Q.get('env');
+  }
 
   // particles / fx
   const parts = [];
@@ -641,7 +678,7 @@ window.renderAt = function renderAt(t) {
   const fout = spec.fadeOut ? clamp((t - (S.dur - spec.fadeOut)) / spec.fadeOut, 0, 1) : 0;
   ov.black.material.opacity = Math.max(fin, fout);
   for (const o of Object.values(ov)) o.visible = o.material.opacity > 0.003;
-  renderer.render(scene, camera);
+  if (HQ && composer) composer.render(); else renderer.render(scene, camera);
   return true;
 };
 
